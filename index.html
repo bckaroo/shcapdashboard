@@ -436,6 +436,98 @@
   .bar-legend-item { display: flex; align-items: center; gap: 5px; font-size: 0.72rem; color: var(--slate-500); font-weight: 500; }
   .bar-legend-dot { width: 10px; height: 10px; border-radius: 3px; }
 
+  /* ─── ACTION TABS ─── */
+  .action-tabs {
+    display: flex;
+    gap: 4px;
+    margin-bottom: 0;
+    border-bottom: 2px solid var(--slate-200);
+    padding-bottom: 0;
+  }
+  .action-tab {
+    padding: 10px 20px;
+    border: none;
+    background: none;
+    cursor: pointer;
+    font-family: inherit;
+    font-size: 0.88rem;
+    font-weight: 600;
+    color: var(--slate-500);
+    border-bottom: 3px solid transparent;
+    margin-bottom: -2px;
+    transition: all 0.15s;
+    display: flex;
+    align-items: center;
+    gap: 6px;
+  }
+  .action-tab:hover { color: var(--slate-700); }
+  .action-tab.active { color: var(--forest); border-bottom-color: var(--emerald); }
+  .tab-icon { font-size: 1rem; }
+  .tab-count {
+    background: var(--slate-100);
+    padding: 1px 8px;
+    border-radius: 10px;
+    font-size: 0.72rem;
+    font-weight: 700;
+    color: var(--slate-500);
+  }
+  .action-tab.active .tab-count { background: #ecfdf5; color: #065f46; }
+  .tab-panel { padding-top: 16px; }
+  .tab-panel.hidden { display: none; }
+
+  /* ─── CATEGORY GROUP HEADER ─── */
+  .cat-group-header {
+    display: flex;
+    align-items: center;
+    gap: 12px;
+    width: 100%;
+    padding: 16px 20px;
+    background: white;
+    border: 1px solid var(--slate-200);
+    border-radius: var(--radius-lg);
+    cursor: pointer;
+    font-family: inherit;
+    font-size: 0.95rem;
+    font-weight: 700;
+    color: var(--slate-800);
+    transition: all 0.15s;
+    text-align: left;
+    margin-bottom: 4px;
+  }
+  .cat-group-header:hover { border-color: var(--slate-300); box-shadow: var(--shadow-sm); }
+  .cat-group-header .cat-icon { font-size: 1.2rem; }
+  .cat-group-header .cat-title { flex: 1; }
+  .cat-group-header .cat-stats {
+    display: flex;
+    gap: 12px;
+    align-items: center;
+    font-size: 0.75rem;
+    color: var(--slate-400);
+    font-weight: 500;
+  }
+  .cat-group-header .cat-stat-item { display: flex; align-items: center; gap: 3px; }
+  .cat-group-header .cat-stat-dot { width: 6px; height: 6px; border-radius: 50%; }
+  .cat-group-header .cat-bar {
+    width: 80px;
+    height: 6px;
+    background: var(--slate-100);
+    border-radius: 4px;
+    overflow: hidden;
+  }
+  .cat-group-header .cat-bar .fill { height: 100%; border-radius: 4px; }
+  .cat-group-header .cat-pct {
+    font-family: 'JetBrains Mono', monospace;
+    font-size: 0.82rem;
+    font-weight: 700;
+    min-width: 36px;
+    text-align: right;
+  }
+  .cat-group-header .arrow { transition: transform 0.2s; font-size: 0.65rem; color: var(--slate-400); }
+  .cat-group-header.open .arrow { transform: rotate(90deg); }
+
+  .cat-group-body { margin-bottom: 12px; }
+  .cat-group-body.collapsed { display: none; }
+
   .footer {
     text-align: center;
     padding: 32px 20px;
@@ -696,19 +788,39 @@
   <!-- ═══ FILTERS ═══ -->
   <div class="filter-row" id="filters"></div>
 
-  <!-- ═══ MITIGATION ═══ -->
-  <div class="section-title" id="mitSection">
-    <span class="icon">🌿</span> Mitigation Actions
-    <span class="count" id="mitCount">0</span>
-  </div>
-  <div id="mitigationActions"></div>
+  <!-- ═══ ACTIONS ═══ -->
+  <div id="actionsSection">
+    <!-- Tab bar -->
+    <div class="action-tabs">
+      <button class="action-tab active" data-tab="mitigation" onclick="switchTab('mitigation')">
+        <span class="tab-icon">🌿</span> Mitigation
+        <span class="tab-count" id="mitTabCount">0</span>
+      </button>
+      <button class="action-tab" data-tab="adaptation" onclick="switchTab('adaptation')">
+        <span class="tab-icon">🌊</span> Adaptation
+        <span class="tab-count" id="adpTabCount">0</span>
+      </button>
+      <button class="action-tab" data-tab="all" onclick="switchTab('all')">
+        <span class="tab-icon">📋</span> All Actions
+        <span class="tab-count" id="allTabCount">0</span>
+      </button>
+    </div>
 
-  <!-- ═══ ADAPTATION ═══ -->
-  <div class="section-title" id="adpSection">
-    <span class="icon">🌊</span> Adaptation Actions
-    <span class="count" id="adpCount">0</span>
+    <!-- Mitigation Panel -->
+    <div class="tab-panel" id="panel-mitigation">
+      <div id="mitigationActions"></div>
+    </div>
+
+    <!-- Adaptation Panel -->
+    <div class="tab-panel hidden" id="panel-adaptation">
+      <div id="adaptationActions"></div>
+    </div>
+
+    <!-- All Panel -->
+    <div class="tab-panel hidden" id="panel-all">
+      <div id="allActions"></div>
+    </div>
   </div>
-  <div id="adaptationActions"></div>
 
 </div>
 
@@ -778,6 +890,16 @@ function parseCSVLine(line) {
   return result;
 }
 
+// ─── TAB SWITCHING ───
+let currentTab = 'mitigation';
+
+function switchTab(tab) {
+  currentTab = tab;
+  document.querySelectorAll('.action-tab').forEach(t => t.classList.toggle('active', t.dataset.tab === tab));
+  document.querySelectorAll('.tab-panel').forEach(p => p.classList.add('hidden'));
+  document.getElementById('panel-' + tab).classList.remove('hidden');
+}
+
 // ─── RENDER ───
 function render() {
   renderStats();
@@ -790,6 +912,15 @@ function render() {
   renderFilters();
   renderActionList('mitigationActions', 'Mitigation');
   renderActionList('adaptationActions', 'Adaptation');
+  renderActionList('allActions', 'all');
+  updateTabCounts();
+}
+
+function updateTabCounts() {
+  const f = getFiltered();
+  document.getElementById('mitTabCount').textContent = f.filter(a => a.type === 'Mitigation').length;
+  document.getElementById('adpTabCount').textContent = f.filter(a => a.type === 'Adaptation').length;
+  document.getElementById('allTabCount').textContent = f.length;
 }
 
 function getFiltered() {
@@ -1081,12 +1212,21 @@ function renderFilters() {
 }
 
 function renderActionList(containerId, type) {
-  const filtered = getFiltered().filter(a => a.type === type);
-  const grouped = {};
+  let filtered;
+  if (type === 'all') {
+    filtered = getFiltered();
+  } else {
+    filtered = getFiltered().filter(a => a.type === type);
+  }
+
+  // Group by type → category → strategy
+  const typeGroups = {};
   filtered.forEach(a => {
-    if (!grouped[a.category]) grouped[a.category] = {};
-    if (!grouped[a.category][a.strategy]) grouped[a.category][a.strategy] = [];
-    grouped[a.category][a.strategy].push(a);
+    const t = a.type;
+    if (!typeGroups[t]) typeGroups[t] = {};
+    if (!typeGroups[t][a.category]) typeGroups[t][a.category] = {};
+    if (!typeGroups[t][a.category][a.strategy]) typeGroups[t][a.category][a.strategy] = [];
+    typeGroups[t][a.category][a.strategy].push(a);
   });
 
   let html = '';
@@ -1094,56 +1234,88 @@ function renderActionList(containerId, type) {
     html = '<p style="color:var(--slate-400);padding:20px;text-align:center;font-size:0.88rem">No actions match current filters.</p>';
   }
 
-  Object.keys(grouped).sort().forEach(cat => {
-    const catActions = Object.values(grouped[cat]).flat();
-    const catAvg = Math.round(catActions.reduce((s, a) => s + a.percentComplete, 0) / catActions.length);
-    const barColor = type === 'Mitigation' ? 'var(--emerald)' : 'var(--ocean-light)';
-    const id = cat.replace(/\s+/g, '-');
+  const typeOrder = type === 'all' ? ['Mitigation', 'Adaptation'] : [type];
+  const typeIcons = { Mitigation: '🌿', Adaptation: '🌊' };
+  const typeColors = { Mitigation: { bar: 'var(--emerald)', pct: '#065f46', bg: '#ecfdf5' }, Adaptation: { bar: 'var(--ocean-light)', pct: '#075985', bg: '#e0f2fe' } };
 
-    html += `<div class="category-group">
-      <button class="cat-toggle open" onclick="this.classList.toggle('open');this.nextElementSibling.classList.toggle('collapsed')">
-        <span class="arrow">▶</span>
-        ${cat}
-        <span class="meta">${catActions.length} actions · ${catAvg}%</span>
-        <div class="mini-bar-inline"><div class="fill" style="width:${Math.max(catAvg,2)}%;background:${barColor}"></div></div>
-      </button>
-      <div class="cat-body">`;
+  typeOrder.forEach(typeName => {
+    const categories = typeGroups[typeName];
+    if (!categories) return;
 
-    Object.keys(grouped[cat]).sort().forEach(strategy => {
-      html += `<div class="strategy-label">${strategy}</div><div class="action-grid">`;
+    if (type === 'all') {
+      html += `<div class="section-title"><span class="icon">${typeIcons[typeName]}</span> ${typeName} <span class="count">${Object.values(categories).flat().flat().length || countActions(categories)}</span></div>`;
+    }
 
-      grouped[cat][strategy].forEach(a => {
-        const isPri = a.priority === 'Priority';
-        const isComplete = a.status === 'Complete';
-        const pctClass = a.percentComplete >= 70 ? 'high' : a.percentComplete >= 30 ? 'mid' : 'low';
-        const barColor2 = a.percentComplete >= 70 ? 'var(--emerald)' : a.percentComplete >= 30 ? 'var(--amber)' : 'var(--slate-300)';
-        const statusClass = a.status === 'Complete' ? 'chip-status-complete' : a.status === 'In Progress' ? 'chip-status-in-progress' : 'chip-status-not-started';
+    Object.keys(categories).sort().forEach(cat => {
+      const strategies = categories[cat];
+      const catActions = Object.values(strategies).flat();
+      const catAvg = Math.round(catActions.reduce((s, a) => s + a.percentComplete, 0) / catActions.length);
+      const ns = catActions.filter(a => a.status === 'Not Started').length;
+      const wip = catActions.filter(a => a.status === 'In Progress').length;
+      const done = catActions.filter(a => a.status === 'Complete').length;
+      const colors = typeColors[typeName] || typeColors.Mitigation;
+      const catId = cat.replace(/\s+/g, '-') + '-' + typeName;
 
-        html += `<div class="action-card ${isPri ? 'priority' : ''} ${isComplete ? 'complete-card' : ''}">
-          <div class="action-badge-id ${type === 'Mitigation' ? 'mit' : 'adp'}">${a.id}${isPri ? ' ★' : ''}</div>
-          <div class="action-info">
-            <div class="action-title">${a.action}</div>
-            ${a.description ? `<div class="action-desc">${a.description.substring(0, 150)}${a.description.length > 150 ? '…' : ''}</div>` : ''}
-            <div class="action-meta">
-              <span class="meta-chip ${statusClass}">${a.status}</span>
-              ${isPri ? '<span class="meta-chip chip-priority">★ Priority</span>' : ''}
-              ${a.responsibleParty ? `<span class="meta-chip chip-responsible">${a.responsibleParty}</span>` : ''}
+      html += `<div class="category-group">
+        <button class="cat-group-header open" onclick="this.classList.toggle('open');document.getElementById('${catId}').classList.toggle('collapsed')">
+          <span class="arrow">▶</span>
+          <span class="cat-icon">${typeIcons[typeName]}</span>
+          <span class="cat-title">${cat}</span>
+          <span class="cat-stats">
+            <span class="cat-stat-item"><span class="cat-stat-dot" style="background:var(--slate-300)"></span>${ns}</span>
+            <span class="cat-stat-item"><span class="cat-stat-dot" style="background:#60a5fa"></span>${wip}</span>
+            <span class="cat-stat-item"><span class="cat-stat-dot" style="background:var(--emerald)"></span>${done}</span>
+          </span>
+          <span class="cat-pct" style="color:${colors.pct}">${catAvg}%</span>
+          <div class="cat-bar"><div class="fill" style="width:${Math.max(catAvg,2)}%;background:${colors.bar}"></div></div>
+        </button>
+        <div class="cat-group-body" id="${catId}">`;
+
+      Object.keys(strategies).sort().forEach(strategy => {
+        html += `<div class="strategy-label">${strategy}</div><div class="action-grid">`;
+
+        strategies[strategy].forEach(a => {
+          const isPri = a.priority === 'Priority';
+          const isComplete = a.status === 'Complete';
+          const pctClass = a.percentComplete >= 70 ? 'high' : a.percentComplete >= 30 ? 'mid' : 'low';
+          const barColor2 = a.percentComplete >= 70 ? 'var(--emerald)' : a.percentComplete >= 30 ? 'var(--amber)' : 'var(--slate-300)';
+          const statusClass = a.status === 'Complete' ? 'chip-status-complete' : a.status === 'In Progress' ? 'chip-status-in-progress' : 'chip-status-not-started';
+          const badgeClass = a.type === 'Mitigation' ? 'mit' : 'adp';
+
+          html += `<div class="action-card ${isPri ? 'priority' : ''} ${isComplete ? 'complete-card' : ''}">
+            <div class="action-badge-id ${badgeClass}">${a.id}${isPri ? ' ★' : ''}</div>
+            <div class="action-info">
+              <div class="action-title">${a.action}</div>
+              ${a.description ? `<div class="action-desc">${a.description.substring(0, 150)}${a.description.length > 150 ? '…' : ''}</div>` : ''}
+              <div class="action-meta">
+                <span class="meta-chip ${statusClass}">${a.status}</span>
+                ${isPri ? '<span class="meta-chip chip-priority">★ Priority</span>' : ''}
+                ${a.responsibleParty ? `<span class="meta-chip chip-responsible">${a.responsibleParty}</span>` : ''}
+              </div>
             </div>
-          </div>
-          <div class="action-progress-col">
-            <div class="pct-num ${pctClass}">${a.percentComplete}%</div>
-            <div class="pct-bar"><div class="fill" style="width:${a.percentComplete}%;background:${barColor2}"></div></div>
-          </div>
-        </div>`;
+            <div class="action-progress-col">
+              <div class="pct-num ${pctClass}">${a.percentComplete}%</div>
+              <div class="pct-bar"><div class="fill" style="width:${a.percentComplete}%;background:${barColor2}"></div></div>
+            </div>
+          </div>`;
+        });
+
+        html += `</div>`;
       });
 
-      html += `</div>`;
+      html += `</div></div>`;
     });
-
-    html += `</div></div>`;
   });
 
   document.getElementById(containerId).innerHTML = html;
+}
+
+function countActions(groups) {
+  let n = 0;
+  Object.values(groups).forEach(strats => {
+    Object.values(strats).forEach(arr => { n += arr.length; });
+  });
+  return n;
 }
 
 // ─── INIT ───
