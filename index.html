@@ -246,6 +246,13 @@ a{color:var(--green);text-decoration:none}
 const SHEET='https://docs.google.com/spreadsheets/d/15AnyB7Llgm9dwgsqMLcGufGo-655oQuBBH0m2I5xtlY/export?format=csv';
 let all=[],fFilt={type:'all',status:'all',priority:'all',category:'all',tag:'all'},searchQ='';
 
+// Category icons
+const catIcons={
+  'Net Zero Mobility':'🚗','Clean Energy & Water Systems':'⚡','Climate Positive Communities':'🏘️','Enabling Measures':'🔧',
+  'Coastal Flooding':'🌊','Inland Flooding':'🌧️','Rising Temperatures':'🔥'
+};
+const typeIcon={Mitigation:'🌿',Adaptation:'🛡️'};
+
 // ═══ LOAD ═══
 async function load(){
   try{const r=await fetch(SHEET);all=parseCSV(await r.text())}catch(e){
@@ -344,13 +351,13 @@ function renderCatRings(){
   const tc={Mitigation:'var(--green)',Adaptation:'var(--blue)'};
   document.getElementById('catRings').innerHTML=Object.entries(cats).sort((a,b)=>(b[1].sum/b[1].count)-(a[1].sum/a[1].count)).map(([n,c])=>{
     const pct=c.count?Math.round(c.sum/c.count):0;const off=151*(1-pct/100);const col=tc[c.type]||'var(--green)';
-    return `<div class="ring-item"><svg width="52" height="52" viewBox="0 0 52 52" style="transform:rotate(-90deg)"><circle cx="26" cy="26" r="20" fill="none" stroke="var(--border)" stroke-width="5"/><circle cx="26" cy="26" r="20" fill="none" stroke="${col}" stroke-width="5" stroke-linecap="round" stroke-dasharray="126" stroke-dashoffset="${off}"/></svg><div class="nm">${n}</div><div class="sb">${pct}% · ${c.count}a</div></div>`}).join('')}
+    return `<div class="ring-item"><svg width="52" height="52" viewBox="0 0 52 52" style="transform:rotate(-90deg)"><circle cx="26" cy="26" r="20" fill="none" stroke="var(--border)" stroke-width="5"/><circle cx="26" cy="26" r="20" fill="none" stroke="${col}" stroke-width="5" stroke-linecap="round" stroke-dasharray="126" stroke-dashoffset="${off}"/></svg><div class="nm">${catIcons[n]||''} ${n}</div><div class="sb">${pct}% · ${c.count}a</div></div>`}).join('')}
 
 // ── STATUS BARS ──
 function renderStatusBars(){
   const f=filtered();const cats={};
   f.forEach(a=>{if(!cats[a.category])cats[a.category]={ns:0,wip:0,done:0,total:0,type:a.type};cats[a.category].total++;if(a.status==='Complete')cats[a.category].done++;else if(a.status==='In Progress')cats[a.category].wip++;else cats[a.category].ns++});
-  const icon={Mitigation:'🌿',Adaptation:'🌊'};
+  const icon=catIcons;
   document.getElementById('statusBars').innerHTML=Object.entries(cats).sort((a,b)=>b[1].total-a[1].total).map(([n,c])=>{
     const nsW=c.ns/c.total*100,wipW=c.wip/c.total*100,doneW=c.done/c.total*100;
     const pct=c.total?Math.round(c.done/c.total*100):0;
@@ -396,7 +403,7 @@ function renderKanban(){
       return `<div class="kan-card" onclick='openModal(${JSON.stringify(a).replace(/'/g,"&#39;")})'>
         <div class="kid ${bCls}">${a.id}${isPri?' ★':''}</div>
         <div class="kname">${a.action}</div>
-        <div class="kmeta"><span>${a.type==='Mitigation'?'🌿':'🌊'} ${a.category}</span>${isPri?'<span class="kpri">★ Priority</span>':''}</div>
+        <div class="kmeta"><span>${catIcons[a.category]||''} ${a.category}</span>${isPri?'<span class="kpri">★ Priority</span>':''}</div>
         <div class="kbar"><div class="fill" style="width:${a.percentComplete}%;background:${barClr}"></div></div>
       </div>`}).join('')}</div></div>`}).join('');
   document.getElementById('searchCount').textContent=f.length+' actions'}
@@ -410,7 +417,7 @@ function openModal(a){
   document.getElementById('modalContent').innerHTML=`
     <span class="mid ${bCls}">${a.id}${a.priority==='Priority'?' ★':''}</span>
     <h3>${a.action}</h3>
-    <div class="mtype">${a.type==='Mitigation'?'🌿':'🌊'} ${a.type} · ${a.category} · ${a.strategy}</div>
+    <div class="mtype">${typeIcon[a.type]||''} ${a.type} · ${catIcons[a.category]||''} ${a.category} · ${a.strategy}</div>
     <div class="mbar"><div class="fill" style="width:${a.percentComplete}%;background:${barClr}"></div></div>
     <div style="display:flex;justify-content:space-between;font-size:.75rem;margin-bottom:12px">
       <span style="color:${stClr};font-weight:600">${a.status}</span>
