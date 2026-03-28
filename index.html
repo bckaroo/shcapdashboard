@@ -1,0 +1,542 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+<meta charset="UTF-8">
+<meta name="viewport" content="width=device-width, initial-scale=1.0">
+<title>Sleepy Hollow Climate Action Tracker</title>
+<style>
+  :root {
+    --green-dark: #1a5632;
+    --green-mid: #2d8a4e;
+    --green-light: #4caf50;
+    --green-pale: #e8f5e9;
+    --blue-dark: #1565c0;
+    --blue-mid: #42a5f5;
+    --blue-light: #90caf9;
+    --blue-pale: #e3f2fd;
+    --orange: #ff9800;
+    --red: #e53935;
+    --gray-100: #f5f5f5;
+    --gray-200: #eeeeee;
+    --gray-300: #e0e0e0;
+    --gray-500: #9e9e9e;
+    --gray-700: #616161;
+    --gray-900: #212121;
+    --white: #ffffff;
+    --shadow: 0 2px 8px rgba(0,0,0,0.1);
+    --radius: 8px;
+  }
+
+  * { margin: 0; padding: 0; box-sizing: border-box; }
+
+  body {
+    font-family: -apple-system, BlinkMacSystemFont, 'Segoe UI', Roboto, sans-serif;
+    background: var(--gray-100);
+    color: var(--gray-900);
+    line-height: 1.5;
+  }
+
+  .header {
+    background: linear-gradient(135deg, var(--green-dark), var(--blue-dark));
+    color: white;
+    padding: 24px 20px;
+    text-align: center;
+  }
+  .header h1 { font-size: 1.6rem; margin-bottom: 4px; }
+  .header p { opacity: 0.85; font-size: 0.9rem; }
+
+  .container { max-width: 1100px; margin: 0 auto; padding: 16px; }
+
+  /* Stats row */
+  .stats {
+    display: grid;
+    grid-template-columns: repeat(auto-fit, minmax(140px, 1fr));
+    gap: 12px;
+    margin-bottom: 20px;
+  }
+  .stat-card {
+    background: var(--white);
+    border-radius: var(--radius);
+    padding: 16px;
+    text-align: center;
+    box-shadow: var(--shadow);
+  }
+  .stat-card .number { font-size: 2rem; font-weight: 700; }
+  .stat-card .label { font-size: 0.75rem; color: var(--gray-700); text-transform: uppercase; letter-spacing: 0.5px; }
+  .stat-card.mitigation .number { color: var(--green-mid); }
+  .stat-card.adaptation .number { color: var(--blue-mid); }
+  .stat-card.progress .number { color: var(--orange); }
+  .stat-card.complete .number { color: var(--green-light); }
+
+  /* Overall progress */
+  .progress-section {
+    background: var(--white);
+    border-radius: var(--radius);
+    padding: 20px;
+    box-shadow: var(--shadow);
+    margin-bottom: 20px;
+  }
+  .progress-section h2 { font-size: 1rem; margin-bottom: 12px; color: var(--gray-700); }
+  .progress-bar-outer {
+    background: var(--gray-200);
+    border-radius: 20px;
+    height: 24px;
+    overflow: hidden;
+    position: relative;
+  }
+  .progress-bar-inner {
+    height: 100%;
+    border-radius: 20px;
+    transition: width 0.8s ease;
+    background: linear-gradient(90deg, var(--green-mid), var(--blue-mid));
+    display: flex;
+    align-items: center;
+    justify-content: center;
+    color: white;
+    font-size: 0.75rem;
+    font-weight: 600;
+    min-width: 40px;
+  }
+
+  /* Category progress bars */
+  .category-bars { margin-top: 16px; }
+  .cat-row { margin-bottom: 10px; }
+  .cat-row .cat-label {
+    display: flex;
+    justify-content: space-between;
+    font-size: 0.8rem;
+    margin-bottom: 3px;
+    color: var(--gray-700);
+  }
+  .cat-row .cat-bar-outer {
+    background: var(--gray-200);
+    border-radius: 10px;
+    height: 10px;
+    overflow: hidden;
+  }
+  .cat-row .cat-bar-inner {
+    height: 100%;
+    border-radius: 10px;
+    transition: width 0.6s ease;
+  }
+  .cat-bar-inner.mitigation { background: var(--green-mid); }
+  .cat-bar-inner.adaptation { background: var(--blue-mid); }
+
+  /* Filters */
+  .filters {
+    display: flex;
+    flex-wrap: wrap;
+    gap: 8px;
+    margin-bottom: 16px;
+  }
+  .filter-btn {
+    padding: 6px 14px;
+    border: 1px solid var(--gray-300);
+    border-radius: 20px;
+    background: var(--white);
+    cursor: pointer;
+    font-size: 0.8rem;
+    transition: all 0.2s;
+  }
+  .filter-btn:hover { border-color: var(--green-mid); }
+  .filter-btn.active { background: var(--green-dark); color: white; border-color: var(--green-dark); }
+
+  /* Action table */
+  .action-table {
+    width: 100%;
+    border-collapse: collapse;
+    background: var(--white);
+    border-radius: var(--radius);
+    overflow: hidden;
+    box-shadow: var(--shadow);
+    font-size: 0.85rem;
+  }
+  .action-table th {
+    background: var(--gray-200);
+    padding: 10px 12px;
+    text-align: left;
+    font-weight: 600;
+    font-size: 0.75rem;
+    text-transform: uppercase;
+    letter-spacing: 0.5px;
+    color: var(--gray-700);
+    position: sticky;
+    top: 0;
+    z-index: 2;
+  }
+  .action-table td {
+    padding: 10px 12px;
+    border-bottom: 1px solid var(--gray-200);
+    vertical-align: top;
+  }
+  .action-table tr:hover { background: var(--gray-100); }
+  .action-table tr.priority-action { background: #fff8e1; }
+  .action-table tr.priority-action:hover { background: #fff3c4; }
+
+  .action-id {
+    font-weight: 700;
+    font-family: 'Courier New', monospace;
+    white-space: nowrap;
+  }
+  .action-id.priority { color: var(--orange); }
+
+  .badge {
+    display: inline-block;
+    padding: 2px 8px;
+    border-radius: 10px;
+    font-size: 0.7rem;
+    font-weight: 600;
+    white-space: nowrap;
+  }
+  .badge-mitigation { background: var(--green-pale); color: var(--green-dark); }
+  .badge-adaptation { background: var(--blue-pale); color: var(--blue-dark); }
+  .badge-priority { background: #fff3e0; color: #e65100; }
+  .badge-not-started { background: var(--gray-200); color: var(--gray-700); }
+  .badge-in-progress { background: #e3f2fd; color: #1565c0; }
+  .badge-complete { background: var(--green-pale); color: var(--green-dark); }
+
+  .mini-bar {
+    width: 60px;
+    height: 6px;
+    background: var(--gray-200);
+    border-radius: 3px;
+    display: inline-block;
+    vertical-align: middle;
+    margin-left: 6px;
+    overflow: hidden;
+  }
+  .mini-bar-fill {
+    height: 100%;
+    border-radius: 3px;
+    background: var(--green-mid);
+  }
+
+  .category-section {
+    margin-bottom: 24px;
+  }
+  .category-header {
+    font-size: 1rem;
+    font-weight: 700;
+    color: var(--green-dark);
+    padding: 8px 0;
+    border-bottom: 2px solid var(--green-mid);
+    margin-bottom: 8px;
+    display: flex;
+    align-items: center;
+    gap: 8px;
+    cursor: pointer;
+  }
+  .category-header .chevron {
+    transition: transform 0.2s;
+    font-size: 0.8rem;
+  }
+  .category-header .chevron.open { transform: rotate(90deg); }
+  .category-count {
+    font-size: 0.75rem;
+    color: var(--gray-500);
+    font-weight: 400;
+  }
+
+  .section-label {
+    font-size: 1.2rem;
+    font-weight: 700;
+    padding: 16px 0 8px;
+    color: var(--gray-700);
+    display: flex;
+    align-items: center;
+    gap: 8px;
+  }
+
+  .footer {
+    text-align: center;
+    padding: 20px;
+    color: var(--gray-500);
+    font-size: 0.75rem;
+  }
+  .footer a { color: var(--blue-mid); text-decoration: none; }
+
+  /* Responsive */
+  @media (max-width: 768px) {
+    .header h1 { font-size: 1.2rem; }
+    .stats { grid-template-columns: repeat(2, 1fr); }
+    .action-table { font-size: 0.75rem; }
+    .action-table th, .action-table td { padding: 6px 8px; }
+    .hide-mobile { display: none; }
+  }
+
+  .loading {
+    text-align: center;
+    padding: 40px;
+    color: var(--gray-500);
+  }
+  .source-badge {
+    display: inline-block;
+    background: rgba(255,255,255,0.2);
+    padding: 2px 10px;
+    border-radius: 10px;
+    font-size: 0.7rem;
+    margin-top: 8px;
+  }
+</style>
+</head>
+<body>
+
+<div class="header">
+  <h1>🌿 Sleepy Hollow Climate Action Tracker</h1>
+  <p>Village of Sleepy Hollow, NY — Climate Action Plan Progress</p>
+  <div class="source-badge" id="sourceBadge">Loading...</div>
+</div>
+
+<div class="container">
+  <div class="stats" id="statsRow">
+    <div class="stat-card mitigation"><div class="number" id="totalActions">—</div><div class="label">Total Actions</div></div>
+    <div class="stat-card mitigation"><div class="number" id="mitigationCount">—</div><div class="label">Mitigation</div></div>
+    <div class="stat-card adaptation"><div class="number" id="adaptationCount">—</div><div class="label">Adaptation</div></div>
+    <div class="stat-card progress"><div class="number" id="inProgressCount">—</div><div class="label">In Progress</div></div>
+    <div class="stat-card complete"><div class="number" id="completeCount">—</div><div class="label">Complete</div></div>
+  </div>
+
+  <div class="progress-section">
+    <h2>Overall Progress</h2>
+    <div class="progress-bar-outer">
+      <div class="progress-bar-inner" id="overallBar" style="width:0%">0%</div>
+    </div>
+    <div class="category-bars" id="categoryBars"></div>
+  </div>
+
+  <div class="filters" id="filters"></div>
+
+  <div class="section-label">🌿 Mitigation Actions</div>
+  <div id="mitigationActions"></div>
+
+  <div class="section-label">🌊 Adaptation Actions</div>
+  <div id="adaptationActions"></div>
+</div>
+
+<div class="footer">
+  <p>Source: <a href="https://www.sleepyhollowny.gov" target="_blank">Sleepy Hollow Climate Action Plan</a> (July 2025)</p>
+  <p id="lastUpdated"></p>
+</div>
+
+<script>
+// ═══════════════════════════════════════════════════════
+// CONFIG — Set your published Google Sheet CSV URL here
+// ═══════════════════════════════════════════════════════
+const GOOGLE_SHEET_CSV_URL = ''; // e.g. 'https://docs.google.com/spreadsheets/d/e/YOUR_ID/pub?output=csv'
+
+let allActions = [];
+let activeFilters = { type: 'all', status: 'all', category: 'all' };
+
+// ═══════════════════════════════════════════════════════
+// DATA LOADING
+// ═══════════════════════════════════════════════════════
+
+async function loadData() {
+  if (GOOGLE_SHEET_CSV_URL) {
+    try {
+      const resp = await fetch(GOOGLE_SHEET_CSV_URL);
+      const csv = await resp.text();
+      allActions = parseCSV(csv);
+      document.getElementById('sourceBadge').textContent = '📡 Live from Google Sheets';
+      return;
+    } catch (e) {
+      console.warn('Google Sheets fetch failed, using embedded data:', e);
+    }
+  }
+  // Fallback to embedded JSON
+  try {
+    const resp = await fetch('shcap-data.json');
+    const data = await resp.json();
+    allActions = data.actions;
+    document.getElementById('sourceBadge').textContent = '📄 Embedded Data';
+    document.getElementById('lastUpdated').textContent = `Plan last updated: ${data.lastUpdated}`;
+  } catch (e) {
+    console.error('Failed to load data:', e);
+    allActions = [];
+    document.getElementById('sourceBadge').textContent = '⚠️ No data loaded';
+  }
+}
+
+function parseCSV(csv) {
+  const lines = csv.trim().split('\n');
+  const headers = lines[0].split(',').map(h => h.trim().replace(/"/g, ''));
+  return lines.slice(1).map(line => {
+    const vals = parseCSVLine(line);
+    const obj = {};
+    headers.forEach((h, i) => {
+      obj[h] = (vals[i] || '').trim().replace(/^"|"$/g, '');
+    });
+    // Normalize
+    obj.percentComplete = parseInt(obj.percentComplete || obj['% Complete'] || '0') || 0;
+    obj.priority = obj.priority || obj.Priority || 'Standard';
+    obj.type = obj.type || obj.Type || 'Mitigation';
+    obj.status = obj.status || obj.Status || 'Not Started';
+    return obj;
+  });
+}
+
+function parseCSVLine(line) {
+  const result = [];
+  let current = '';
+  let inQuotes = false;
+  for (let i = 0; i < line.length; i++) {
+    const ch = line[i];
+    if (ch === '"') { inQuotes = !inQuotes; }
+    else if (ch === ',' && !inQuotes) { result.push(current); current = ''; }
+    else { current += ch; }
+  }
+  result.push(current);
+  return result;
+}
+
+// ═══════════════════════════════════════════════════════
+// RENDERING
+// ═══════════════════════════════════════════════════════
+
+function render() {
+  renderStats();
+  renderProgress();
+  renderFilters();
+  renderActionList('mitigationActions', 'Mitigation');
+  renderActionList('adaptationActions', 'Adaptation');
+}
+
+function getFiltered() {
+  return allActions.filter(a => {
+    if (activeFilters.type !== 'all' && a.type !== activeFilters.type) return false;
+    if (activeFilters.status !== 'all' && a.status !== activeFilters.status) return false;
+    if (activeFilters.category !== 'all' && a.category !== activeFilters.category) return false;
+    return true;
+  });
+}
+
+function renderStats() {
+  const f = getFiltered();
+  document.getElementById('totalActions').textContent = f.length;
+  document.getElementById('mitigationCount').textContent = f.filter(a => a.type === 'Mitigation').length;
+  document.getElementById('adaptationCount').textContent = f.filter(a => a.type === 'Adaptation').length;
+  document.getElementById('inProgressCount').textContent = f.filter(a => a.status === 'In Progress').length;
+  document.getElementById('completeCount').textContent = f.filter(a => a.status === 'Complete').length;
+}
+
+function renderProgress() {
+  const f = getFiltered();
+  if (f.length === 0) return;
+  const avg = Math.round(f.reduce((s, a) => s + a.percentComplete, 0) / f.length);
+  const bar = document.getElementById('overallBar');
+  bar.style.width = Math.max(avg, 3) + '%';
+  bar.textContent = avg + '%';
+
+  // Category bars
+  const cats = {};
+  f.forEach(a => {
+    if (!cats[a.category]) cats[a.category] = { total: 0, sum: 0, type: a.type };
+    cats[a.category].total++;
+    cats[a.category].sum += a.percentComplete;
+  });
+  const container = document.getElementById('categoryBars');
+  container.innerHTML = '';
+  Object.entries(cats).sort((a,b) => a[0].localeCompare(b[0])).forEach(([name, c]) => {
+    const pct = c.total > 0 ? Math.round(c.sum / c.total) : 0;
+    const cssClass = c.type === 'Mitigation' ? 'mitigation' : 'adaptation';
+    container.innerHTML += `
+      <div class="cat-row">
+        <div class="cat-label"><span>${name}</span><span>${pct}% (${c.total})</span></div>
+        <div class="cat-bar-outer"><div class="cat-bar-inner ${cssClass}" style="width:${Math.max(pct,2)}%"></div></div>
+      </div>`;
+  });
+}
+
+function renderFilters() {
+  const categories = [...new Set(allActions.map(a => a.category))].sort();
+  const statuses = ['Not Started', 'In Progress', 'Complete'];
+
+  let html = '<button class="filter-btn active" data-filter="type" data-value="all">All</button>';
+  html += '<button class="filter-btn" data-filter="type" data-value="Mitigation">🌿 Mitigation</button>';
+  html += '<button class="filter-btn" data-filter="type" data-value="Adaptation">🌊 Adaptation</button>';
+  html += '<span style="color:var(--gray-300)">|</span>';
+  html += '<button class="filter-btn" data-filter="status" data-value="all">All Status</button>';
+  statuses.forEach(s => {
+    html += `<button class="filter-btn" data-filter="status" data-value="${s}">${s}</button>`;
+  });
+  html += '<span style="color:var(--gray-300)">|</span>';
+  html += '<button class="filter-btn" data-filter="category" data-value="all">All Categories</button>';
+  categories.forEach(c => {
+    html += `<button class="filter-btn" data-filter="category" data-value="${c}">${c}</button>`;
+  });
+
+  document.getElementById('filters').innerHTML = html;
+  document.querySelectorAll('.filter-btn').forEach(btn => {
+    btn.addEventListener('click', () => {
+      const filter = btn.dataset.filter;
+      const value = btn.dataset.value;
+      activeFilters[filter] = value;
+      document.querySelectorAll(`.filter-btn[data-filter="${filter}"]`).forEach(b => b.classList.remove('active'));
+      btn.classList.add('active');
+      render();
+    });
+  });
+}
+
+function renderActionList(containerId, type) {
+  const filtered = getFiltered().filter(a => a.type === type);
+  const grouped = {};
+  filtered.forEach(a => {
+    if (!grouped[a.category]) grouped[a.category] = {};
+    if (!grouped[a.category][a.strategy]) grouped[a.category][a.strategy] = [];
+    grouped[a.category][a.strategy].push(a);
+  });
+
+  let html = '';
+  if (filtered.length === 0) {
+    html = '<p style="color:var(--gray-500);padding:16px">No actions match current filters.</p>';
+  }
+
+  Object.keys(grouped).sort().forEach(cat => {
+    const catActions = Object.values(grouped[cat]).flat();
+    const catAvg = Math.round(catActions.reduce((s, a) => s + a.percentComplete, 0) / catActions.length);
+
+    html += `<div class="category-section">
+      <div class="category-header" onclick="this.nextElementSibling.style.display=this.nextElementSibling.style.display==='none'?'block':'none'">
+        <span class="chevron open">▶</span>
+        ${cat}
+        <span class="category-count">${catActions.length} actions · ${catAvg}% complete</span>
+      </div>
+      <div style="display:block">`;
+
+    Object.keys(grouped[cat]).sort().forEach(strategy => {
+      html += `<div style="font-size:0.8rem;font-weight:600;color:var(--gray-700);padding:8px 0 4px">${strategy}</div>`;
+      html += `<table class="action-table"><thead><tr>
+        <th>ID</th><th>Action</th><th>Status</th><th>Progress</th><th class="hide-mobile">Priority</th><th class="hide-mobile">Responsible</th>
+      </tr></thead><tbody>`;
+
+      grouped[cat][strategy].forEach(a => {
+        const isPriority = a.priority === 'Priority';
+        const statusBadge = a.status === 'Complete' ? 'badge-complete' :
+                           a.status === 'In Progress' ? 'badge-in-progress' : 'badge-not-started';
+        html += `<tr class="${isPriority ? 'priority-action' : ''}">
+          <td><span class="action-id ${isPriority ? 'priority' : ''}">${a.id}${isPriority ? ' ★' : ''}</span></td>
+          <td>${a.action}<br><small style="color:var(--gray-500)">${a.description ? a.description.substring(0, 120) + (a.description.length > 120 ? '...' : '') : ''}</small></td>
+          <td><span class="badge ${statusBadge}">${a.status}</span></td>
+          <td>${a.percentComplete}%<div class="mini-bar"><div class="mini-bar-fill" style="width:${a.percentComplete}%"></div></div></td>
+          <td class="hide-mobile">${isPriority ? '<span class="badge badge-priority">★ Priority</span>' : '—'}</td>
+          <td class="hide-mobile">${a.responsibleParty || '—'}</td>
+        </tr>`;
+      });
+
+      html += `</tbody></table>`;
+    });
+
+    html += `</div></div>`;
+  });
+
+  document.getElementById(containerId).innerHTML = html;
+}
+
+// ═══════════════════════════════════════════════════════
+// INIT
+// ═══════════════════════════════════════════════════════
+loadData().then(render);
+</script>
+</body>
+</html>
