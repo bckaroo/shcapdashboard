@@ -344,6 +344,98 @@
   .pct-bar .fill { height: 100%; border-radius: 3px; transition: width 0.6s ease; }
 
   /* ─── FOOTER ─── */
+  /* ─── VISUALIZATION SECTION ─── */
+  .viz-section { margin-bottom: 32px; }
+  .viz-section > h2 {
+    font-size: 1.1rem;
+    font-weight: 700;
+    color: var(--slate-800);
+    margin-bottom: 16px;
+    display: flex;
+    align-items: center;
+    gap: 8px;
+  }
+  .viz-grid {
+    display: grid;
+    grid-template-columns: 1fr 1fr 1fr;
+    gap: 16px;
+    margin-bottom: 20px;
+  }
+  .viz-card {
+    background: white;
+    border-radius: var(--radius-lg);
+    padding: 24px;
+    box-shadow: var(--shadow);
+    border: 1px solid var(--slate-100);
+  }
+  .viz-card h3 {
+    font-size: 0.78rem;
+    color: var(--slate-500);
+    font-weight: 600;
+    text-transform: uppercase;
+    letter-spacing: 0.05em;
+    margin-bottom: 16px;
+    text-align: center;
+  }
+  .viz-card.full-width { grid-column: 1 / -1; }
+
+  /* Dual donut */
+  .dual-donut { display: flex; justify-content: center; gap: 28px; align-items: center; flex-wrap: wrap; }
+  .donut-single { position: relative; width: 140px; height: 140px; text-align: center; }
+  .donut-single svg { transform: rotate(-90deg); }
+  .donut-single .center-label {
+    position: absolute; inset: 0; display: flex; flex-direction: column; align-items: center; justify-content: center;
+  }
+  .donut-single .center-num { font-size: 1.6rem; font-weight: 800; line-height: 1; }
+  .donut-single .center-txt { font-size: 0.65rem; color: var(--slate-400); font-weight: 500; margin-top: 2px; }
+  .donut-type-label { font-size: 0.82rem; font-weight: 600; text-align: center; margin-top: 8px; }
+
+  /* Stacked bar chart */
+  .stacked-bars { display: grid; gap: 10px; }
+  .stacked-row { display: flex; align-items: center; gap: 10px; }
+  .stacked-label { width: 160px; font-size: 0.78rem; font-weight: 600; color: var(--slate-700); text-align: right; flex-shrink: 0; }
+  .stacked-track { flex: 1; height: 28px; background: var(--slate-100); border-radius: 6px; overflow: hidden; display: flex; position: relative; }
+  .stacked-seg { height: 100%; transition: width 0.8s cubic-bezier(0.4,0,0.2,1); display: flex; align-items: center; justify-content: center; font-size: 0.65rem; font-weight: 700; color: white; min-width: 0; overflow: hidden; }
+  .stacked-seg.seg-not-started { background: var(--slate-300); color: var(--slate-600); }
+  .stacked-seg.seg-in-progress { background: #60a5fa; }
+  .stacked-seg.seg-complete { background: var(--emerald); }
+  .stacked-count { width: 36px; font-size: 0.75rem; font-weight: 600; color: var(--slate-400); text-align: left; flex-shrink: 0; }
+
+  /* Treemap */
+  .treemap { display: flex; flex-wrap: wrap; gap: 4px; padding: 4px; }
+  .treemap-cell {
+    border-radius: 8px;
+    padding: 10px 14px;
+    display: flex;
+    flex-direction: column;
+    justify-content: center;
+    align-items: center;
+    text-align: center;
+    transition: transform 0.15s, box-shadow 0.15s;
+    cursor: default;
+    min-height: 64px;
+  }
+  .treemap-cell:hover { transform: scale(1.03); box-shadow: var(--shadow-lg); z-index: 1; }
+  .treemap-cell .tm-name { font-size: 0.72rem; font-weight: 700; line-height: 1.2; }
+  .treemap-cell .tm-count { font-size: 1.1rem; font-weight: 800; margin-top: 2px; }
+  .treemap-cell .tm-pct { font-size: 0.62rem; opacity: 0.8; font-weight: 500; }
+  .treemap-cell.mit-cell { background: #ecfdf5; color: #065f46; border: 1px solid #a7f3d0; }
+  .treemap-cell.adp-cell { background: #e0f2fe; color: #075985; border: 1px solid #7dd3fc; }
+
+  /* Horizontal comparison bars */
+  .compare-bars { display: grid; gap: 16px; }
+  .compare-row { }
+  .compare-header { display: flex; justify-content: space-between; align-items: center; margin-bottom: 6px; }
+  .compare-name { font-size: 0.82rem; font-weight: 600; color: var(--slate-700); }
+  .compare-stats { font-size: 0.72rem; color: var(--slate-400); font-weight: 500; }
+  .compare-track { height: 16px; background: var(--slate-100); border-radius: 8px; overflow: hidden; display: flex; }
+  .compare-seg { height: 100%; transition: width 0.8s ease; }
+
+  /* Legend for stacked bars */
+  .bar-legend { display: flex; gap: 16px; justify-content: center; margin-top: 12px; flex-wrap: wrap; }
+  .bar-legend-item { display: flex; align-items: center; gap: 5px; font-size: 0.72rem; color: var(--slate-500); font-weight: 500; }
+  .bar-legend-dot { width: 10px; height: 10px; border-radius: 3px; }
+
   .footer {
     text-align: center;
     padding: 32px 20px;
@@ -382,6 +474,9 @@
     .hero h1 { font-size: 1.4rem; }
     .stats-row { grid-template-columns: repeat(3, 1fr); }
     .overview-grid { grid-template-columns: 1fr; }
+    .viz-grid { grid-template-columns: 1fr !important; }
+    .dual-donut { gap: 16px; }
+    .stacked-label { width: 100px; font-size: 0.7rem; }
     .action-card { grid-template-columns: 48px 1fr; }
     .action-progress-col { grid-column: 1 / -1; display: flex; align-items: center; gap: 8px; }
     .pct-bar { margin-left: 0; flex: 1; }
@@ -471,6 +566,130 @@
     <div class="progress-card">
       <h3>Category Breakdown</h3>
       <div id="categoryBars"></div>
+    </div>
+  </div>
+
+  <!-- ═══ VISUALIZATIONS ═══ -->
+  <div class="viz-section animate-in delay-4">
+    <h2>📊 Project Visualizations</h2>
+
+    <!-- Top row: 3 donut charts -->
+    <div class="viz-grid">
+      <!-- Mitigation vs Adaptation Split -->
+      <div class="viz-card">
+        <h3>🌿 Mitigation vs 🌊 Adaptation</h3>
+        <div class="dual-donut">
+          <div>
+            <div class="donut-single">
+              <svg width="140" height="140" viewBox="0 0 140 140">
+                <circle cx="70" cy="70" r="56" fill="none" stroke="#f1f5f9" stroke-width="12"/>
+                <circle id="mitDonut" cx="70" cy="70" r="56" fill="none" stroke="#10b981" stroke-width="12"
+                  stroke-linecap="round" stroke-dasharray="352" stroke-dashoffset="352"/>
+              </svg>
+              <div class="center-label">
+                <div class="center-num" id="mitDonutNum" style="color:#10b981">0</div>
+                <div class="center-txt">actions</div>
+              </div>
+            </div>
+            <div class="donut-type-label" style="color:#065f46">Mitigation</div>
+          </div>
+          <div>
+            <div class="donut-single">
+              <svg width="140" height="140" viewBox="0 0 140 140">
+                <circle cx="70" cy="70" r="56" fill="none" stroke="#f1f5f9" stroke-width="12"/>
+                <circle id="adpDonut" cx="70" cy="70" r="56" fill="none" stroke="#38bdf8" stroke-width="12"
+                  stroke-linecap="round" stroke-dasharray="352" stroke-dashoffset="352"/>
+              </svg>
+              <div class="center-label">
+                <div class="center-num" id="adpDonutNum" style="color:#0369a1">0</div>
+                <div class="center-txt">actions</div>
+              </div>
+            </div>
+            <div class="donut-type-label" style="color:#075985">Adaptation</div>
+          </div>
+        </div>
+      </div>
+
+      <!-- Status Breakdown -->
+      <div class="viz-card">
+        <h3>Status Breakdown</h3>
+        <div class="dual-donut" style="gap:0">
+          <div class="donut-single" style="width:160px;height:160px">
+            <svg width="160" height="160" viewBox="0 0 160 160">
+              <circle cx="80" cy="80" r="64" fill="none" stroke="#f1f5f9" stroke-width="14"/>
+              <!-- Not Started (bottom layer) -->
+              <circle id="statusNsArc" cx="80" cy="80" r="64" fill="none" stroke="#cbd5e1" stroke-width="14"
+                stroke-dasharray="402" stroke-dashoffset="0" transform="rotate(-90 80 80)"/>
+              <!-- In Progress -->
+              <circle id="statusWipArc" cx="80" cy="80" r="64" fill="none" stroke="#60a5fa" stroke-width="14"
+                stroke-dasharray="402" stroke-dashoffset="0" transform="rotate(-90 80 80)"/>
+              <!-- Complete (top layer) -->
+              <circle id="statusDoneArc" cx="80" cy="80" r="64" fill="none" stroke="#10b981" stroke-width="14"
+                stroke-linecap="round" stroke-dasharray="402" stroke-dashoffset="402" transform="rotate(-90 80 80)"/>
+            </svg>
+            <div class="center-label">
+              <div class="center-num" id="statusTotal" style="font-size:1.8rem">0</div>
+              <div class="center-txt">total</div>
+            </div>
+          </div>
+        </div>
+        <div class="bar-legend" style="margin-top:14px">
+          <div class="bar-legend-item"><div class="bar-legend-dot" style="background:#cbd5e1"></div>Not Started <strong id="legNs">0</strong></div>
+          <div class="bar-legend-item"><div class="bar-legend-dot" style="background:#60a5fa"></div>In Progress <strong id="legWip">0</strong></div>
+          <div class="bar-legend-item"><div class="bar-legend-dot" style="background:#10b981"></div>Complete <strong id="legDone">0</strong></div>
+        </div>
+      </div>
+
+      <!-- Priority Split -->
+      <div class="viz-card">
+        <h3>Priority Actions</h3>
+        <div class="dual-donut" style="gap:0">
+          <div class="donut-single" style="width:160px;height:160px">
+            <svg width="160" height="160" viewBox="0 0 160 160">
+              <circle cx="80" cy="80" r="64" fill="none" stroke="#f1f5f9" stroke-width="14"/>
+              <circle id="priArc" cx="80" cy="80" r="64" fill="none" stroke="#f59e0b" stroke-width="14"
+                stroke-linecap="round" stroke-dasharray="402" stroke-dashoffset="402"/>
+            </svg>
+            <div class="center-label">
+              <div class="center-num" id="priPct" style="font-size:1.8rem;color:#f59e0b">0%</div>
+              <div class="center-txt">of actions</div>
+            </div>
+          </div>
+        </div>
+        <div class="bar-legend" style="margin-top:14px">
+          <div class="bar-legend-item"><div class="bar-legend-dot" style="background:#f59e0b"></div>★ Priority <strong id="legPriCount">0</strong></div>
+          <div class="bar-legend-item"><div class="bar-legend-dot" style="background:#e2e8f0"></div>Standard <strong id="legStdCount">0</strong></div>
+        </div>
+        <div style="margin-top:12px">
+          <div id="priActionList" style="font-size:0.75rem;color:var(--slate-600)"></div>
+        </div>
+      </div>
+    </div>
+
+    <!-- Second row: Stacked bars + Treemap -->
+    <div class="viz-grid" style="grid-template-columns: 1fr 1fr;">
+      <!-- Status by Category (stacked bars) -->
+      <div class="viz-card full-width">
+        <h3>Status by Category</h3>
+        <div class="stacked-bars" id="stackedBars"></div>
+        <div class="bar-legend">
+          <div class="bar-legend-item"><div class="bar-legend-dot" style="background:var(--slate-300)"></div>Not Started</div>
+          <div class="bar-legend-item"><div class="bar-legend-dot" style="background:#60a5fa"></div>In Progress</div>
+          <div class="bar-legend-item"><div class="bar-legend-dot" style="background:var(--emerald)"></div>Complete</div>
+        </div>
+      </div>
+    </div>
+
+    <!-- Third row: Treemap + Progress comparison -->
+    <div class="viz-grid" style="grid-template-columns: 1fr 1fr;">
+      <div class="viz-card">
+        <h3>Action Density by Category</h3>
+        <div class="treemap" id="treemap"></div>
+      </div>
+      <div class="viz-card">
+        <h3>Completion by Category</h3>
+        <div class="compare-bars" id="compareBars"></div>
+      </div>
     </div>
   </div>
 
@@ -564,6 +783,10 @@ function render() {
   renderStats();
   renderDonut();
   renderCategoryBars();
+  renderVizDonuts();
+  renderStackedBars();
+  renderTreemap();
+  renderCompareBars();
   renderFilters();
   renderActionList('mitigationActions', 'Mitigation');
   renderActionList('adaptationActions', 'Adaptation');
@@ -649,6 +872,177 @@ function renderCategoryBars() {
         </div>
       </div>`;
   });
+}
+
+function renderVizDonuts() {
+  const f = getFiltered();
+  if (!f.length) return;
+  const total = f.length;
+  const mitCount = f.filter(a => a.type === 'Mitigation').length;
+  const adpCount = f.filter(a => a.type === 'Adaptation').length;
+  const nsCount = f.filter(a => a.status === 'Not Started').length;
+  const wipCount = f.filter(a => a.status === 'In Progress').length;
+  const doneCount = f.filter(a => a.status === 'Complete').length;
+  const priCount = f.filter(a => a.priority === 'Priority').length;
+  const stdCount = total - priCount;
+  const circ = 2 * Math.PI * 56; // 352
+  const circBig = 2 * Math.PI * 64; // 402
+
+  // Mitigation donut
+  const mitPct = mitCount / total;
+  document.getElementById('mitDonutNum').textContent = mitCount;
+  setTimeout(() => {
+    const arc = document.getElementById('mitDonut');
+    arc.style.transition = 'stroke-dashoffset 1s ease';
+    arc.style.strokeDashoffset = circ * (1 - mitPct);
+  }, 200);
+
+  // Adaptation donut
+  const adpPct = adpCount / total;
+  document.getElementById('adpDonutNum').textContent = adpCount;
+  setTimeout(() => {
+    const arc = document.getElementById('adpDonut');
+    arc.style.transition = 'stroke-dashoffset 1s ease';
+    arc.style.strokeDashoffset = circ * (1 - adpPct);
+  }, 200);
+
+  // Status donut (stacked ring)
+  document.getElementById('statusTotal').textContent = total;
+  document.getElementById('legNs').textContent = nsCount;
+  document.getElementById('legWip').textContent = wipCount;
+  document.getElementById('legDone').textContent = doneCount;
+
+  setTimeout(() => {
+    const doneFrac = doneCount / total;
+    const wipFrac = wipCount / total;
+    const nsFrac = nsCount / total;
+
+    // Done arc (starts at top)
+    const doneArc = document.getElementById('statusDoneArc');
+    doneArc.style.transition = 'stroke-dashoffset 1s ease';
+    doneArc.style.strokeDashoffset = circBig * (1 - doneFrac);
+
+    // WIP arc (offset by done fraction)
+    const wipArc = document.getElementById('statusWipArc');
+    wipArc.style.transition = 'stroke-dasharray 1s ease';
+    const wipLen = circBig * wipFrac;
+    wipArc.style.strokeDasharray = `${wipLen} ${circBig}`;
+    wipArc.style.strokeDashoffset = -circBig * doneFrac;
+
+    // NS arc
+    const nsArc = document.getElementById('statusNsArc');
+    nsArc.style.transition = 'stroke-dasharray 1s ease';
+    const nsLen = circBig * nsFrac;
+    nsArc.style.strokeDasharray = `${nsLen} ${circBig}`;
+    nsArc.style.strokeDashoffset = -circBig * (doneFrac + wipFrac);
+  }, 300);
+
+  // Priority donut
+  const priPct = priCount / total;
+  document.getElementById('priPct').textContent = Math.round(priPct * 100) + '%';
+  document.getElementById('legPriCount').textContent = priCount;
+  document.getElementById('legStdCount').textContent = stdCount;
+  setTimeout(() => {
+    const arc = document.getElementById('priArc');
+    arc.style.transition = 'stroke-dashoffset 1s ease';
+    arc.style.strokeDashoffset = circBig * (1 - priPct);
+  }, 400);
+
+  // Priority action list
+  const priActions = f.filter(a => a.priority === 'Priority');
+  document.getElementById('priActionList').innerHTML = priActions.length
+    ? priActions.map(a => `<div style="padding:3px 0;border-bottom:1px solid var(--slate-100)"><strong style="font-family:'JetBrains Mono',monospace;font-size:0.72rem;color:#92400e">${a.id}</strong> ${a.action.substring(0, 50)}${a.action.length > 50 ? '…' : ''}</div>`).join('')
+    : '<span style="color:var(--slate-400)">No priority actions</span>';
+}
+
+function renderStackedBars() {
+  const f = getFiltered();
+  const cats = {};
+  f.forEach(a => {
+    if (!cats[a.category]) cats[a.category] = { ns: 0, wip: 0, done: 0, total: 0, type: a.type };
+    cats[a.category].total++;
+    if (a.status === 'Complete') cats[a.category].done++;
+    else if (a.status === 'In Progress') cats[a.category].wip++;
+    else cats[a.category].ns++;
+  });
+
+  const maxTotal = Math.max(...Object.values(cats).map(c => c.total), 1);
+  const container = document.getElementById('stackedBars');
+  container.innerHTML = Object.entries(cats).sort((a, b) => b[1].total - a[1].total).map(([name, c]) => {
+    const nsW = (c.ns / c.total * 100).toFixed(1);
+    const wipW = (c.wip / c.total * 100).toFixed(1);
+    const doneW = (c.done / c.total * 100).toFixed(1);
+    const typeIcon = c.type === 'Mitigation' ? '🌿' : '🌊';
+    return `<div class="stacked-row">
+      <div class="stacked-label">${typeIcon} ${name}</div>
+      <div class="stacked-track">
+        ${c.ns > 0 ? `<div class="stacked-seg seg-not-started" style="width:${nsW}%">${c.ns}</div>` : ''}
+        ${c.wip > 0 ? `<div class="stacked-seg seg-in-progress" style="width:${wipW}%">${c.wip}</div>` : ''}
+        ${c.done > 0 ? `<div class="stacked-seg seg-complete" style="width:${doneW}%">${c.done}</div>` : ''}
+      </div>
+      <div class="stacked-count">${c.total}</div>
+    </div>`;
+  }).join('');
+}
+
+function renderTreemap() {
+  const f = getFiltered();
+  const cats = {};
+  f.forEach(a => {
+    if (!cats[a.category]) cats[a.category] = { count: 0, type: a.type, avgPct: 0 };
+    cats[a.category].count++;
+    cats[a.category].avgPct += a.percentComplete;
+  });
+  Object.values(cats).forEach(c => c.avgPct = Math.round(c.avgPct / c.count));
+
+  const total = f.length || 1;
+  const container = document.getElementById('treemap');
+  container.innerHTML = Object.entries(cats).sort((a, b) => b[1].count - a[1].count).map(([name, c]) => {
+    const pct = (c.count / total * 100);
+    const cellClass = c.type === 'Mitigation' ? 'mit-cell' : 'adp-cell';
+    // Size proportional to count
+    const flexBasis = Math.max(pct * 2.5, 80);
+    return `<div class="treemap-cell ${cellClass}" style="flex:1 1 ${flexBasis}px">
+      <div class="tm-name">${name}</div>
+      <div class="tm-count">${c.count}</div>
+      <div class="tm-pct">${c.avgPct}% avg complete</div>
+    </div>`;
+  }).join('');
+}
+
+function renderCompareBars() {
+  const f = getFiltered();
+  const cats = {};
+  f.forEach(a => {
+    if (!cats[a.category]) cats[a.category] = { ns: 0, wip: 0, done: 0, total: 0, type: a.type };
+    cats[a.category].total++;
+    if (a.status === 'Complete') cats[a.category].done++;
+    else if (a.status === 'In Progress') cats[a.category].wip++;
+    else cats[a.category].ns++;
+  });
+
+  const container = document.getElementById('compareBars');
+  container.innerHTML = Object.entries(cats).sort((a, b) => {
+    const pctA = a[1].total > 0 ? a[1].done / a[1].total : 0;
+    const pctB = b[1].total > 0 ? b[1].done / b[1].total : 0;
+    return pctB - pctA;
+  }).map(([name, c]) => {
+    const donePct = c.total > 0 ? (c.done / c.total * 100) : 0;
+    const wipPct = c.total > 0 ? (c.wip / c.total * 100) : 0;
+    const nsPct = c.total > 0 ? (c.ns / c.total * 100) : 0;
+    const typeIcon = c.type === 'Mitigation' ? '🌿' : '🌊';
+    return `<div class="compare-row">
+      <div class="compare-header">
+        <span class="compare-name">${typeIcon} ${name}</span>
+        <span class="compare-stats">${Math.round(donePct)}% done · ${c.done}/${c.total}</span>
+      </div>
+      <div class="compare-track">
+        <div class="compare-seg" style="width:${donePct}%;background:var(--emerald)"></div>
+        <div class="compare-seg" style="width:${wipPct}%;background:#60a5fa"></div>
+        <div class="compare-seg" style="width:${nsPct}%;background:var(--slate-200)"></div>
+      </div>
+    </div>`;
+  }).join('');
 }
 
 function renderFilters() {
