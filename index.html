@@ -4,369 +4,542 @@
 <meta charset="UTF-8">
 <meta name="viewport" content="width=device-width, initial-scale=1.0">
 <title>Sleepy Hollow Climate Action Tracker</title>
+<link rel="preconnect" href="https://fonts.googleapis.com">
+<link href="https://fonts.googleapis.com/css2?family=Inter:wght@400;500;600;700;800&family=JetBrains+Mono:wght@600&display=swap" rel="stylesheet">
 <style>
   :root {
-    --green-dark: #1a5632;
-    --green-mid: #2d8a4e;
-    --green-light: #4caf50;
-    --green-pale: #e8f5e9;
-    --blue-dark: #1565c0;
-    --blue-mid: #42a5f5;
-    --blue-light: #90caf9;
-    --blue-pale: #e3f2fd;
-    --orange: #ff9800;
-    --red: #e53935;
-    --gray-100: #f5f5f5;
-    --gray-200: #eeeeee;
-    --gray-300: #e0e0e0;
-    --gray-500: #9e9e9e;
-    --gray-700: #616161;
-    --gray-900: #212121;
-    --white: #ffffff;
-    --shadow: 0 2px 8px rgba(0,0,0,0.1);
-    --radius: 8px;
+    --forest: #0d3b1e;
+    --emerald: #10b981;
+    --emerald-light: #34d399;
+    --ocean: #0369a1;
+    --ocean-light: #38bdf8;
+    --amber: #f59e0b;
+    --coral: #f43f5e;
+    --slate-50: #f8fafc;
+    --slate-100: #f1f5f9;
+    --slate-200: #e2e8f0;
+    --slate-300: #cbd5e1;
+    --slate-400: #94a3b8;
+    --slate-500: #64748b;
+    --slate-600: #475569;
+    --slate-700: #334155;
+    --slate-800: #1e293b;
+    --slate-900: #0f172a;
+    --radius: 12px;
+    --radius-lg: 16px;
+    --shadow-sm: 0 1px 2px rgba(0,0,0,0.05);
+    --shadow: 0 4px 6px -1px rgba(0,0,0,0.07), 0 2px 4px -2px rgba(0,0,0,0.05);
+    --shadow-lg: 0 10px 15px -3px rgba(0,0,0,0.08), 0 4px 6px -4px rgba(0,0,0,0.04);
+    --shadow-xl: 0 20px 25px -5px rgba(0,0,0,0.08), 0 8px 10px -6px rgba(0,0,0,0.04);
   }
 
   * { margin: 0; padding: 0; box-sizing: border-box; }
 
   body {
-    font-family: -apple-system, BlinkMacSystemFont, 'Segoe UI', Roboto, sans-serif;
-    background: var(--gray-100);
-    color: var(--gray-900);
-    line-height: 1.5;
+    font-family: 'Inter', -apple-system, BlinkMacSystemFont, sans-serif;
+    background: var(--slate-50);
+    color: var(--slate-800);
+    line-height: 1.6;
+    -webkit-font-smoothing: antialiased;
   }
 
-  .header {
-    background: linear-gradient(135deg, var(--green-dark), var(--blue-dark));
+  /* ─── HERO ─── */
+  .hero {
+    background: linear-gradient(135deg, var(--forest) 0%, #065f46 40%, var(--ocean) 100%);
     color: white;
-    padding: 24px 20px;
+    padding: 48px 24px 56px;
     text-align: center;
+    position: relative;
+    overflow: hidden;
   }
-  .header h1 { font-size: 1.6rem; margin-bottom: 4px; }
-  .header p { opacity: 0.85; font-size: 0.9rem; }
+  .hero::before {
+    content: '';
+    position: absolute;
+    inset: 0;
+    background: url("data:image/svg+xml,%3Csvg width='60' height='60' viewBox='0 0 60 60' xmlns='http://www.w3.org/2000/svg'%3E%3Cg fill='none' fill-rule='evenodd'%3E%3Cg fill='%23ffffff' fill-opacity='0.04'%3E%3Cpath d='M36 34v-4h-2v4h-4v2h4v4h2v-4h4v-2h-4zm0-30V0h-2v4h-4v2h4v4h2V6h4V4h-4zM6 34v-4H4v4H0v2h4v4h2v-4h4v-2H6zM6 4V0H4v4H0v2h4v4h2V6h4V4H6z'/%3E%3C/g%3E%3C/g%3E%3C/svg%3E");
+  }
+  .hero-content { position: relative; z-index: 1; max-width: 700px; margin: 0 auto; }
+  .hero-badge {
+    display: inline-flex;
+    align-items: center;
+    gap: 6px;
+    background: rgba(255,255,255,0.12);
+    backdrop-filter: blur(8px);
+    padding: 6px 16px;
+    border-radius: 20px;
+    font-size: 0.78rem;
+    font-weight: 500;
+    margin-bottom: 16px;
+    border: 1px solid rgba(255,255,255,0.15);
+  }
+  .hero h1 {
+    font-size: 2rem;
+    font-weight: 800;
+    letter-spacing: -0.03em;
+    margin-bottom: 8px;
+    line-height: 1.2;
+  }
+  .hero p { opacity: 0.8; font-size: 0.95rem; }
+  .hero-subtitle { opacity: 0.6; font-size: 0.8rem; margin-top: 4px; }
 
-  .container { max-width: 1100px; margin: 0 auto; padding: 16px; }
+  .source-pill {
+    display: inline-flex;
+    align-items: center;
+    gap: 6px;
+    background: rgba(255,255,255,0.1);
+    padding: 4px 12px;
+    border-radius: 12px;
+    font-size: 0.72rem;
+    margin-top: 14px;
+    font-weight: 500;
+  }
+  .source-dot {
+    width: 6px; height: 6px; border-radius: 50%;
+    background: var(--emerald-light);
+    animation: pulse-dot 2s infinite;
+  }
+  @keyframes pulse-dot {
+    0%, 100% { opacity: 1; }
+    50% { opacity: 0.4; }
+  }
 
-  /* Stats row */
-  .stats {
+  .container { max-width: 1140px; margin: 0 auto; padding: 0 20px; }
+
+  /* ─── STATS CARDS ─── */
+  .stats-row {
     display: grid;
-    grid-template-columns: repeat(auto-fit, minmax(140px, 1fr));
-    gap: 12px;
-    margin-bottom: 20px;
+    grid-template-columns: repeat(5, 1fr);
+    gap: 14px;
+    margin: -32px 0 28px;
+    position: relative;
+    z-index: 2;
   }
   .stat-card {
-    background: var(--white);
+    background: white;
     border-radius: var(--radius);
-    padding: 16px;
+    padding: 20px 16px;
     text-align: center;
-    box-shadow: var(--shadow);
+    box-shadow: var(--shadow-lg);
+    border: 1px solid var(--slate-100);
+    transition: transform 0.2s, box-shadow 0.2s;
   }
-  .stat-card .number { font-size: 2rem; font-weight: 700; }
-  .stat-card .label { font-size: 0.75rem; color: var(--gray-700); text-transform: uppercase; letter-spacing: 0.5px; }
-  .stat-card.mitigation .number { color: var(--green-mid); }
-  .stat-card.adaptation .number { color: var(--blue-mid); }
-  .stat-card.progress .number { color: var(--orange); }
-  .stat-card.complete .number { color: var(--green-light); }
+  .stat-card:hover {
+    transform: translateY(-2px);
+    box-shadow: var(--shadow-xl);
+  }
+  .stat-icon { font-size: 1.4rem; margin-bottom: 6px; }
+  .stat-number {
+    font-size: 2.2rem;
+    font-weight: 800;
+    letter-spacing: -0.03em;
+    line-height: 1;
+  }
+  .stat-label {
+    font-size: 0.72rem;
+    color: var(--slate-500);
+    text-transform: uppercase;
+    letter-spacing: 0.06em;
+    font-weight: 600;
+    margin-top: 4px;
+  }
+  .stat-card.total .stat-number { color: var(--slate-800); }
+  .stat-card.mit .stat-number { color: var(--emerald); }
+  .stat-card.adp .stat-number { color: var(--ocean); }
+  .stat-card.wip .stat-number { color: var(--amber); }
+  .stat-card.done .stat-number { color: var(--coral); }
 
-  /* Overall progress */
-  .progress-section {
-    background: var(--white);
-    border-radius: var(--radius);
-    padding: 20px;
+  /* ─── DONUT + PROGRESS ─── */
+  .overview-grid {
+    display: grid;
+    grid-template-columns: 280px 1fr;
+    gap: 20px;
+    margin-bottom: 28px;
+  }
+  .donut-card {
+    background: white;
+    border-radius: var(--radius-lg);
+    padding: 28px 20px;
     box-shadow: var(--shadow);
-    margin-bottom: 20px;
+    border: 1px solid var(--slate-100);
+    text-align: center;
   }
-  .progress-section h2 { font-size: 1rem; margin-bottom: 12px; color: var(--gray-700); }
-  .progress-bar-outer {
-    background: var(--gray-200);
-    border-radius: 20px;
-    height: 24px;
-    overflow: hidden;
-    position: relative;
-  }
-  .progress-bar-inner {
-    height: 100%;
-    border-radius: 20px;
-    transition: width 0.8s ease;
-    background: linear-gradient(90deg, var(--green-mid), var(--blue-mid));
+  .donut-card h3 { font-size: 0.82rem; color: var(--slate-500); font-weight: 600; text-transform: uppercase; letter-spacing: 0.05em; margin-bottom: 16px; }
+  .donut-wrap { position: relative; width: 180px; height: 180px; margin: 0 auto; }
+  .donut-wrap svg { transform: rotate(-90deg); }
+  .donut-center {
+    position: absolute;
+    inset: 0;
     display: flex;
+    flex-direction: column;
     align-items: center;
     justify-content: center;
-    color: white;
-    font-size: 0.75rem;
-    font-weight: 600;
-    min-width: 40px;
   }
+  .donut-pct { font-size: 2.4rem; font-weight: 800; letter-spacing: -0.03em; line-height: 1; }
+  .donut-label { font-size: 0.72rem; color: var(--slate-400); font-weight: 500; }
+  .donut-legend { margin-top: 18px; display: flex; flex-direction: column; gap: 8px; }
+  .donut-legend-item { display: flex; align-items: center; gap: 8px; font-size: 0.82rem; }
+  .donut-legend-dot { width: 10px; height: 10px; border-radius: 3px; flex-shrink: 0; }
 
-  /* Category progress bars */
-  .category-bars { margin-top: 16px; }
-  .cat-row { margin-bottom: 10px; }
-  .cat-row .cat-label {
-    display: flex;
-    justify-content: space-between;
-    font-size: 0.8rem;
-    margin-bottom: 3px;
-    color: var(--gray-700);
+  .progress-card {
+    background: white;
+    border-radius: var(--radius-lg);
+    padding: 24px;
+    box-shadow: var(--shadow);
+    border: 1px solid var(--slate-100);
   }
-  .cat-row .cat-bar-outer {
-    background: var(--gray-200);
-    border-radius: 10px;
-    height: 10px;
-    overflow: hidden;
-  }
-  .cat-row .cat-bar-inner {
-    height: 100%;
-    border-radius: 10px;
-    transition: width 0.6s ease;
-  }
-  .cat-bar-inner.mitigation { background: var(--green-mid); }
-  .cat-bar-inner.adaptation { background: var(--blue-mid); }
+  .progress-card h3 { font-size: 0.82rem; color: var(--slate-500); font-weight: 600; text-transform: uppercase; letter-spacing: 0.05em; margin-bottom: 16px; }
+  .cat-progress { margin-bottom: 14px; }
+  .cat-progress:last-child { margin-bottom: 0; }
+  .cat-head { display: flex; justify-content: space-between; align-items: center; margin-bottom: 6px; }
+  .cat-name { font-size: 0.85rem; font-weight: 600; color: var(--slate-700); }
+  .cat-pct { font-size: 0.82rem; font-weight: 700; font-family: 'JetBrains Mono', monospace; }
+  .cat-bar-bg { height: 10px; background: var(--slate-100); border-radius: 6px; overflow: hidden; }
+  .cat-bar-fill { height: 100%; border-radius: 6px; transition: width 1s cubic-bezier(0.4,0,0.2,1); }
 
-  /* Filters */
-  .filters {
+  /* ─── FILTERS ─── */
+  .filter-row {
     display: flex;
     flex-wrap: wrap;
     gap: 8px;
-    margin-bottom: 16px;
-  }
-  .filter-btn {
-    padding: 6px 14px;
-    border: 1px solid var(--gray-300);
-    border-radius: 20px;
-    background: var(--white);
-    cursor: pointer;
-    font-size: 0.8rem;
-    transition: all 0.2s;
-  }
-  .filter-btn:hover { border-color: var(--green-mid); }
-  .filter-btn.active { background: var(--green-dark); color: white; border-color: var(--green-dark); }
-
-  /* Action table */
-  .action-table {
-    width: 100%;
-    border-collapse: collapse;
-    background: var(--white);
-    border-radius: var(--radius);
-    overflow: hidden;
-    box-shadow: var(--shadow);
-    font-size: 0.85rem;
-  }
-  .action-table th {
-    background: var(--gray-200);
-    padding: 10px 12px;
-    text-align: left;
-    font-weight: 600;
-    font-size: 0.75rem;
-    text-transform: uppercase;
-    letter-spacing: 0.5px;
-    color: var(--gray-700);
-    position: sticky;
-    top: 0;
-    z-index: 2;
-  }
-  .action-table td {
-    padding: 10px 12px;
-    border-bottom: 1px solid var(--gray-200);
-    vertical-align: top;
-  }
-  .action-table tr:hover { background: var(--gray-100); }
-  .action-table tr.priority-action { background: #fff8e1; }
-  .action-table tr.priority-action:hover { background: #fff3c4; }
-
-  .action-id {
-    font-weight: 700;
-    font-family: 'Courier New', monospace;
-    white-space: nowrap;
-  }
-  .action-id.priority { color: var(--orange); }
-
-  .badge {
-    display: inline-block;
-    padding: 2px 8px;
-    border-radius: 10px;
-    font-size: 0.7rem;
-    font-weight: 600;
-    white-space: nowrap;
-  }
-  .badge-mitigation { background: var(--green-pale); color: var(--green-dark); }
-  .badge-adaptation { background: var(--blue-pale); color: var(--blue-dark); }
-  .badge-priority { background: #fff3e0; color: #e65100; }
-  .badge-not-started { background: var(--gray-200); color: var(--gray-700); }
-  .badge-in-progress { background: #e3f2fd; color: #1565c0; }
-  .badge-complete { background: var(--green-pale); color: var(--green-dark); }
-
-  .mini-bar {
-    width: 60px;
-    height: 6px;
-    background: var(--gray-200);
-    border-radius: 3px;
-    display: inline-block;
-    vertical-align: middle;
-    margin-left: 6px;
-    overflow: hidden;
-  }
-  .mini-bar-fill {
-    height: 100%;
-    border-radius: 3px;
-    background: var(--green-mid);
-  }
-
-  .category-section {
     margin-bottom: 24px;
-  }
-  .category-header {
-    font-size: 1rem;
-    font-weight: 700;
-    color: var(--green-dark);
-    padding: 8px 0;
-    border-bottom: 2px solid var(--green-mid);
-    margin-bottom: 8px;
-    display: flex;
     align-items: center;
-    gap: 8px;
+  }
+  .filter-group { display: flex; gap: 4px; flex-wrap: wrap; }
+  .filter-label { font-size: 0.72rem; color: var(--slate-400); font-weight: 600; text-transform: uppercase; letter-spacing: 0.05em; padding: 6px 8px; }
+  .pill {
+    padding: 6px 14px;
+    border: 1.5px solid var(--slate-200);
+    border-radius: 20px;
+    background: white;
     cursor: pointer;
+    font-size: 0.78rem;
+    font-weight: 500;
+    color: var(--slate-600);
+    transition: all 0.15s;
+    font-family: inherit;
   }
-  .category-header .chevron {
-    transition: transform 0.2s;
-    font-size: 0.8rem;
-  }
-  .category-header .chevron.open { transform: rotate(90deg); }
-  .category-count {
-    font-size: 0.75rem;
-    color: var(--gray-500);
-    font-weight: 400;
-  }
+  .pill:hover { border-color: var(--emerald); color: var(--emerald); }
+  .pill.active { background: var(--forest); color: white; border-color: var(--forest); }
+  .divider { width: 1px; height: 24px; background: var(--slate-200); margin: 0 4px; }
 
-  .section-label {
-    font-size: 1.2rem;
-    font-weight: 700;
-    padding: 16px 0 8px;
-    color: var(--gray-700);
+  /* ─── SECTION HEADERS ─── */
+  .section-title {
     display: flex;
     align-items: center;
-    gap: 8px;
+    gap: 10px;
+    font-size: 1.15rem;
+    font-weight: 700;
+    margin: 32px 0 16px;
+    color: var(--slate-800);
   }
-
-  .footer {
-    text-align: center;
-    padding: 20px;
-    color: var(--gray-500);
-    font-size: 0.75rem;
-  }
-  .footer a { color: var(--blue-mid); text-decoration: none; }
-
-  /* Responsive */
-  @media (max-width: 768px) {
-    .header h1 { font-size: 1.2rem; }
-    .stats { grid-template-columns: repeat(2, 1fr); }
-    .action-table { font-size: 0.75rem; }
-    .action-table th, .action-table td { padding: 6px 8px; }
-    .hide-mobile { display: none; }
-  }
-
-  .loading {
-    text-align: center;
-    padding: 40px;
-    color: var(--gray-500);
-  }
-  .source-badge {
-    display: inline-block;
-    background: rgba(255,255,255,0.2);
+  .section-title .icon { font-size: 1.3rem; }
+  .section-title .count {
+    background: var(--slate-100);
     padding: 2px 10px;
     border-radius: 10px;
-    font-size: 0.7rem;
-    margin-top: 8px;
+    font-size: 0.75rem;
+    font-weight: 600;
+    color: var(--slate-500);
+  }
+
+  /* ─── CATEGORY ACCORDION ─── */
+  .category-group { margin-bottom: 16px; }
+  .cat-toggle {
+    display: flex;
+    align-items: center;
+    gap: 10px;
+    width: 100%;
+    padding: 14px 18px;
+    background: white;
+    border: 1px solid var(--slate-200);
+    border-radius: var(--radius);
+    cursor: pointer;
+    font-family: inherit;
+    font-size: 0.92rem;
+    font-weight: 600;
+    color: var(--slate-700);
+    transition: all 0.15s;
+    text-align: left;
+  }
+  .cat-toggle:hover { border-color: var(--emerald); background: #f0fdf4; }
+  .cat-toggle .arrow { transition: transform 0.2s; font-size: 0.7rem; color: var(--slate-400); }
+  .cat-toggle.open .arrow { transform: rotate(90deg); }
+  .cat-toggle .meta { margin-left: auto; font-size: 0.75rem; font-weight: 500; color: var(--slate-400); }
+  .cat-toggle .mini-bar-inline {
+    width: 60px; height: 5px; background: var(--slate-100); border-radius: 4px; overflow: hidden; margin-left: 8px; flex-shrink: 0;
+  }
+  .cat-toggle .mini-bar-inline .fill { height: 100%; border-radius: 4px; }
+
+  .cat-body { display: block; margin-top: 2px; }
+  .cat-body.collapsed { display: none; }
+
+  /* ─── ACTION CARDS ─── */
+  .strategy-label {
+    font-size: 0.78rem;
+    font-weight: 600;
+    color: var(--slate-500);
+    padding: 10px 4px 6px;
+    text-transform: uppercase;
+    letter-spacing: 0.03em;
+  }
+  .action-grid { display: grid; gap: 8px; margin-bottom: 8px; }
+  .action-card {
+    background: white;
+    border: 1px solid var(--slate-200);
+    border-radius: var(--radius);
+    padding: 14px 16px;
+    display: grid;
+    grid-template-columns: 56px 1fr auto;
+    gap: 12px;
+    align-items: start;
+    transition: all 0.15s;
+  }
+  .action-card:hover {
+    border-color: var(--slate-300);
+    box-shadow: var(--shadow);
+  }
+  .action-card.priority { border-left: 3px solid var(--amber); }
+  .action-card.complete-card { opacity: 0.7; }
+
+  .action-badge-id {
+    font-family: 'JetBrains Mono', monospace;
+    font-size: 0.78rem;
+    font-weight: 600;
+    padding: 4px 8px;
+    border-radius: 6px;
+    text-align: center;
+    white-space: nowrap;
+  }
+  .action-badge-id.mit { background: #ecfdf5; color: #065f46; }
+  .action-badge-id.adp { background: #e0f2fe; color: #075985; }
+
+  .action-info { min-width: 0; }
+  .action-title { font-size: 0.88rem; font-weight: 600; color: var(--slate-800); line-height: 1.4; }
+  .action-desc { font-size: 0.78rem; color: var(--slate-500); margin-top: 3px; line-height: 1.4; }
+  .action-meta { display: flex; flex-wrap: wrap; gap: 6px; margin-top: 8px; }
+  .meta-chip {
+    font-size: 0.68rem;
+    font-weight: 600;
+    padding: 2px 8px;
+    border-radius: 6px;
+    text-transform: uppercase;
+    letter-spacing: 0.03em;
+  }
+  .chip-status-not-started { background: var(--slate-100); color: var(--slate-500); }
+  .chip-status-in-progress { background: #dbeafe; color: #1e40af; }
+  .chip-status-complete { background: #dcfce7; color: #166534; }
+  .chip-priority { background: #fef3c7; color: #92400e; }
+  .chip-responsible { background: var(--slate-50); color: var(--slate-600); border: 1px solid var(--slate-200); }
+
+  .action-progress-col {
+    text-align: right;
+    min-width: 70px;
+    flex-shrink: 0;
+  }
+  .pct-num { font-size: 1.1rem; font-weight: 800; font-family: 'JetBrains Mono', monospace; line-height: 1; }
+  .pct-num.low { color: var(--slate-400); }
+  .pct-num.mid { color: var(--amber); }
+  .pct-num.high { color: var(--emerald); }
+  .pct-bar { width: 60px; height: 4px; background: var(--slate-100); border-radius: 3px; overflow: hidden; margin-top: 4px; margin-left: auto; }
+  .pct-bar .fill { height: 100%; border-radius: 3px; transition: width 0.6s ease; }
+
+  /* ─── FOOTER ─── */
+  .footer {
+    text-align: center;
+    padding: 32px 20px;
+    color: var(--slate-400);
+    font-size: 0.75rem;
+    border-top: 1px solid var(--slate-100);
+    margin-top: 40px;
+  }
+  .footer a { color: var(--emerald); text-decoration: none; font-weight: 500; }
+  .footer a:hover { text-decoration: underline; }
+
+  /* ─── LOADING ─── */
+  .loading-shimmer {
+    background: linear-gradient(90deg, var(--slate-100) 25%, var(--slate-200) 50%, var(--slate-100) 75%);
+    background-size: 200% 100%;
+    animation: shimmer 1.5s infinite;
+    border-radius: 6px;
+    height: 20px;
+  }
+  @keyframes shimmer { 0% { background-position: 200% 0; } 100% { background-position: -200% 0; } }
+
+  /* ─── ENTRANCE ANIMATIONS ─── */
+  @keyframes fadeUp {
+    from { opacity: 0; transform: translateY(16px); }
+    to { opacity: 1; transform: translateY(0); }
+  }
+  .animate-in { animation: fadeUp 0.5s ease both; }
+  .delay-1 { animation-delay: 0.1s; }
+  .delay-2 { animation-delay: 0.2s; }
+  .delay-3 { animation-delay: 0.3s; }
+  .delay-4 { animation-delay: 0.4s; }
+  .delay-5 { animation-delay: 0.5s; }
+
+  /* ─── RESPONSIVE ─── */
+  @media (max-width: 768px) {
+    .hero h1 { font-size: 1.4rem; }
+    .stats-row { grid-template-columns: repeat(3, 1fr); }
+    .overview-grid { grid-template-columns: 1fr; }
+    .action-card { grid-template-columns: 48px 1fr; }
+    .action-progress-col { grid-column: 1 / -1; display: flex; align-items: center; gap: 8px; }
+    .pct-bar { margin-left: 0; flex: 1; }
+    .hide-mobile { display: none; }
+  }
+  @media (max-width: 480px) {
+    .stats-row { grid-template-columns: repeat(2, 1fr); }
+    .stat-card:last-child { grid-column: span 2; }
   }
 </style>
 </head>
 <body>
 
-<div class="header">
-  <h1>🌿 Sleepy Hollow Climate Action Tracker</h1>
-  <p>Village of Sleepy Hollow, NY — Climate Action Plan Progress</p>
-  <div class="source-badge" id="sourceBadge">Loading...</div>
+<!-- ═══ HERO ═══ -->
+<div class="hero">
+  <div class="hero-content">
+    <div class="hero-badge">🌿 Climate Action Plan</div>
+    <h1>Sleepy Hollow CAP Tracker</h1>
+    <p>Village of Sleepy Hollow, New York</p>
+    <p class="hero-subtitle">49 Actions · 7 Categories · 124-Page Plan</p>
+    <div class="source-pill" id="sourceBadge">
+      <span class="source-dot"></span>
+      <span>Loading...</span>
+    </div>
+  </div>
 </div>
 
 <div class="container">
-  <div class="stats" id="statsRow">
-    <div class="stat-card mitigation"><div class="number" id="totalActions">—</div><div class="label">Total Actions</div></div>
-    <div class="stat-card mitigation"><div class="number" id="mitigationCount">—</div><div class="label">Mitigation</div></div>
-    <div class="stat-card adaptation"><div class="number" id="adaptationCount">—</div><div class="label">Adaptation</div></div>
-    <div class="stat-card progress"><div class="number" id="inProgressCount">—</div><div class="label">In Progress</div></div>
-    <div class="stat-card complete"><div class="number" id="completeCount">—</div><div class="label">Complete</div></div>
-  </div>
 
-  <div class="progress-section">
-    <h2>Overall Progress</h2>
-    <div class="progress-bar-outer">
-      <div class="progress-bar-inner" id="overallBar" style="width:0%">0%</div>
+  <!-- ═══ STATS ═══ -->
+  <div class="stats-row">
+    <div class="stat-card total animate-in delay-1">
+      <div class="stat-icon">📋</div>
+      <div class="stat-number" data-count="total">0</div>
+      <div class="stat-label">Total Actions</div>
     </div>
-    <div class="category-bars" id="categoryBars"></div>
+    <div class="stat-card mit animate-in delay-2">
+      <div class="stat-icon">🌿</div>
+      <div class="stat-number" data-count="mitigation">0</div>
+      <div class="stat-label">Mitigation</div>
+    </div>
+    <div class="stat-card adp animate-in delay-3">
+      <div class="stat-icon">🌊</div>
+      <div class="stat-number" data-count="adaptation">0</div>
+      <div class="stat-label">Adaptation</div>
+    </div>
+    <div class="stat-card wip animate-in delay-4">
+      <div class="stat-icon">⚡</div>
+      <div class="stat-number" data-count="inprogress">0</div>
+      <div class="stat-label">In Progress</div>
+    </div>
+    <div class="stat-card done animate-in delay-5">
+      <div class="stat-icon">✅</div>
+      <div class="stat-number" data-count="complete">0</div>
+      <div class="stat-label">Complete</div>
+    </div>
   </div>
 
-  <div class="filters" id="filters"></div>
+  <!-- ═══ DONUT + PROGRESS ═══ -->
+  <div class="overview-grid animate-in delay-3">
+    <div class="donut-card">
+      <h3>Overall Completion</h3>
+      <div class="donut-wrap">
+        <svg width="180" height="180" viewBox="0 0 180 180">
+          <circle cx="90" cy="90" r="74" fill="none" stroke="#f1f5f9" stroke-width="14"/>
+          <circle id="donutArc" cx="90" cy="90" r="74" fill="none" stroke="url(#grad)" stroke-width="14"
+            stroke-linecap="round" stroke-dasharray="465" stroke-dashoffset="465"/>
+          <defs>
+            <linearGradient id="grad" x1="0%" y1="0%" x2="100%" y2="100%">
+              <stop offset="0%" stop-color="#10b981"/>
+              <stop offset="100%" stop-color="#0369a1"/>
+            </linearGradient>
+          </defs>
+        </svg>
+        <div class="donut-center">
+          <div class="donut-pct" id="donutPct">0%</div>
+          <div class="donut-label">complete</div>
+        </div>
+      </div>
+      <div class="donut-legend">
+        <div class="donut-legend-item"><div class="donut-legend-dot" style="background:#10b981"></div>Mitigation <strong id="legMit">0</strong></div>
+        <div class="donut-legend-item"><div class="donut-legend-dot" style="background:#0369a1"></div>Adaptation <strong id="legAdp">0</strong></div>
+        <div class="donut-legend-item"><div class="donut-legend-dot" style="background:#f59e0b"></div>Priority Actions <strong id="legPri">0</strong></div>
+      </div>
+    </div>
 
-  <div class="section-label">🌿 Mitigation Actions</div>
+    <div class="progress-card">
+      <h3>Category Breakdown</h3>
+      <div id="categoryBars"></div>
+    </div>
+  </div>
+
+  <!-- ═══ FILTERS ═══ -->
+  <div class="filter-row" id="filters"></div>
+
+  <!-- ═══ MITIGATION ═══ -->
+  <div class="section-title" id="mitSection">
+    <span class="icon">🌿</span> Mitigation Actions
+    <span class="count" id="mitCount">0</span>
+  </div>
   <div id="mitigationActions"></div>
 
-  <div class="section-label">🌊 Adaptation Actions</div>
+  <!-- ═══ ADAPTATION ═══ -->
+  <div class="section-title" id="adpSection">
+    <span class="icon">🌊</span> Adaptation Actions
+    <span class="count" id="adpCount">0</span>
+  </div>
   <div id="adaptationActions"></div>
+
 </div>
 
 <div class="footer">
-  <p>Source: <a href="https://www.sleepyhollowny.gov" target="_blank">Sleepy Hollow Climate Action Plan</a> (July 2025)</p>
-  <p id="lastUpdated"></p>
+  <p>Source: <a href="https://www.sleepyhollowny.gov" target="_blank">Village of Sleepy Hollow Climate Action Plan</a> · July 2025</p>
+  <p style="margin-top:4px" id="lastUpdated"></p>
 </div>
 
 <script>
-// ═══════════════════════════════════════════════════════
-// CONFIG — Set your published Google Sheet CSV URL here
-// ═══════════════════════════════════════════════════════
 const GOOGLE_SHEET_CSV_URL = 'https://docs.google.com/spreadsheets/d/15AnyB7Llgm9dwgsqMLcGufGo-655oQuBBH0m2I5xtlY/export?format=csv';
-
 let allActions = [];
 let activeFilters = { type: 'all', status: 'all', category: 'all' };
 
-// ═══════════════════════════════════════════════════════
-// DATA LOADING
-// ═══════════════════════════════════════════════════════
-
+// ─── DATA LOADING ───
 async function loadData() {
   if (GOOGLE_SHEET_CSV_URL) {
     try {
       const resp = await fetch(GOOGLE_SHEET_CSV_URL);
       const csv = await resp.text();
       allActions = parseCSV(csv);
-      document.getElementById('sourceBadge').textContent = '📡 Live from Google Sheets';
+      setSource('📡 Live from Google Sheets', true);
       return;
     } catch (e) {
-      console.warn('Google Sheets fetch failed, using embedded data:', e);
+      console.warn('Sheets fetch failed, using embedded:', e);
     }
   }
-  // Fallback to embedded JSON
   try {
     const resp = await fetch('shcap-data.json');
     const data = await resp.json();
     allActions = data.actions;
-    document.getElementById('sourceBadge').textContent = '📄 Embedded Data';
+    setSource('📄 Embedded Data', false);
     document.getElementById('lastUpdated').textContent = `Plan last updated: ${data.lastUpdated}`;
   } catch (e) {
-    console.error('Failed to load data:', e);
     allActions = [];
-    document.getElementById('sourceBadge').textContent = '⚠️ No data loaded';
+    setSource('⚠️ No data', false);
   }
+}
+
+function setSource(text, live) {
+  const el = document.getElementById('sourceBadge');
+  el.innerHTML = `<span class="source-dot" style="background:${live ? '#34d399' : '#94a3b8'}"></span><span>${text}</span>`;
 }
 
 function parseCSV(csv) {
   const lines = csv.trim().split('\n');
   const headers = lines[0].split(',').map(h => h.trim().replace(/"/g, ''));
-  return lines.slice(1).map(line => {
+  return lines.slice(1).filter(l => l.trim()).map(line => {
     const vals = parseCSVLine(line);
     const obj = {};
-    headers.forEach((h, i) => {
-      obj[h] = (vals[i] || '').trim().replace(/^"|"$/g, '');
-    });
-    // Normalize
+    headers.forEach((h, i) => { obj[h] = (vals[i] || '').trim().replace(/^"|"$/g, ''); });
     obj.percentComplete = parseInt(obj.percentComplete || obj['% Complete'] || '0') || 0;
     obj.priority = obj.priority || obj.Priority || 'Standard';
     obj.type = obj.type || obj.Type || 'Mitigation';
@@ -376,26 +549,21 @@ function parseCSV(csv) {
 }
 
 function parseCSVLine(line) {
-  const result = [];
-  let current = '';
-  let inQuotes = false;
-  for (let i = 0; i < line.length; i++) {
-    const ch = line[i];
-    if (ch === '"') { inQuotes = !inQuotes; }
+  const result = []; let current = ''; let inQuotes = false;
+  for (const ch of line) {
+    if (ch === '"') inQuotes = !inQuotes;
     else if (ch === ',' && !inQuotes) { result.push(current); current = ''; }
-    else { current += ch; }
+    else current += ch;
   }
   result.push(current);
   return result;
 }
 
-// ═══════════════════════════════════════════════════════
-// RENDERING
-// ═══════════════════════════════════════════════════════
-
+// ─── RENDER ───
 function render() {
   renderStats();
-  renderProgress();
+  renderDonut();
+  renderCategoryBars();
   renderFilters();
   renderActionList('mitigationActions', 'Mitigation');
   renderActionList('adaptationActions', 'Adaptation');
@@ -410,39 +578,75 @@ function getFiltered() {
   });
 }
 
-function renderStats() {
-  const f = getFiltered();
-  document.getElementById('totalActions').textContent = f.length;
-  document.getElementById('mitigationCount').textContent = f.filter(a => a.type === 'Mitigation').length;
-  document.getElementById('adaptationCount').textContent = f.filter(a => a.type === 'Adaptation').length;
-  document.getElementById('inProgressCount').textContent = f.filter(a => a.status === 'In Progress').length;
-  document.getElementById('completeCount').textContent = f.filter(a => a.status === 'Complete').length;
+function animateNumber(el, target) {
+  const start = parseInt(el.textContent) || 0;
+  const duration = 600;
+  const startTime = performance.now();
+  function tick(now) {
+    const elapsed = now - startTime;
+    const progress = Math.min(elapsed / duration, 1);
+    const eased = 1 - Math.pow(1 - progress, 3);
+    el.textContent = Math.round(start + (target - start) * eased);
+    if (progress < 1) requestAnimationFrame(tick);
+  }
+  requestAnimationFrame(tick);
 }
 
-function renderProgress() {
+function renderStats() {
   const f = getFiltered();
-  if (f.length === 0) return;
-  const avg = Math.round(f.reduce((s, a) => s + a.percentComplete, 0) / f.length);
-  const bar = document.getElementById('overallBar');
-  bar.style.width = Math.max(avg, 3) + '%';
-  bar.textContent = avg + '%';
+  const counts = {
+    total: f.length,
+    mitigation: f.filter(a => a.type === 'Mitigation').length,
+    adaptation: f.filter(a => a.type === 'Adaptation').length,
+    inprogress: f.filter(a => a.status === 'In Progress').length,
+    complete: f.filter(a => a.status === 'Complete').length,
+  };
+  document.querySelectorAll('[data-count]').forEach(el => {
+    animateNumber(el, counts[el.dataset.count]);
+  });
+  document.getElementById('mitCount').textContent = counts.mitigation;
+  document.getElementById('adpCount').textContent = counts.adaptation;
+}
 
-  // Category bars
+function renderDonut() {
+  const f = getFiltered();
+  if (!f.length) return;
+  const avg = Math.round(f.reduce((s, a) => s + a.percentComplete, 0) / f.length);
+  const circumference = 2 * Math.PI * 74;
+  const offset = circumference * (1 - avg / 100);
+
+  const arc = document.getElementById('donutArc');
+  setTimeout(() => { arc.style.transition = 'stroke-dashoffset 1.2s cubic-bezier(0.4,0,0.2,1)'; arc.style.strokeDashoffset = offset; }, 100);
+
+  document.getElementById('donutPct').textContent = avg + '%';
+  document.getElementById('legMit').textContent = f.filter(a => a.type === 'Mitigation').length;
+  document.getElementById('legAdp').textContent = f.filter(a => a.type === 'Adaptation').length;
+  document.getElementById('legPri').textContent = f.filter(a => a.priority === 'Priority').length;
+}
+
+function renderCategoryBars() {
+  const f = getFiltered();
   const cats = {};
   f.forEach(a => {
     if (!cats[a.category]) cats[a.category] = { total: 0, sum: 0, type: a.type };
     cats[a.category].total++;
     cats[a.category].sum += a.percentComplete;
   });
+
   const container = document.getElementById('categoryBars');
   container.innerHTML = '';
-  Object.entries(cats).sort((a,b) => a[0].localeCompare(b[0])).forEach(([name, c]) => {
+  Object.entries(cats).sort((a, b) => a[0].localeCompare(b[0])).forEach(([name, c]) => {
     const pct = c.total > 0 ? Math.round(c.sum / c.total) : 0;
-    const cssClass = c.type === 'Mitigation' ? 'mitigation' : 'adaptation';
+    const color = c.type === 'Mitigation' ? 'var(--emerald)' : 'var(--ocean-light)';
     container.innerHTML += `
-      <div class="cat-row">
-        <div class="cat-label"><span>${name}</span><span>${pct}% (${c.total})</span></div>
-        <div class="cat-bar-outer"><div class="cat-bar-inner ${cssClass}" style="width:${Math.max(pct,2)}%"></div></div>
+      <div class="cat-progress">
+        <div class="cat-head">
+          <span class="cat-name">${name}</span>
+          <span class="cat-pct" style="color:${color}">${pct}%</span>
+        </div>
+        <div class="cat-bar-bg">
+          <div class="cat-bar-fill" style="width:${Math.max(pct, 2)}%;background:${color}"></div>
+        </div>
       </div>`;
   });
 }
@@ -451,27 +655,31 @@ function renderFilters() {
   const categories = [...new Set(allActions.map(a => a.category))].sort();
   const statuses = ['Not Started', 'In Progress', 'Complete'];
 
-  let html = '<button class="filter-btn active" data-filter="type" data-value="all">All</button>';
-  html += '<button class="filter-btn" data-filter="type" data-value="Mitigation">🌿 Mitigation</button>';
-  html += '<button class="filter-btn" data-filter="type" data-value="Adaptation">🌊 Adaptation</button>';
-  html += '<span style="color:var(--gray-300)">|</span>';
-  html += '<button class="filter-btn" data-filter="status" data-value="all">All Status</button>';
-  statuses.forEach(s => {
-    html += `<button class="filter-btn" data-filter="status" data-value="${s}">${s}</button>`;
-  });
-  html += '<span style="color:var(--gray-300)">|</span>';
-  html += '<button class="filter-btn" data-filter="category" data-value="all">All Categories</button>';
-  categories.forEach(c => {
-    html += `<button class="filter-btn" data-filter="category" data-value="${c}">${c}</button>`;
-  });
+  let html = `<div class="filter-group">
+    <span class="filter-label">Type</span>
+    <button class="pill active" data-f="type" data-v="all">All</button>
+    <button class="pill" data-f="type" data-v="Mitigation">🌿 Mitigation</button>
+    <button class="pill" data-f="type" data-v="Adaptation">🌊 Adaptation</button>
+  </div>
+  <div class="divider"></div>
+  <div class="filter-group">
+    <span class="filter-label">Status</span>
+    <button class="pill active" data-f="status" data-v="all">All</button>
+    ${statuses.map(s => `<button class="pill" data-f="status" data-v="${s}">${s}</button>`).join('')}
+  </div>
+  <div class="divider"></div>
+  <div class="filter-group">
+    <span class="filter-label">Category</span>
+    <button class="pill active" data-f="category" data-v="all">All</button>
+    ${categories.map(c => `<button class="pill" data-f="category" data-v="${c}">${c}</button>`).join('')}
+  </div>`;
 
   document.getElementById('filters').innerHTML = html;
-  document.querySelectorAll('.filter-btn').forEach(btn => {
+  document.querySelectorAll('.pill').forEach(btn => {
     btn.addEventListener('click', () => {
-      const filter = btn.dataset.filter;
-      const value = btn.dataset.value;
-      activeFilters[filter] = value;
-      document.querySelectorAll(`.filter-btn[data-filter="${filter}"]`).forEach(b => b.classList.remove('active'));
+      const f = btn.dataset.f, v = btn.dataset.v;
+      activeFilters[f] = v;
+      btn.closest('.filter-group').querySelectorAll('.pill').forEach(b => b.classList.remove('active'));
       btn.classList.add('active');
       render();
     });
@@ -488,43 +696,54 @@ function renderActionList(containerId, type) {
   });
 
   let html = '';
-  if (filtered.length === 0) {
-    html = '<p style="color:var(--gray-500);padding:16px">No actions match current filters.</p>';
+  if (!filtered.length) {
+    html = '<p style="color:var(--slate-400);padding:20px;text-align:center;font-size:0.88rem">No actions match current filters.</p>';
   }
 
   Object.keys(grouped).sort().forEach(cat => {
     const catActions = Object.values(grouped[cat]).flat();
     const catAvg = Math.round(catActions.reduce((s, a) => s + a.percentComplete, 0) / catActions.length);
+    const barColor = type === 'Mitigation' ? 'var(--emerald)' : 'var(--ocean-light)';
+    const id = cat.replace(/\s+/g, '-');
 
-    html += `<div class="category-section">
-      <div class="category-header" onclick="this.nextElementSibling.style.display=this.nextElementSibling.style.display==='none'?'block':'none'">
-        <span class="chevron open">▶</span>
+    html += `<div class="category-group">
+      <button class="cat-toggle open" onclick="this.classList.toggle('open');this.nextElementSibling.classList.toggle('collapsed')">
+        <span class="arrow">▶</span>
         ${cat}
-        <span class="category-count">${catActions.length} actions · ${catAvg}% complete</span>
-      </div>
-      <div style="display:block">`;
+        <span class="meta">${catActions.length} actions · ${catAvg}%</span>
+        <div class="mini-bar-inline"><div class="fill" style="width:${Math.max(catAvg,2)}%;background:${barColor}"></div></div>
+      </button>
+      <div class="cat-body">`;
 
     Object.keys(grouped[cat]).sort().forEach(strategy => {
-      html += `<div style="font-size:0.8rem;font-weight:600;color:var(--gray-700);padding:8px 0 4px">${strategy}</div>`;
-      html += `<table class="action-table"><thead><tr>
-        <th>ID</th><th>Action</th><th>Status</th><th>Progress</th><th class="hide-mobile">Priority</th><th class="hide-mobile">Responsible</th>
-      </tr></thead><tbody>`;
+      html += `<div class="strategy-label">${strategy}</div><div class="action-grid">`;
 
       grouped[cat][strategy].forEach(a => {
-        const isPriority = a.priority === 'Priority';
-        const statusBadge = a.status === 'Complete' ? 'badge-complete' :
-                           a.status === 'In Progress' ? 'badge-in-progress' : 'badge-not-started';
-        html += `<tr class="${isPriority ? 'priority-action' : ''}">
-          <td><span class="action-id ${isPriority ? 'priority' : ''}">${a.id}${isPriority ? ' ★' : ''}</span></td>
-          <td>${a.action}<br><small style="color:var(--gray-500)">${a.description ? a.description.substring(0, 120) + (a.description.length > 120 ? '...' : '') : ''}</small></td>
-          <td><span class="badge ${statusBadge}">${a.status}</span></td>
-          <td>${a.percentComplete}%<div class="mini-bar"><div class="mini-bar-fill" style="width:${a.percentComplete}%"></div></div></td>
-          <td class="hide-mobile">${isPriority ? '<span class="badge badge-priority">★ Priority</span>' : '—'}</td>
-          <td class="hide-mobile">${a.responsibleParty || '—'}</td>
-        </tr>`;
+        const isPri = a.priority === 'Priority';
+        const isComplete = a.status === 'Complete';
+        const pctClass = a.percentComplete >= 70 ? 'high' : a.percentComplete >= 30 ? 'mid' : 'low';
+        const barColor2 = a.percentComplete >= 70 ? 'var(--emerald)' : a.percentComplete >= 30 ? 'var(--amber)' : 'var(--slate-300)';
+        const statusClass = a.status === 'Complete' ? 'chip-status-complete' : a.status === 'In Progress' ? 'chip-status-in-progress' : 'chip-status-not-started';
+
+        html += `<div class="action-card ${isPri ? 'priority' : ''} ${isComplete ? 'complete-card' : ''}">
+          <div class="action-badge-id ${type === 'Mitigation' ? 'mit' : 'adp'}">${a.id}${isPri ? ' ★' : ''}</div>
+          <div class="action-info">
+            <div class="action-title">${a.action}</div>
+            ${a.description ? `<div class="action-desc">${a.description.substring(0, 150)}${a.description.length > 150 ? '…' : ''}</div>` : ''}
+            <div class="action-meta">
+              <span class="meta-chip ${statusClass}">${a.status}</span>
+              ${isPri ? '<span class="meta-chip chip-priority">★ Priority</span>' : ''}
+              ${a.responsibleParty ? `<span class="meta-chip chip-responsible">${a.responsibleParty}</span>` : ''}
+            </div>
+          </div>
+          <div class="action-progress-col">
+            <div class="pct-num ${pctClass}">${a.percentComplete}%</div>
+            <div class="pct-bar"><div class="fill" style="width:${a.percentComplete}%;background:${barColor2}"></div></div>
+          </div>
+        </div>`;
       });
 
-      html += `</tbody></table>`;
+      html += `</div>`;
     });
 
     html += `</div></div>`;
@@ -533,9 +752,7 @@ function renderActionList(containerId, type) {
   document.getElementById(containerId).innerHTML = html;
 }
 
-// ═══════════════════════════════════════════════════════
-// INIT
-// ═══════════════════════════════════════════════════════
+// ─── INIT ───
 loadData().then(render);
 </script>
 </body>
