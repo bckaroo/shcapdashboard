@@ -282,7 +282,7 @@
     text-transform: uppercase;
     letter-spacing: 0.03em;
   }
-  .action-grid { display: grid; gap: 8px; margin-bottom: 8px; }
+  .action-grid { display: grid; grid-template-columns: repeat(auto-fill, minmax(280px, 1fr)); gap: 10px; margin-bottom: 10px; }
   .action-card {
     background: white;
     border: 1px solid var(--slate-200);
@@ -527,6 +527,76 @@
 
   .cat-group-body { margin-bottom: 12px; }
   .cat-group-body.collapsed { display: none; }
+
+  /* ─── FLIP CARDS ─── */
+  .flip-container { perspective: 1000px; }
+  .flip-card {
+    position: relative;
+    width: 100%;
+    min-height: 160px;
+    cursor: pointer;
+  }
+  .flip-card:hover .flip-front { border-color: var(--slate-300); box-shadow: var(--shadow-lg); }
+  .flip-inner {
+    position: relative;
+    width: 100%;
+    min-height: 160px;
+    transition: transform 0.6s cubic-bezier(0.4, 0, 0.2, 1);
+    transform-style: preserve-3d;
+  }
+  .flip-card.flipped .flip-inner { transform: rotateY(180deg); }
+  .flip-front, .flip-back {
+    position: absolute;
+    inset: 0;
+    backface-visibility: hidden;
+    -webkit-backface-visibility: hidden;
+    border-radius: var(--radius);
+    padding: 16px;
+    border: 1px solid var(--slate-200);
+    overflow: hidden;
+  }
+  .flip-front {
+    background: white;
+    z-index: 2;
+    display: flex;
+    flex-direction: column;
+  }
+  .flip-back {
+    background: var(--slate-50);
+    transform: rotateY(180deg);
+    display: flex;
+    flex-direction: column;
+    gap: 10px;
+    overflow-y: auto;
+  }
+  .flip-front .ff-top { display: flex; align-items: start; gap: 10px; margin-bottom: 6px; }
+  .flip-front .ff-id {
+    font-family: 'JetBrains Mono', monospace;
+    font-size: 0.72rem;
+    font-weight: 700;
+    padding: 3px 8px;
+    border-radius: 6px;
+    white-space: nowrap;
+    flex-shrink: 0;
+  }
+  .flip-front .ff-id.mit { background: #ecfdf5; color: #065f46; }
+  .flip-front .ff-id.adp { background: #e0f2fe; color: #075985; }
+  .flip-front .ff-title { font-size: 0.82rem; font-weight: 700; color: var(--slate-800); line-height: 1.3; }
+  .flip-front .ff-desc { font-size: 0.72rem; color: var(--slate-500); line-height: 1.4; flex: 1; }
+  .flip-front .ff-bottom { display: flex; justify-content: space-between; align-items: center; margin-top: auto; padding-top: 8px; }
+  .flip-front .ff-tags { display: flex; gap: 4px; flex-wrap: wrap; }
+  .flip-front .ff-tag { font-size: 0.62rem; font-weight: 600; padding: 2px 7px; border-radius: 5px; text-transform: uppercase; }
+  .flip-front .ff-pct { font-family: 'JetBrains Mono', monospace; font-size: 1rem; font-weight: 800; }
+  .flip-front .ff-bar { height: 4px; background: var(--slate-100); border-radius: 3px; overflow: hidden; margin-top: 4px; }
+  .flip-front .ff-bar .fill { height: 100%; border-radius: 3px; }
+  .flip-hint { font-size: 0.58rem; color: var(--slate-400); text-align: right; margin-top: 2px; }
+  .flip-back h4 { font-size: 0.68rem; text-transform: uppercase; letter-spacing: 0.05em; color: var(--slate-500); font-weight: 600; margin-bottom: 2px; }
+  .flip-back p { font-size: 0.75rem; color: var(--slate-700); line-height: 1.5; }
+  .flip-back ul { font-size: 0.72rem; color: var(--slate-600); padding-left: 14px; }
+  .flip-back ul li { margin-bottom: 2px; }
+  .flip-back .fb-kv { display: flex; gap: 6px; font-size: 0.72rem; }
+  .flip-back .fb-kv .k { color: var(--slate-400); min-width: 60px; }
+  .flip-back .fb-kv .v { color: var(--slate-700); font-weight: 500; }
 
   .footer {
     text-align: center;
@@ -1281,21 +1351,51 @@ function renderActionList(containerId, type) {
           const barColor2 = a.percentComplete >= 70 ? 'var(--emerald)' : a.percentComplete >= 30 ? 'var(--amber)' : 'var(--slate-300)';
           const statusClass = a.status === 'Complete' ? 'chip-status-complete' : a.status === 'In Progress' ? 'chip-status-in-progress' : 'chip-status-not-started';
           const badgeClass = a.type === 'Mitigation' ? 'mit' : 'adp';
+          const borderColor = isPri ? 'var(--amber)' : a.status === 'Complete' ? 'var(--emerald)' : 'var(--ocean-light)';
 
-          html += `<div class="action-card ${isPri ? 'priority' : ''} ${isComplete ? 'complete-card' : ''}">
-            <div class="action-badge-id ${badgeClass}">${a.id}${isPri ? ' ★' : ''}</div>
-            <div class="action-info">
-              <div class="action-title">${a.action}</div>
-              ${a.description ? `<div class="action-desc">${a.description.substring(0, 150)}${a.description.length > 150 ? '…' : ''}</div>` : ''}
-              <div class="action-meta">
-                <span class="meta-chip ${statusClass}">${a.status}</span>
-                ${isPri ? '<span class="meta-chip chip-priority">★ Priority</span>' : ''}
-                ${a.responsibleParty ? `<span class="meta-chip chip-responsible">${a.responsibleParty}</span>` : ''}
+          // Back side content
+          const desc = a.description || '';
+          const subActions = a.subActions || a.actions || [];
+          const funding = a.funding || '';
+          const impl = a.implementationProjects || [];
+          const csc = a.cscPoints || '';
+          const target = a.targetDate || '';
+
+          html += `<div class="flip-container">
+            <div class="flip-card" onclick="this.classList.toggle('flipped')" style="min-height:170px">
+              <div class="flip-inner">
+                <div class="flip-front" style="border-left:3px solid ${borderColor}">
+                  <div class="ff-top">
+                    <span class="ff-id ${badgeClass}">${a.id}${isPri ? ' ★' : ''}</span>
+                    <span class="ff-title">${a.action}</span>
+                  </div>
+                  <div class="ff-desc">${desc.substring(0, 120)}${desc.length > 120 ? '…' : ''}</div>
+                  <div class="ff-bottom">
+                    <div class="ff-tags">
+                      <span class="ff-tag ${statusClass}">${a.status}</span>
+                      ${isPri ? '<span class="ff-tag" style="background:#fef3c7;color:#92400e">★ Priority</span>' : ''}
+                    </div>
+                    <div style="text-align:right">
+                      <div class="ff-pct ${pctClass}">${a.percentComplete}%</div>
+                      <div class="ff-bar" style="width:50px"><div class="fill" style="width:${a.percentComplete}%;background:${barColor2}"></div></div>
+                    </div>
+                  </div>
+                  <div class="flip-hint">click for details →</div>
+                </div>
+                <div class="flip-back" style="border-left:3px solid ${borderColor}">
+                  <h4>${a.id} — ${a.action}</h4>
+                  <p>${desc}</p>
+                  ${subActions.length ? `<div><h4>Sub-Actions</h4><ul>${subActions.map(s => `<li>${s}</li>`).join('')}</ul></div>` : ''}
+                  ${impl.length ? `<div><h4>Implementation Projects</h4><ul>${impl.map(s => `<li>${s}</li>`).join('')}</ul></div>` : ''}
+                  <div style="display:flex;flex-direction:column;gap:3px">
+                    ${a.responsibleParty ? `<div class="fb-kv"><span class="k">Responsible:</span><span class="v">${a.responsibleParty}</span></div>` : ''}
+                    ${funding ? `<div class="fb-kv"><span class="k">Funding:</span><span class="v">${funding}</span></div>` : ''}
+                    ${target ? `<div class="fb-kv"><span class="k">Target:</span><span class="v">${target}</span></div>` : ''}
+                    ${csc ? `<div class="fb-kv"><span class="k">CSC Points:</span><span class="v">${csc}</span></div>` : ''}
+                  </div>
+                  <div class="flip-hint" style="color:var(--slate-400)">← click to flip back</div>
+                </div>
               </div>
-            </div>
-            <div class="action-progress-col">
-              <div class="pct-num ${pctClass}">${a.percentComplete}%</div>
-              <div class="pct-bar"><div class="fill" style="width:${a.percentComplete}%;background:${barColor2}"></div></div>
             </div>
           </div>`;
         });
