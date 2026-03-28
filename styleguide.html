@@ -728,6 +728,99 @@
 <div class="section-title">🃏 Action Card Variants</div>
 <div class="section-desc">Different ways to display individual actions.</div>
 
+<style>
+  /* ── FLIP CARD ── */
+  .flip-container { perspective: 1000px; }
+  .flip-card {
+    position: relative;
+    width: 100%;
+    min-height: 180px;
+    cursor: pointer;
+    transition: transform 0.1s;
+  }
+  .flip-card:hover { transform: scale(1.01); }
+  .flip-inner {
+    position: relative;
+    width: 100%;
+    min-height: 180px;
+    transition: transform 0.6s cubic-bezier(0.4, 0, 0.2, 1);
+    transform-style: preserve-3d;
+  }
+  .flip-card.flipped .flip-inner { transform: rotateY(180deg); }
+  .flip-front, .flip-back {
+    position: absolute;
+    inset: 0;
+    backface-visibility: hidden;
+    -webkit-backface-visibility: hidden;
+    border-radius: var(--radius-lg);
+    padding: 20px;
+    box-shadow: var(--shadow);
+    border: 1px solid var(--slate-200);
+    overflow: hidden;
+  }
+  .flip-front { background: white; z-index: 2; }
+  .flip-back { background: var(--slate-50); transform: rotateY(180deg); }
+  .flip-hint {
+    position: absolute;
+    bottom: 8px;
+    right: 12px;
+    font-size: 0.62rem;
+    color: var(--slate-400);
+    font-weight: 500;
+  }
+  .flip-front .id-badge {
+    display: inline-block;
+    font-family: 'JetBrains Mono', monospace;
+    font-size: 0.78rem;
+    font-weight: 700;
+    padding: 3px 10px;
+    border-radius: 6px;
+    margin-bottom: 8px;
+  }
+  .flip-front .title { font-size: 0.95rem; font-weight: 700; color: var(--slate-800); line-height: 1.3; margin-bottom: 6px; }
+  .flip-front .desc { font-size: 0.78rem; color: var(--slate-500); line-height: 1.4; }
+  .flip-front .tags { display: flex; gap: 5px; flex-wrap: wrap; margin-top: 10px; }
+  .flip-front .tag {
+    font-size: 0.65rem;
+    font-weight: 600;
+    padding: 2px 8px;
+    border-radius: 6px;
+    text-transform: uppercase;
+    letter-spacing: 0.03em;
+  }
+  .flip-front .progress-line {
+    margin-top: 12px;
+    height: 6px;
+    background: var(--slate-100);
+    border-radius: 4px;
+    overflow: hidden;
+  }
+  .flip-front .progress-line .fill { height: 100%; border-radius: 4px; }
+  .flip-front .pct-label {
+    font-family: 'JetBrains Mono', monospace;
+    font-size: 0.72rem;
+    font-weight: 700;
+    text-align: right;
+    margin-top: 3px;
+  }
+  .flip-back h4 { font-size: 0.72rem; text-transform: uppercase; letter-spacing: 0.05em; color: var(--slate-500); margin-bottom: 6px; font-weight: 600; }
+  .flip-back .detail-block { margin-bottom: 14px; }
+  .flip-back .detail-block p { font-size: 0.8rem; color: var(--slate-700); line-height: 1.5; }
+  .flip-back .detail-block ul { font-size: 0.78rem; color: var(--slate-600); padding-left: 16px; margin-top: 4px; }
+  .flip-back .detail-block ul li { margin-bottom: 3px; }
+  .flip-back .kv { display: flex; gap: 6px; font-size: 0.78rem; margin-bottom: 4px; }
+  .flip-back .kv .k { color: var(--slate-400); min-width: 70px; }
+  .flip-back .kv .v { color: var(--slate-700); font-weight: 500; }
+  .flip-back-hint {
+    position: absolute;
+    bottom: 8px;
+    right: 12px;
+    font-size: 0.62rem;
+    color: var(--slate-400);
+    font-weight: 500;
+  }
+</style>
+
 <div class="viz-grid">
   <div class="viz-card">
     <h3>Option O — Compact Card (Current)</h3>
@@ -762,6 +855,131 @@
         <div style="width:42%;height:100%;background:var(--amber);border-radius:4px"></div>
       </div>
     </div>
+  </div>
+</div>
+
+<div class="viz-grid full">
+  <div class="viz-card">
+    <h3>Option S — Flip Card (Click to Reveal Details) ★ NEW</h3>
+    <div class="viz-grid" style="margin-bottom:0">
+      <!-- Flip Card 1 -->
+      <div class="flip-container">
+        <div class="flip-card" onclick="this.classList.toggle('flipped')">
+          <div class="flip-inner">
+            <div class="flip-front" style="border-left:4px solid var(--amber)">
+              <div class="id-badge" style="background:#fef3c7;color:#92400e">CE-01 ★</div>
+              <div class="title">Integrate Clean Energy Systems into Public and Private Buildings</div>
+              <div class="desc">Expand renewable energy adoption, energy storage, and microgrids to enhance sustainability and resilience across Sleepy Hollow.</div>
+              <div class="tags">
+                <span class="tag" style="background:#dbeafe;color:#1e40af">In Progress</span>
+                <span class="tag" style="background:#fef3c7;color:#92400e">★ Priority</span>
+              </div>
+              <div class="progress-line"><div class="fill" style="width:42%;background:var(--amber)"></div></div>
+              <div class="pct-label" style="color:var(--amber)">42%</div>
+              <div class="flip-hint">click to flip →</div>
+            </div>
+            <div class="flip-back">
+              <h4>Full Details</h4>
+              <div class="detail-block">
+                <p>Transitioning to on-site renewable energy systems will help Sleepy Hollow achieve its climate goals by reducing emissions and increasing energy independence. Public buildings will undergo feasibility assessments while private property owners receive technical support and incentives.</p>
+              </div>
+              <div class="detail-block">
+                <h4>Sub-Actions</h4>
+                <ul>
+                  <li>Conduct feasibility assessments for solar on municipal buildings</li>
+                  <li>Install battery energy storage systems (BESS)</li>
+                  <li>Develop microgrid pilot for critical facilities</li>
+                  <li>Create incentive program for private solar adoption</li>
+                </ul>
+              </div>
+              <div class="kv"><span class="k">Responsible:</span><span class="v">Village Board / DPW / Task Force</span></div>
+              <div class="kv"><span class="k">Funding:</span><span class="v">NY Green Bank, NY-Sun, NYSERDA Storage</span></div>
+              <div class="kv"><span class="k">Target:</span><span class="v">2027</span></div>
+              <div class="kv"><span class="k">CSC Points:</span><span class="v">25–40</span></div>
+              <div class="flip-back-hint">← click to flip back</div>
+            </div>
+          </div>
+        </div>
+      </div>
+
+      <!-- Flip Card 2 -->
+      <div class="flip-container">
+        <div class="flip-card" onclick="this.classList.toggle('flipped')">
+          <div class="flip-inner">
+            <div class="flip-front" style="border-left:4px solid var(--ocean-light)">
+              <div class="id-badge" style="background:#e0f2fe;color:#075985">CF-07</div>
+              <div class="title">Implement Natural Shoreline and Living Shoreline Projects</div>
+              <div class="desc">Deploy nature-based solutions along the Hudson River waterfront to reduce coastal erosion, absorb storm surge, and restore habitat.</div>
+              <div class="tags">
+                <span class="tag" style="background:#f1f5f9;color:#64748b">Not Started</span>
+              </div>
+              <div class="progress-line"><div class="fill" style="width:0%;background:var(--slate-300)"></div></div>
+              <div class="pct-label" style="color:var(--slate-400)">0%</div>
+              <div class="flip-hint">click to flip →</div>
+            </div>
+            <div class="flip-back">
+              <h4>Full Details</h4>
+              <div class="detail-block">
+                <p>Living shorelines use natural materials like marsh grasses, oyster reefs, and riprap to stabilize banks while providing ecosystem services. This approach reduces hard infrastructure costs and improves water quality.</p>
+              </div>
+              <div class="detail-block">
+                <h4>Sub-Actions</h4>
+                <ul>
+                  <li>Map priority shoreline segments for intervention</li>
+                  <li>Partner with DEC on living shoreline permits</li>
+                  <li>Install pilot marsh restoration at Horan's Landing</li>
+                  <li>Monitor erosion and habitat recovery rates</li>
+                </ul>
+              </div>
+              <div class="kv"><span class="k">Responsible:</span><span class="v">DPW / Environmental Advisory</span></div>
+              <div class="kv"><span class="k">Funding:</span><span class="v">NYSDEC, FEMA BRIC, NOAA</span></div>
+              <div class="kv"><span class="k">Target:</span><span class="v">2028</span></div>
+              <div class="flip-back-hint">← click to flip back</div>
+            </div>
+          </div>
+        </div>
+      </div>
+
+      <!-- Flip Card 3 -->
+      <div class="flip-container">
+        <div class="flip-card" onclick="this.classList.toggle('flipped')">
+          <div class="flip-inner">
+            <div class="flip-front" style="border-left:4px solid var(--emerald)">
+              <div class="id-badge" style="background:#ecfdf5;color:#065f46">EM-01 ★</div>
+              <div class="title">Annual Village Climate Action Progress Reports</div>
+              <div class="desc">Monitor, assess, and adapt the Climate Action Plan to ensure measurable progress toward sustainability goals.</div>
+              <div class="tags">
+                <span class="tag" style="background:#dcfce7;color:#166534">Complete</span>
+                <span class="tag" style="background:#fef3c7;color:#92400e">★ Priority</span>
+              </div>
+              <div class="progress-line"><div class="fill" style="width:100%;background:var(--emerald)"></div></div>
+              <div class="pct-label" style="color:var(--emerald)">100%</div>
+              <div class="flip-hint">click to flip →</div>
+            </div>
+            <div class="flip-back">
+              <h4>Full Details</h4>
+              <div class="detail-block">
+                <p>An annual reporting system evaluates progress on GHG reductions, energy efficiency, air quality, and sustainability metrics. Performance is benchmarked and strategies adjusted based on real-time data.</p>
+              </div>
+              <div class="detail-block">
+                <h4>Sub-Actions</h4>
+                <ul>
+                  <li>Establish baseline GHG inventory</li>
+                  <li>Create annual reporting template</li>
+                  <li>Publish first annual progress report</li>
+                  <li>Present findings to Board of Trustees</li>
+                </ul>
+              </div>
+              <div class="kv"><span class="k">Responsible:</span><span class="v">Climate Smart Coordinator</span></div>
+              <div class="kv"><span class="k">Funding:</span><span class="v">Village Operating Budget</span></div>
+              <div class="kv"><span class="k">CSC Points:</span><span class="v">15–25</span></div>
+              <div class="flip-back-hint">← click to flip back</div>
+            </div>
+          </div>
+        </div>
+      </div>
+    </div>
+    <div class="viz-label">Click any card to flip and see full details, sub-actions, funding, responsible parties.</div>
   </div>
 </div>
 
