@@ -7,890 +7,202 @@
 <link rel="preconnect" href="https://fonts.googleapis.com">
 <link href="https://fonts.googleapis.com/css2?family=Inter:wght@400;500;600;700;800&family=JetBrains+Mono:wght@600&display=swap" rel="stylesheet">
 <style>
-  :root {
-    --forest: #0d3b1e;
-    --emerald: #10b981;
-    --emerald-light: #34d399;
-    --ocean: #0369a1;
-    --ocean-light: #38bdf8;
-    --amber: #f59e0b;
-    --coral: #f43f5e;
-    --slate-50: #f8fafc;
-    --slate-100: #f1f5f9;
-    --slate-200: #e2e8f0;
-    --slate-300: #cbd5e1;
-    --slate-400: #94a3b8;
-    --slate-500: #64748b;
-    --slate-600: #475569;
-    --slate-700: #334155;
-    --slate-800: #1e293b;
-    --slate-900: #0f172a;
-    --radius: 12px;
-    --radius-lg: 16px;
-    --shadow-sm: 0 1px 2px rgba(0,0,0,0.05);
-    --shadow: 0 4px 6px -1px rgba(0,0,0,0.07), 0 2px 4px -2px rgba(0,0,0,0.05);
-    --shadow-lg: 0 10px 15px -3px rgba(0,0,0,0.08), 0 4px 6px -4px rgba(0,0,0,0.04);
-    --shadow-xl: 0 20px 25px -5px rgba(0,0,0,0.08), 0 8px 10px -6px rgba(0,0,0,0.04);
-  }
+:root {
+  --forest:#0d3b1e;--emerald:#10b981;--emerald-light:#34d399;
+  --ocean:#0369a1;--ocean-light:#38bdf8;
+  --amber:#f59e0b;--coral:#f43f5e;--purple:#8b5cf6;
+  --s50:#f8fafc;--s100:#f1f5f9;--s200:#e2e8f0;--s300:#cbd5e1;
+  --s400:#94a3b8;--s500:#64748b;--s600:#475569;--s700:#334155;--s800:#1e293b;--s900:#0f172a;
+  --r:12px;--rl:16px;
+  --sh:0 4px 6px -1px rgba(0,0,0,.07),0 2px 4px -2px rgba(0,0,0,.05);
+  --sh-lg:0 10px 15px -3px rgba(0,0,0,.08);
+}
+*{margin:0;padding:0;box-sizing:border-box}
+body{font-family:'Inter',sans-serif;background:var(--s50);color:var(--s800);line-height:1.6;-webkit-font-smoothing:antialiased}
 
-  * { margin: 0; padding: 0; box-sizing: border-box; }
+/* ═══ HERO ═══ */
+.hero{background:linear-gradient(135deg,var(--forest) 0%,#065f46 40%,var(--ocean) 100%);color:#fff;padding:36px 24px 44px;text-align:center;position:relative;overflow:hidden}
+.hero::before{content:'';position:absolute;inset:0;background:url("data:image/svg+xml,%3Csvg width='60' height='60' viewBox='0 0 60 60' xmlns='http://www.w3.org/2000/svg'%3E%3Cg fill='none' fill-rule='evenodd'%3E%3Cg fill='%23ffffff' fill-opacity='0.04'%3E%3Cpath d='M36 34v-4h-2v4h-4v2h4v4h2v-4h4v-2h-4zm0-30V0h-2v4h-4v2h4v4h2V6h4V4h-4zM6 34v-4H4v4H0v2h4v4h2v-4h4v-2H6zM6 4V0H4v4H0v2h4v4h2V6h4V4H6z'/%3E%3C/g%3E%3C/g%3E%3C/svg%3E")}
+.hero-inner{position:relative;z-index:1;max-width:700px;margin:0 auto}
+.hero h1{font-size:1.8rem;font-weight:800;letter-spacing:-.03em;margin-bottom:4px}
+.hero p{opacity:.8;font-size:.9rem}
+.hero-sub{opacity:.55;font-size:.78rem;margin-top:2px}
+.source-pill{display:inline-flex;align-items:center;gap:6px;background:rgba(255,255,255,.1);padding:4px 12px;border-radius:12px;font-size:.72rem;margin-top:12px;font-weight:500}
+.source-dot{width:6px;height:6px;border-radius:50%;background:var(--emerald-light);animation:pulse 2s infinite}
+@keyframes pulse{0%,100%{opacity:1}50%{opacity:.4}}
 
-  body {
-    font-family: 'Inter', -apple-system, BlinkMacSystemFont, sans-serif;
-    background: var(--slate-50);
-    color: var(--slate-800);
-    line-height: 1.6;
-    -webkit-font-smoothing: antialiased;
-  }
+.container{max-width:1200px;margin:0 auto;padding:0 20px 40px}
 
-  /* ─── HERO ─── */
-  .hero {
-    background: linear-gradient(135deg, var(--forest) 0%, #065f46 40%, var(--ocean) 100%);
-    color: white;
-    padding: 48px 24px 56px;
-    text-align: center;
-    position: relative;
-    overflow: hidden;
-  }
-  .hero::before {
-    content: '';
-    position: absolute;
-    inset: 0;
-    background: url("data:image/svg+xml,%3Csvg width='60' height='60' viewBox='0 0 60 60' xmlns='http://www.w3.org/2000/svg'%3E%3Cg fill='none' fill-rule='evenodd'%3E%3Cg fill='%23ffffff' fill-opacity='0.04'%3E%3Cpath d='M36 34v-4h-2v4h-4v2h4v4h2v-4h4v-2h-4zm0-30V0h-2v4h-4v2h4v4h2V6h4V4h-4zM6 34v-4H4v4H0v2h4v4h2v-4h4v-2H6zM6 4V0H4v4H0v2h4v4h2V6h4V4H6z'/%3E%3C/g%3E%3C/g%3E%3C/svg%3E");
-  }
-  .hero-content { position: relative; z-index: 1; max-width: 700px; margin: 0 auto; }
-  .hero-badge {
-    display: inline-flex;
-    align-items: center;
-    gap: 6px;
-    background: rgba(255,255,255,0.12);
-    backdrop-filter: blur(8px);
-    padding: 6px 16px;
-    border-radius: 20px;
-    font-size: 0.78rem;
-    font-weight: 500;
-    margin-bottom: 16px;
-    border: 1px solid rgba(255,255,255,0.15);
-  }
-  .hero h1 {
-    font-size: 2rem;
-    font-weight: 800;
-    letter-spacing: -0.03em;
-    margin-bottom: 8px;
-    line-height: 1.2;
-  }
-  .hero p { opacity: 0.8; font-size: 0.95rem; }
-  .hero-subtitle { opacity: 0.6; font-size: 0.8rem; margin-top: 4px; }
+/* ═══ TOP GRID: WHEEL + OVERVIEW ═══ */
+.top-grid{display:grid;grid-template-columns:1fr 380px;gap:20px;margin:24px 0 28px}
+.card{background:#fff;border-radius:var(--rl);padding:24px;box-shadow:var(--sh);border:1px solid var(--s100)}
+.card h3{font-size:.78rem;color:var(--s500);font-weight:600;text-transform:uppercase;letter-spacing:.05em;margin-bottom:16px}
 
-  .source-pill {
-    display: inline-flex;
-    align-items: center;
-    gap: 6px;
-    background: rgba(255,255,255,0.1);
-    padding: 4px 12px;
-    border-radius: 12px;
-    font-size: 0.72rem;
-    margin-top: 14px;
-    font-weight: 500;
-  }
-  .source-dot {
-    width: 6px; height: 6px; border-radius: 50%;
-    background: var(--emerald-light);
-    animation: pulse-dot 2s infinite;
-  }
-  @keyframes pulse-dot {
-    0%, 100% { opacity: 1; }
-    50% { opacity: 0.4; }
-  }
+/* ═══ CLIMATE WHEEL ═══ */
+.wheel-wrap{position:relative;width:340px;height:340px;margin:0 auto}
+.wheel-wrap svg{transform:rotate(-90deg)}
+.wheel-center{position:absolute;inset:0;display:flex;flex-direction:column;align-items:center;justify-content:center}
+.wheel-center .big{font-size:2.4rem;font-weight:800;line-height:1}
+.wheel-center .sub{font-size:.72rem;color:var(--s400)}
+.wheel-legend{margin-top:16px;display:flex;gap:16px;justify-content:center;flex-wrap:wrap}
+.wl-item{display:flex;align-items:center;gap:5px;font-size:.75rem;font-weight:500;color:var(--s600)}
+.wl-dot{width:10px;height:10px;border-radius:3px}
 
-  .container { max-width: 1140px; margin: 0 auto; padding: 0 20px; }
+/* ═══ OVERVIEW PANEL ═══ */
+.overview-stats{display:grid;grid-template-columns:1fr 1fr;gap:10px;margin-bottom:16px}
+.ov-stat{background:var(--s50);border-radius:var(--r);padding:12px;text-align:center}
+.ov-stat .num{font-size:1.6rem;font-weight:800;line-height:1}
+.ov-stat .lbl{font-size:.65rem;color:var(--s500);text-transform:uppercase;letter-spacing:.05em;font-weight:600}
+.top5-title{font-size:.78rem;font-weight:700;color:var(--s700);margin-bottom:8px;display:flex;align-items:center;gap:6px}
+.top5-item{display:flex;align-items:center;gap:8px;padding:6px 0;border-bottom:1px solid var(--s100);font-size:.78rem}
+.top5-item:last-child{border:none}
+.top5-id{font-family:'JetBrains Mono',monospace;font-size:.7rem;font-weight:700;padding:2px 6px;border-radius:4px;flex-shrink:0}
+.top5-name{flex:1;font-weight:600;color:var(--s700);white-space:nowrap;overflow:hidden;text-overflow:ellipsis}
+.top5-pct{font-family:'JetBrains Mono',monospace;font-weight:700;font-size:.8rem}
 
-  /* ─── STATS CARDS ─── */
-  .stats-row {
-    display: grid;
-    grid-template-columns: repeat(5, 1fr);
-    gap: 14px;
-    margin: -32px 0 28px;
-    position: relative;
-    z-index: 2;
-  }
-  .stat-card {
-    background: white;
-    border-radius: var(--radius);
-    padding: 20px 16px;
-    text-align: center;
-    box-shadow: var(--shadow-lg);
-    border: 1px solid var(--slate-100);
-    transition: transform 0.2s, box-shadow 0.2s;
-  }
-  .stat-card:hover {
-    transform: translateY(-2px);
-    box-shadow: var(--shadow-xl);
-  }
-  .stat-icon { font-size: 1.4rem; margin-bottom: 6px; }
-  .stat-number {
-    font-size: 2.2rem;
-    font-weight: 800;
-    letter-spacing: -0.03em;
-    line-height: 1;
-  }
-  .stat-label {
-    font-size: 0.72rem;
-    color: var(--slate-500);
-    text-transform: uppercase;
-    letter-spacing: 0.06em;
-    font-weight: 600;
-    margin-top: 4px;
-  }
-  .stat-card.total .stat-number { color: var(--slate-800); }
-  .stat-card.mit .stat-number { color: var(--emerald); }
-  .stat-card.adp .stat-number { color: var(--ocean); }
-  .stat-card.wip .stat-number { color: var(--amber); }
-  .stat-card.done .stat-number { color: var(--coral); }
+/* ═══ CATEGORY RINGS ROW ═══ */
+.cat-rings{display:flex;gap:12px;justify-content:center;flex-wrap:wrap;margin-bottom:24px}
+.cr-item{text-align:center;background:#fff;border-radius:var(--r);padding:12px 10px;box-shadow:var(--sh);border:1px solid var(--s100);min-width:90px;flex:1}
+.cr-item .name{font-size:.65rem;font-weight:700;color:var(--s700);margin-top:4px;line-height:1.2}
+.cr-item .sub{font-size:.58rem;color:var(--s400)}
 
-  /* ─── DONUT + PROGRESS ─── */
-  .overview-grid {
-    display: grid;
-    grid-template-columns: 280px 1fr;
-    gap: 20px;
-    margin-bottom: 28px;
-  }
-  .donut-card {
-    background: white;
-    border-radius: var(--radius-lg);
-    padding: 28px 20px;
-    box-shadow: var(--shadow);
-    border: 1px solid var(--slate-100);
-    text-align: center;
-  }
-  .donut-card h3 { font-size: 0.82rem; color: var(--slate-500); font-weight: 600; text-transform: uppercase; letter-spacing: 0.05em; margin-bottom: 16px; }
-  .donut-wrap { position: relative; width: 180px; height: 180px; margin: 0 auto; }
-  .donut-wrap svg { transform: rotate(-90deg); }
-  .donut-center {
-    position: absolute;
-    inset: 0;
-    display: flex;
-    flex-direction: column;
-    align-items: center;
-    justify-content: center;
-  }
-  .donut-pct { font-size: 2.4rem; font-weight: 800; letter-spacing: -0.03em; line-height: 1; }
-  .donut-label { font-size: 0.72rem; color: var(--slate-400); font-weight: 500; }
-  .donut-legend { margin-top: 18px; display: flex; flex-direction: column; gap: 8px; }
-  .donut-legend-item { display: flex; align-items: center; gap: 8px; font-size: 0.82rem; }
-  .donut-legend-dot { width: 10px; height: 10px; border-radius: 3px; flex-shrink: 0; }
+/* ═══ FILTERS ═══ */
+.filter-bar{display:flex;flex-wrap:wrap;gap:8px;margin-bottom:20px;align-items:center}
+.fg{display:flex;gap:4px;flex-wrap:wrap}
+.fg-label{font-size:.68rem;color:var(--s400);font-weight:600;text-transform:uppercase;letter-spacing:.05em;padding:6px 8px}
+.fpill{padding:5px 12px;border:1.5px solid var(--s200);border-radius:20px;background:#fff;cursor:pointer;font-size:.75rem;font-weight:500;color:var(--s600);transition:all .15s;font-family:inherit}
+.fpill:hover{border-color:var(--emerald);color:var(--emerald)}
+.fpill.active{background:var(--forest);color:#fff;border-color:var(--forest)}
+.fdiv{width:1px;height:24px;background:var(--s200);margin:0 4px}
 
-  .progress-card {
-    background: white;
-    border-radius: var(--radius-lg);
-    padding: 24px;
-    box-shadow: var(--shadow);
-    border: 1px solid var(--slate-100);
-  }
-  .progress-card h3 { font-size: 0.82rem; color: var(--slate-500); font-weight: 600; text-transform: uppercase; letter-spacing: 0.05em; margin-bottom: 16px; }
-  .cat-progress { margin-bottom: 14px; }
-  .cat-progress:last-child { margin-bottom: 0; }
-  .cat-head { display: flex; justify-content: space-between; align-items: center; margin-bottom: 6px; }
-  .cat-name { font-size: 0.85rem; font-weight: 600; color: var(--slate-700); }
-  .cat-pct { font-size: 0.82rem; font-weight: 700; font-family: 'JetBrains Mono', monospace; }
-  .cat-bar-bg { height: 10px; background: var(--slate-100); border-radius: 6px; overflow: hidden; }
-  .cat-bar-fill { height: 100%; border-radius: 6px; transition: width 1s cubic-bezier(0.4,0,0.2,1); }
+/* ═══ TAGS ═══ */
+.tag-bar{display:flex;flex-wrap:wrap;gap:4px;margin-bottom:20px}
+.tag-pill{padding:3px 10px;border-radius:12px;font-size:.68rem;font-weight:600;cursor:pointer;transition:all .15s;border:1px solid transparent}
+.tag-pill:hover{transform:scale(1.05)}
+.tag-pill.active{border-color:var(--s800);box-shadow:0 0 0 1px var(--s800)}
 
-  /* ─── FILTERS ─── */
-  .filter-row {
-    display: flex;
-    flex-wrap: wrap;
-    gap: 8px;
-    margin-bottom: 24px;
-    align-items: center;
-  }
-  .filter-group { display: flex; gap: 4px; flex-wrap: wrap; }
-  .filter-label { font-size: 0.72rem; color: var(--slate-400); font-weight: 600; text-transform: uppercase; letter-spacing: 0.05em; padding: 6px 8px; }
-  .pill {
-    padding: 6px 14px;
-    border: 1.5px solid var(--slate-200);
-    border-radius: 20px;
-    background: white;
-    cursor: pointer;
-    font-size: 0.78rem;
-    font-weight: 500;
-    color: var(--slate-600);
-    transition: all 0.15s;
-    font-family: inherit;
-  }
-  .pill:hover { border-color: var(--emerald); color: var(--emerald); }
-  .pill.active { background: var(--forest); color: white; border-color: var(--forest); }
-  .divider { width: 1px; height: 24px; background: var(--slate-200); margin: 0 4px; }
+/* ═══ GROUP HEADERS ═══ */
+.group-hdr{display:flex;align-items:center;gap:10px;padding:12px 16px;background:#fff;border:1px solid var(--s200);border-radius:var(--r);cursor:pointer;font-family:inherit;font-size:.88rem;font-weight:700;color:var(--s800);transition:all .15s;text-align:left;margin-bottom:4px;width:100%}
+.group-hdr:hover{border-color:var(--s300);box-shadow:var(--sh)}
+.group-hdr .arrow{transition:transform .2s;font-size:.6rem;color:var(--s400)}
+.group-hdr.open .arrow{transform:rotate(90deg)}
+.group-hdr .meta{margin-left:auto;font-size:.7rem;font-weight:500;color:var(--s400);display:flex;gap:8px;align-items:center}
+.group-body{margin-bottom:12px}
+.group-body.collapsed{display:none}
 
-  /* ─── SECTION HEADERS ─── */
-  .section-title {
-    display: flex;
-    align-items: center;
-    gap: 10px;
-    font-size: 1.15rem;
-    font-weight: 700;
-    margin: 32px 0 16px;
-    color: var(--slate-800);
-  }
-  .section-title .icon { font-size: 1.3rem; }
-  .section-title .count {
-    background: var(--slate-100);
-    padding: 2px 10px;
-    border-radius: 10px;
-    font-size: 0.75rem;
-    font-weight: 600;
-    color: var(--slate-500);
-  }
+/* ═══ ACTION CARDS (FLIP) ═══ */
+.action-grid{display:grid;grid-template-columns:repeat(auto-fill,minmax(270px,1fr));gap:10px;margin-bottom:10px}
+.fc{perspective:1000px}
+.flip{position:relative;width:100%;min-height:160px;cursor:pointer}
+.flip:hover .front{border-color:var(--s300);box-shadow:var(--sh-lg)}
+.finner{position:relative;width:100%;min-height:160px;transition:transform .6s cubic-bezier(.4,0,.2,1);transform-style:preserve-3d}
+.flip.flipped .finner{transform:rotateY(180deg)}
+.front,.back{position:absolute;inset:0;backface-visibility:hidden;-webkit-backface-visibility:hidden;border-radius:var(--r);padding:14px;border:1px solid var(--s200);overflow:hidden}
+.front{background:#fff;z-index:2;display:flex;flex-direction:column}
+.back{background:var(--s50);transform:rotateY(180deg);display:flex;flex-direction:column;gap:8px;overflow-y:auto}
+.front .ft{display:flex;align-items:start;gap:8px;margin-bottom:4px}
+.front .fid{font-family:'JetBrains Mono',monospace;font-size:.7rem;font-weight:700;padding:2px 7px;border-radius:5px;white-space:nowrap;flex-shrink:0}
+.front .fid.mit{background:#ecfdf5;color:#065f46}
+.front .fid.adp{background:#e0f2fe;color:#075985}
+.front .fname{font-size:.8rem;font-weight:700;color:var(--s800);line-height:1.3}
+.front .fdesc{font-size:.7rem;color:var(--s500);line-height:1.4;flex:1;margin-top:2px}
+.front .fbottom{display:flex;justify-content:space-between;align-items:center;margin-top:auto;padding-top:6px}
+.front .ftags{display:flex;gap:3px;flex-wrap:wrap}
+.front .ftag{font-size:.6rem;font-weight:600;padding:2px 6px;border-radius:4px;text-transform:uppercase}
+.front .fpct{font-family:'JetBrains Mono',monospace;font-size:.95rem;font-weight:800}
+.front .fbar{height:3px;background:var(--s100);border-radius:2px;overflow:hidden;margin-top:3px;width:48px;margin-left:auto}
+.front .fbar .fill{height:100%;border-radius:2px}
+.fhint{font-size:.55rem;color:var(--s400);text-align:right;margin-top:1px}
+.back h4{font-size:.65rem;text-transform:uppercase;letter-spacing:.05em;color:var(--s500);font-weight:600;margin-bottom:1px}
+.back p{font-size:.72rem;color:var(--s700);line-height:1.5}
+.back ul{font-size:.7rem;color:var(--s600);padding-left:14px}
+.back ul li{margin-bottom:1px}
+.bkv{display:flex;gap:5px;font-size:.7rem}
+.bkv .k{color:var(--s400);min-width:55px}
+.bkv .v{color:var(--s700);font-weight:500}
 
-  /* ─── CATEGORY ACCORDION ─── */
-  .category-group { margin-bottom: 16px; }
-  .cat-toggle {
-    display: flex;
-    align-items: center;
-    gap: 10px;
-    width: 100%;
-    padding: 14px 18px;
-    background: white;
-    border: 1px solid var(--slate-200);
-    border-radius: var(--radius);
-    cursor: pointer;
-    font-family: inherit;
-    font-size: 0.92rem;
-    font-weight: 600;
-    color: var(--slate-700);
-    transition: all 0.15s;
-    text-align: left;
-  }
-  .cat-toggle:hover { border-color: var(--emerald); background: #f0fdf4; }
-  .cat-toggle .arrow { transition: transform 0.2s; font-size: 0.7rem; color: var(--slate-400); }
-  .cat-toggle.open .arrow { transform: rotate(90deg); }
-  .cat-toggle .meta { margin-left: auto; font-size: 0.75rem; font-weight: 500; color: var(--slate-400); }
-  .cat-toggle .mini-bar-inline {
-    width: 60px; height: 5px; background: var(--slate-100); border-radius: 4px; overflow: hidden; margin-left: 8px; flex-shrink: 0;
-  }
-  .cat-toggle .mini-bar-inline .fill { height: 100%; border-radius: 4px; }
+/* ═══ SECTION ═══ */
+.sec-title{font-size:1.1rem;font-weight:700;margin:28px 0 14px;display:flex;align-items:center;gap:8px}
 
-  .cat-body { display: block; margin-top: 2px; }
-  .cat-body.collapsed { display: none; }
+/* ═══ FOOTER ═══ */
+.footer{text-align:center;padding:28px 20px;color:var(--s400);font-size:.72rem;border-top:1px solid var(--s100);margin-top:32px}
+.footer a{color:var(--emerald);text-decoration:none;font-weight:500}
 
-  /* ─── ACTION CARDS ─── */
-  .strategy-label {
-    font-size: 0.78rem;
-    font-weight: 600;
-    color: var(--slate-500);
-    padding: 10px 4px 6px;
-    text-transform: uppercase;
-    letter-spacing: 0.03em;
-  }
-  .action-grid { display: grid; grid-template-columns: repeat(auto-fill, minmax(280px, 1fr)); gap: 10px; margin-bottom: 10px; }
-  .action-card {
-    background: white;
-    border: 1px solid var(--slate-200);
-    border-radius: var(--radius);
-    padding: 14px 16px;
-    display: grid;
-    grid-template-columns: 56px 1fr auto;
-    gap: 12px;
-    align-items: start;
-    transition: all 0.15s;
-  }
-  .action-card:hover {
-    border-color: var(--slate-300);
-    box-shadow: var(--shadow);
-  }
-  .action-card.priority { border-left: 3px solid var(--amber); }
-  .action-card.complete-card { opacity: 0.7; }
+/* ═══ ANIM ═══ */
+@keyframes fadeUp{from{opacity:0;transform:translateY(12px)}to{opacity:1;transform:translateY(0)}}
+.anim{animation:fadeUp .5s ease both}
+.d1{animation-delay:.1s}.d2{animation-delay:.2s}.d3{animation-delay:.3s}
 
-  .action-badge-id {
-    font-family: 'JetBrains Mono', monospace;
-    font-size: 0.78rem;
-    font-weight: 600;
-    padding: 4px 8px;
-    border-radius: 6px;
-    text-align: center;
-    white-space: nowrap;
-  }
-  .action-badge-id.mit { background: #ecfdf5; color: #065f46; }
-  .action-badge-id.adp { background: #e0f2fe; color: #075985; }
-
-  .action-info { min-width: 0; }
-  .action-title { font-size: 0.88rem; font-weight: 600; color: var(--slate-800); line-height: 1.4; }
-  .action-desc { font-size: 0.78rem; color: var(--slate-500); margin-top: 3px; line-height: 1.4; }
-  .action-meta { display: flex; flex-wrap: wrap; gap: 6px; margin-top: 8px; }
-  .meta-chip {
-    font-size: 0.68rem;
-    font-weight: 600;
-    padding: 2px 8px;
-    border-radius: 6px;
-    text-transform: uppercase;
-    letter-spacing: 0.03em;
-  }
-  .chip-status-not-started { background: var(--slate-100); color: var(--slate-500); }
-  .chip-status-in-progress { background: #dbeafe; color: #1e40af; }
-  .chip-status-complete { background: #dcfce7; color: #166534; }
-  .chip-priority { background: #fef3c7; color: #92400e; }
-  .chip-responsible { background: var(--slate-50); color: var(--slate-600); border: 1px solid var(--slate-200); }
-
-  .action-progress-col {
-    text-align: right;
-    min-width: 70px;
-    flex-shrink: 0;
-  }
-  .pct-num { font-size: 1.1rem; font-weight: 800; font-family: 'JetBrains Mono', monospace; line-height: 1; }
-  .pct-num.low { color: var(--slate-400); }
-  .pct-num.mid { color: var(--amber); }
-  .pct-num.high { color: var(--emerald); }
-  .pct-bar { width: 60px; height: 4px; background: var(--slate-100); border-radius: 3px; overflow: hidden; margin-top: 4px; margin-left: auto; }
-  .pct-bar .fill { height: 100%; border-radius: 3px; transition: width 0.6s ease; }
-
-  /* ─── FOOTER ─── */
-  /* ─── VISUALIZATION SECTION ─── */
-  .viz-section { margin-bottom: 32px; }
-  .viz-section > h2 {
-    font-size: 1.1rem;
-    font-weight: 700;
-    color: var(--slate-800);
-    margin-bottom: 16px;
-    display: flex;
-    align-items: center;
-    gap: 8px;
-  }
-  .viz-grid {
-    display: grid;
-    grid-template-columns: 1fr 1fr 1fr;
-    gap: 16px;
-    margin-bottom: 20px;
-  }
-  .viz-card {
-    background: white;
-    border-radius: var(--radius-lg);
-    padding: 24px;
-    box-shadow: var(--shadow);
-    border: 1px solid var(--slate-100);
-  }
-  .viz-card h3 {
-    font-size: 0.78rem;
-    color: var(--slate-500);
-    font-weight: 600;
-    text-transform: uppercase;
-    letter-spacing: 0.05em;
-    margin-bottom: 16px;
-    text-align: center;
-  }
-  .viz-card.full-width { grid-column: 1 / -1; }
-
-  /* Dual donut */
-  .dual-donut { display: flex; justify-content: center; gap: 28px; align-items: center; flex-wrap: wrap; }
-  .donut-single { position: relative; width: 140px; height: 140px; text-align: center; }
-  .donut-single svg { transform: rotate(-90deg); }
-  .donut-single .center-label {
-    position: absolute; inset: 0; display: flex; flex-direction: column; align-items: center; justify-content: center;
-  }
-  .donut-single .center-num { font-size: 1.6rem; font-weight: 800; line-height: 1; }
-  .donut-single .center-txt { font-size: 0.65rem; color: var(--slate-400); font-weight: 500; margin-top: 2px; }
-  .donut-type-label { font-size: 0.82rem; font-weight: 600; text-align: center; margin-top: 8px; }
-
-  /* Stacked bar chart */
-  .stacked-bars { display: grid; gap: 10px; }
-  .stacked-row { display: flex; align-items: center; gap: 10px; }
-  .stacked-label { width: 160px; font-size: 0.78rem; font-weight: 600; color: var(--slate-700); text-align: right; flex-shrink: 0; }
-  .stacked-track { flex: 1; height: 28px; background: var(--slate-100); border-radius: 6px; overflow: hidden; display: flex; position: relative; }
-  .stacked-seg { height: 100%; transition: width 0.8s cubic-bezier(0.4,0,0.2,1); display: flex; align-items: center; justify-content: center; font-size: 0.65rem; font-weight: 700; color: white; min-width: 0; overflow: hidden; }
-  .stacked-seg.seg-not-started { background: var(--slate-300); color: var(--slate-600); }
-  .stacked-seg.seg-in-progress { background: #60a5fa; }
-  .stacked-seg.seg-complete { background: var(--emerald); }
-  .stacked-count { width: 36px; font-size: 0.75rem; font-weight: 600; color: var(--slate-400); text-align: left; flex-shrink: 0; }
-
-  /* Treemap */
-  .treemap { display: flex; flex-wrap: wrap; gap: 4px; padding: 4px; }
-  .treemap-cell {
-    border-radius: 8px;
-    padding: 10px 14px;
-    display: flex;
-    flex-direction: column;
-    justify-content: center;
-    align-items: center;
-    text-align: center;
-    transition: transform 0.15s, box-shadow 0.15s;
-    cursor: default;
-    min-height: 64px;
-  }
-  .treemap-cell:hover { transform: scale(1.03); box-shadow: var(--shadow-lg); z-index: 1; }
-  .treemap-cell .tm-name { font-size: 0.72rem; font-weight: 700; line-height: 1.2; }
-  .treemap-cell .tm-count { font-size: 1.1rem; font-weight: 800; margin-top: 2px; }
-  .treemap-cell .tm-pct { font-size: 0.62rem; opacity: 0.8; font-weight: 500; }
-  .treemap-cell.mit-cell { background: #ecfdf5; color: #065f46; border: 1px solid #a7f3d0; }
-  .treemap-cell.adp-cell { background: #e0f2fe; color: #075985; border: 1px solid #7dd3fc; }
-
-  /* Horizontal comparison bars */
-  .compare-bars { display: grid; gap: 16px; }
-  .compare-row { }
-  .compare-header { display: flex; justify-content: space-between; align-items: center; margin-bottom: 6px; }
-  .compare-name { font-size: 0.82rem; font-weight: 600; color: var(--slate-700); }
-  .compare-stats { font-size: 0.72rem; color: var(--slate-400); font-weight: 500; }
-  .compare-track { height: 16px; background: var(--slate-100); border-radius: 8px; overflow: hidden; display: flex; }
-  .compare-seg { height: 100%; transition: width 0.8s ease; }
-
-  /* Legend for stacked bars */
-  .bar-legend { display: flex; gap: 16px; justify-content: center; margin-top: 12px; flex-wrap: wrap; }
-  .bar-legend-item { display: flex; align-items: center; gap: 5px; font-size: 0.72rem; color: var(--slate-500); font-weight: 500; }
-  .bar-legend-dot { width: 10px; height: 10px; border-radius: 3px; }
-
-  /* ─── ACTION TABS ─── */
-  .action-tabs {
-    display: flex;
-    gap: 4px;
-    margin-bottom: 0;
-    border-bottom: 2px solid var(--slate-200);
-    padding-bottom: 0;
-  }
-  .action-tab {
-    padding: 10px 20px;
-    border: none;
-    background: none;
-    cursor: pointer;
-    font-family: inherit;
-    font-size: 0.88rem;
-    font-weight: 600;
-    color: var(--slate-500);
-    border-bottom: 3px solid transparent;
-    margin-bottom: -2px;
-    transition: all 0.15s;
-    display: flex;
-    align-items: center;
-    gap: 6px;
-  }
-  .action-tab:hover { color: var(--slate-700); }
-  .action-tab.active { color: var(--forest); border-bottom-color: var(--emerald); }
-  .tab-icon { font-size: 1rem; }
-  .tab-count {
-    background: var(--slate-100);
-    padding: 1px 8px;
-    border-radius: 10px;
-    font-size: 0.72rem;
-    font-weight: 700;
-    color: var(--slate-500);
-  }
-  .action-tab.active .tab-count { background: #ecfdf5; color: #065f46; }
-  .tab-panel { padding-top: 16px; }
-  .tab-panel.hidden { display: none; }
-
-  /* ─── CATEGORY GROUP HEADER ─── */
-  .cat-group-header {
-    display: flex;
-    align-items: center;
-    gap: 12px;
-    width: 100%;
-    padding: 16px 20px;
-    background: white;
-    border: 1px solid var(--slate-200);
-    border-radius: var(--radius-lg);
-    cursor: pointer;
-    font-family: inherit;
-    font-size: 0.95rem;
-    font-weight: 700;
-    color: var(--slate-800);
-    transition: all 0.15s;
-    text-align: left;
-    margin-bottom: 4px;
-  }
-  .cat-group-header:hover { border-color: var(--slate-300); box-shadow: var(--shadow-sm); }
-  .cat-group-header .cat-icon { font-size: 1.2rem; }
-  .cat-group-header .cat-title { flex: 1; }
-  .cat-group-header .cat-stats {
-    display: flex;
-    gap: 12px;
-    align-items: center;
-    font-size: 0.75rem;
-    color: var(--slate-400);
-    font-weight: 500;
-  }
-  .cat-group-header .cat-stat-item { display: flex; align-items: center; gap: 3px; }
-  .cat-group-header .cat-stat-dot { width: 6px; height: 6px; border-radius: 50%; }
-  .cat-group-header .cat-bar {
-    width: 80px;
-    height: 6px;
-    background: var(--slate-100);
-    border-radius: 4px;
-    overflow: hidden;
-  }
-  .cat-group-header .cat-bar .fill { height: 100%; border-radius: 4px; }
-  .cat-group-header .cat-pct {
-    font-family: 'JetBrains Mono', monospace;
-    font-size: 0.82rem;
-    font-weight: 700;
-    min-width: 36px;
-    text-align: right;
-  }
-  .cat-group-header .arrow { transition: transform 0.2s; font-size: 0.65rem; color: var(--slate-400); }
-  .cat-group-header.open .arrow { transform: rotate(90deg); }
-
-  .cat-group-body { margin-bottom: 12px; }
-  .cat-group-body.collapsed { display: none; }
-
-  /* ─── FLIP CARDS ─── */
-  .flip-container { perspective: 1000px; }
-  .flip-card {
-    position: relative;
-    width: 100%;
-    min-height: 160px;
-    cursor: pointer;
-  }
-  .flip-card:hover .flip-front { border-color: var(--slate-300); box-shadow: var(--shadow-lg); }
-  .flip-inner {
-    position: relative;
-    width: 100%;
-    min-height: 160px;
-    transition: transform 0.6s cubic-bezier(0.4, 0, 0.2, 1);
-    transform-style: preserve-3d;
-  }
-  .flip-card.flipped .flip-inner { transform: rotateY(180deg); }
-  .flip-front, .flip-back {
-    position: absolute;
-    inset: 0;
-    backface-visibility: hidden;
-    -webkit-backface-visibility: hidden;
-    border-radius: var(--radius);
-    padding: 16px;
-    border: 1px solid var(--slate-200);
-    overflow: hidden;
-  }
-  .flip-front {
-    background: white;
-    z-index: 2;
-    display: flex;
-    flex-direction: column;
-  }
-  .flip-back {
-    background: var(--slate-50);
-    transform: rotateY(180deg);
-    display: flex;
-    flex-direction: column;
-    gap: 10px;
-    overflow-y: auto;
-  }
-  .flip-front .ff-top { display: flex; align-items: start; gap: 10px; margin-bottom: 6px; }
-  .flip-front .ff-id {
-    font-family: 'JetBrains Mono', monospace;
-    font-size: 0.72rem;
-    font-weight: 700;
-    padding: 3px 8px;
-    border-radius: 6px;
-    white-space: nowrap;
-    flex-shrink: 0;
-  }
-  .flip-front .ff-id.mit { background: #ecfdf5; color: #065f46; }
-  .flip-front .ff-id.adp { background: #e0f2fe; color: #075985; }
-  .flip-front .ff-title { font-size: 0.82rem; font-weight: 700; color: var(--slate-800); line-height: 1.3; }
-  .flip-front .ff-desc { font-size: 0.72rem; color: var(--slate-500); line-height: 1.4; flex: 1; }
-  .flip-front .ff-bottom { display: flex; justify-content: space-between; align-items: center; margin-top: auto; padding-top: 8px; }
-  .flip-front .ff-tags { display: flex; gap: 4px; flex-wrap: wrap; }
-  .flip-front .ff-tag { font-size: 0.62rem; font-weight: 600; padding: 2px 7px; border-radius: 5px; text-transform: uppercase; }
-  .flip-front .ff-pct { font-family: 'JetBrains Mono', monospace; font-size: 1rem; font-weight: 800; }
-  .flip-front .ff-bar { height: 4px; background: var(--slate-100); border-radius: 3px; overflow: hidden; margin-top: 4px; }
-  .flip-front .ff-bar .fill { height: 100%; border-radius: 3px; }
-  .flip-hint { font-size: 0.58rem; color: var(--slate-400); text-align: right; margin-top: 2px; }
-  .flip-back h4 { font-size: 0.68rem; text-transform: uppercase; letter-spacing: 0.05em; color: var(--slate-500); font-weight: 600; margin-bottom: 2px; }
-  .flip-back p { font-size: 0.75rem; color: var(--slate-700); line-height: 1.5; }
-  .flip-back ul { font-size: 0.72rem; color: var(--slate-600); padding-left: 14px; }
-  .flip-back ul li { margin-bottom: 2px; }
-  .flip-back .fb-kv { display: flex; gap: 6px; font-size: 0.72rem; }
-  .flip-back .fb-kv .k { color: var(--slate-400); min-width: 60px; }
-  .flip-back .fb-kv .v { color: var(--slate-700); font-weight: 500; }
-
-  .footer {
-    text-align: center;
-    padding: 32px 20px;
-    color: var(--slate-400);
-    font-size: 0.75rem;
-    border-top: 1px solid var(--slate-100);
-    margin-top: 40px;
-  }
-  .footer a { color: var(--emerald); text-decoration: none; font-weight: 500; }
-  .footer a:hover { text-decoration: underline; }
-
-  /* ─── LOADING ─── */
-  .loading-shimmer {
-    background: linear-gradient(90deg, var(--slate-100) 25%, var(--slate-200) 50%, var(--slate-100) 75%);
-    background-size: 200% 100%;
-    animation: shimmer 1.5s infinite;
-    border-radius: 6px;
-    height: 20px;
-  }
-  @keyframes shimmer { 0% { background-position: 200% 0; } 100% { background-position: -200% 0; } }
-
-  /* ─── ENTRANCE ANIMATIONS ─── */
-  @keyframes fadeUp {
-    from { opacity: 0; transform: translateY(16px); }
-    to { opacity: 1; transform: translateY(0); }
-  }
-  .animate-in { animation: fadeUp 0.5s ease both; }
-  .delay-1 { animation-delay: 0.1s; }
-  .delay-2 { animation-delay: 0.2s; }
-  .delay-3 { animation-delay: 0.3s; }
-  .delay-4 { animation-delay: 0.4s; }
-  .delay-5 { animation-delay: 0.5s; }
-
-  /* ─── RESPONSIVE ─── */
-  @media (max-width: 768px) {
-    .hero h1 { font-size: 1.4rem; }
-    .stats-row { grid-template-columns: repeat(3, 1fr); }
-    .overview-grid { grid-template-columns: 1fr; }
-    .viz-grid { grid-template-columns: 1fr !important; }
-    .dual-donut { gap: 16px; }
-    .stacked-label { width: 100px; font-size: 0.7rem; }
-    .action-card { grid-template-columns: 48px 1fr; }
-    .action-progress-col { grid-column: 1 / -1; display: flex; align-items: center; gap: 8px; }
-    .pct-bar { margin-left: 0; flex: 1; }
-    .hide-mobile { display: none; }
-  }
-  @media (max-width: 480px) {
-    .stats-row { grid-template-columns: repeat(2, 1fr); }
-    .stat-card:last-child { grid-column: span 2; }
-  }
+/* ═══ RESPONSIVE ═══ */
+@media(max-width:900px){.top-grid{grid-template-columns:1fr}.wheel-wrap{width:280px;height:280px}}
+@media(max-width:600px){.hero h1{font-size:1.3rem}.action-grid{grid-template-columns:1fr}.cat-rings{gap:6px}.cr-item{min-width:70px;padding:8px 6px}}
 </style>
 </head>
 <body>
 
-<!-- ═══ HERO ═══ -->
 <div class="hero">
-  <div class="hero-content">
-    <div class="hero-badge">🌿 Climate Action Plan</div>
-    <h1>Sleepy Hollow CAP Tracker</h1>
-    <p>Village of Sleepy Hollow, New York</p>
-    <p class="hero-subtitle">49 Actions · 7 Categories · 124-Page Plan</p>
-    <div class="source-pill" id="sourceBadge">
-      <span class="source-dot"></span>
-      <span>Loading...</span>
-    </div>
+  <div class="hero-inner">
+    <h1>🌿 Sleepy Hollow Climate Action Tracker</h1>
+    <p>Village of Sleepy Hollow, New York — Climate Action Plan</p>
+    <p class="hero-sub">49 Actions · 7 Categories · Mitigation &amp; Adaptation</p>
+    <div class="source-pill" id="sourceBadge"><span class="source-dot"></span><span>Loading…</span></div>
   </div>
 </div>
 
 <div class="container">
 
-  <!-- ═══ STATS ═══ -->
-  <div class="stats-row">
-    <div class="stat-card total animate-in delay-1">
-      <div class="stat-icon">📋</div>
-      <div class="stat-number" data-count="total">0</div>
-      <div class="stat-label">Total Actions</div>
+<!-- ═══ TOP: WHEEL + OVERVIEW ═══ -->
+<div class="top-grid">
+  <!-- Climate Wheel -->
+  <div class="card anim d1">
+    <h3>🌍 Climate Action Wheel</h3>
+    <div class="wheel-wrap">
+      <svg id="wheelSvg" width="340" height="340" viewBox="0 0 340 340"></svg>
+      <div class="wheel-center">
+        <div class="big" id="wheelTotal">0</div>
+        <div class="sub">total actions</div>
+      </div>
     </div>
-    <div class="stat-card mit animate-in delay-2">
-      <div class="stat-icon">🌿</div>
-      <div class="stat-number" data-count="mitigation">0</div>
-      <div class="stat-label">Mitigation</div>
-    </div>
-    <div class="stat-card adp animate-in delay-3">
-      <div class="stat-icon">🌊</div>
-      <div class="stat-number" data-count="adaptation">0</div>
-      <div class="stat-label">Adaptation</div>
-    </div>
-    <div class="stat-card wip animate-in delay-4">
-      <div class="stat-icon">⚡</div>
-      <div class="stat-number" data-count="inprogress">0</div>
-      <div class="stat-label">In Progress</div>
-    </div>
-    <div class="stat-card done animate-in delay-5">
-      <div class="stat-icon">✅</div>
-      <div class="stat-number" data-count="complete">0</div>
-      <div class="stat-label">Complete</div>
-    </div>
+    <div class="wheel-legend" id="wheelLegend"></div>
   </div>
 
-  <!-- ═══ DONUT + PROGRESS ═══ -->
-  <div class="overview-grid animate-in delay-3">
-    <div class="donut-card">
-      <h3>Overall Completion</h3>
-      <div class="donut-wrap">
-        <svg width="180" height="180" viewBox="0 0 180 180">
-          <circle cx="90" cy="90" r="74" fill="none" stroke="#f1f5f9" stroke-width="14"/>
-          <circle id="donutArc" cx="90" cy="90" r="74" fill="none" stroke="url(#grad)" stroke-width="14"
-            stroke-linecap="round" stroke-dasharray="465" stroke-dashoffset="465"/>
-          <defs>
-            <linearGradient id="grad" x1="0%" y1="0%" x2="100%" y2="100%">
-              <stop offset="0%" stop-color="#10b981"/>
-              <stop offset="100%" stop-color="#0369a1"/>
-            </linearGradient>
-          </defs>
-        </svg>
-        <div class="donut-center">
-          <div class="donut-pct" id="donutPct">0%</div>
-          <div class="donut-label">complete</div>
-        </div>
-      </div>
-      <div class="donut-legend">
-        <div class="donut-legend-item"><div class="donut-legend-dot" style="background:#10b981"></div>Mitigation <strong id="legMit">0</strong></div>
-        <div class="donut-legend-item"><div class="donut-legend-dot" style="background:#0369a1"></div>Adaptation <strong id="legAdp">0</strong></div>
-        <div class="donut-legend-item"><div class="donut-legend-dot" style="background:#f59e0b"></div>Priority Actions <strong id="legPri">0</strong></div>
-      </div>
+  <!-- Overview Panel -->
+  <div class="card anim d2">
+    <h3>📊 Village Performance</h3>
+    <div class="overview-stats">
+      <div class="ov-stat"><div class="num" style="color:var(--emerald)" id="ovMit">0</div><div class="lbl">Mitigation</div></div>
+      <div class="ov-stat"><div class="num" style="color:var(--ocean)" id="ovAdp">0</div><div class="lbl">Adaptation</div></div>
+      <div class="ov-stat"><div class="num" style="color:var(--amber)" id="ovWip">0</div><div class="lbl">In Progress</div></div>
+      <div class="ov-stat"><div class="num" style="color:var(--coral)" id="ovDone">0</div><div class="lbl">Complete</div></div>
     </div>
-
-    <div class="progress-card">
-      <h3>Category Breakdown</h3>
-      <div id="categoryBars"></div>
+    <div style="text-align:center;margin-bottom:16px">
+      <svg width="120" height="120" viewBox="0 0 120 120" style="transform:rotate(-90deg)">
+        <circle cx="60" cy="60" r="50" fill="none" stroke="var(--s100)" stroke-width="10"/>
+        <circle id="ovRing" cx="60" cy="60" r="50" fill="none" stroke="url(#ovG)" stroke-width="10" stroke-linecap="round" stroke-dasharray="314" stroke-dashoffset="314"/>
+        <defs><linearGradient id="ovG" x1="0%" y1="0%" x2="100%" y2="100%"><stop offset="0%" stop-color="#10b981"/><stop offset="100%" stop-color="#0369a1"/></linearGradient></defs>
+      </svg>
+      <div style="margin-top:-78px;position:relative;z-index:1">
+        <div style="font-size:1.8rem;font-weight:800" id="ovPct">0%</div>
+        <div style="font-size:.65rem;color:var(--s400)">overall</div>
+      </div>
+      <div style="height:40px"></div>
     </div>
+    <div class="top5-title">🏆 Top 5 Actions</div>
+    <div id="top5List"></div>
   </div>
+</div>
 
-  <!-- ═══ VISUALIZATIONS ═══ -->
-  <div class="viz-section animate-in delay-4">
-    <h2>📊 Project Visualizations</h2>
+<!-- ═══ CATEGORY RINGS ═══ -->
+<div class="cat-rings anim d3" id="catRings"></div>
 
-    <!-- Top row: 3 donut charts -->
-    <div class="viz-grid">
-      <!-- Mitigation vs Adaptation Split -->
-      <div class="viz-card">
-        <h3>🌿 Mitigation vs 🌊 Adaptation</h3>
-        <div class="dual-donut">
-          <div>
-            <div class="donut-single">
-              <svg width="140" height="140" viewBox="0 0 140 140">
-                <circle cx="70" cy="70" r="56" fill="none" stroke="#f1f5f9" stroke-width="12"/>
-                <circle id="mitDonut" cx="70" cy="70" r="56" fill="none" stroke="#10b981" stroke-width="12"
-                  stroke-linecap="round" stroke-dasharray="352" stroke-dashoffset="352"/>
-              </svg>
-              <div class="center-label">
-                <div class="center-num" id="mitDonutNum" style="color:#10b981">0</div>
-                <div class="center-txt">actions</div>
-              </div>
-            </div>
-            <div class="donut-type-label" style="color:#065f46">Mitigation</div>
-          </div>
-          <div>
-            <div class="donut-single">
-              <svg width="140" height="140" viewBox="0 0 140 140">
-                <circle cx="70" cy="70" r="56" fill="none" stroke="#f1f5f9" stroke-width="12"/>
-                <circle id="adpDonut" cx="70" cy="70" r="56" fill="none" stroke="#38bdf8" stroke-width="12"
-                  stroke-linecap="round" stroke-dasharray="352" stroke-dashoffset="352"/>
-              </svg>
-              <div class="center-label">
-                <div class="center-num" id="adpDonutNum" style="color:#0369a1">0</div>
-                <div class="center-txt">actions</div>
-              </div>
-            </div>
-            <div class="donut-type-label" style="color:#075985">Adaptation</div>
-          </div>
-        </div>
-      </div>
+<!-- ═══ FILTERS ═══ -->
+<div class="filter-bar" id="filterBar"></div>
 
-      <!-- Status Breakdown -->
-      <div class="viz-card">
-        <h3>Status Breakdown</h3>
-        <div class="dual-donut" style="gap:0">
-          <div class="donut-single" style="width:160px;height:160px">
-            <svg width="160" height="160" viewBox="0 0 160 160">
-              <circle cx="80" cy="80" r="64" fill="none" stroke="#f1f5f9" stroke-width="14"/>
-              <!-- Not Started (bottom layer) -->
-              <circle id="statusNsArc" cx="80" cy="80" r="64" fill="none" stroke="#cbd5e1" stroke-width="14"
-                stroke-dasharray="402" stroke-dashoffset="0" transform="rotate(-90 80 80)"/>
-              <!-- In Progress -->
-              <circle id="statusWipArc" cx="80" cy="80" r="64" fill="none" stroke="#60a5fa" stroke-width="14"
-                stroke-dasharray="402" stroke-dashoffset="0" transform="rotate(-90 80 80)"/>
-              <!-- Complete (top layer) -->
-              <circle id="statusDoneArc" cx="80" cy="80" r="64" fill="none" stroke="#10b981" stroke-width="14"
-                stroke-linecap="round" stroke-dasharray="402" stroke-dashoffset="402" transform="rotate(-90 80 80)"/>
-            </svg>
-            <div class="center-label">
-              <div class="center-num" id="statusTotal" style="font-size:1.8rem">0</div>
-              <div class="center-txt">total</div>
-            </div>
-          </div>
-        </div>
-        <div class="bar-legend" style="margin-top:14px">
-          <div class="bar-legend-item"><div class="bar-legend-dot" style="background:#cbd5e1"></div>Not Started <strong id="legNs">0</strong></div>
-          <div class="bar-legend-item"><div class="bar-legend-dot" style="background:#60a5fa"></div>In Progress <strong id="legWip">0</strong></div>
-          <div class="bar-legend-item"><div class="bar-legend-dot" style="background:#10b981"></div>Complete <strong id="legDone">0</strong></div>
-        </div>
-      </div>
+<!-- ═══ TAGS ═══ -->
+<div class="tag-bar" id="tagBar"></div>
 
-      <!-- Priority Split -->
-      <div class="viz-card">
-        <h3>Priority Actions</h3>
-        <div class="dual-donut" style="gap:0">
-          <div class="donut-single" style="width:160px;height:160px">
-            <svg width="160" height="160" viewBox="0 0 160 160">
-              <circle cx="80" cy="80" r="64" fill="none" stroke="#f1f5f9" stroke-width="14"/>
-              <circle id="priArc" cx="80" cy="80" r="64" fill="none" stroke="#f59e0b" stroke-width="14"
-                stroke-linecap="round" stroke-dasharray="402" stroke-dashoffset="402"/>
-            </svg>
-            <div class="center-label">
-              <div class="center-num" id="priPct" style="font-size:1.8rem;color:#f59e0b">0%</div>
-              <div class="center-txt">of actions</div>
-            </div>
-          </div>
-        </div>
-        <div class="bar-legend" style="margin-top:14px">
-          <div class="bar-legend-item"><div class="bar-legend-dot" style="background:#f59e0b"></div>★ Priority <strong id="legPriCount">0</strong></div>
-          <div class="bar-legend-item"><div class="bar-legend-dot" style="background:#e2e8f0"></div>Standard <strong id="legStdCount">0</strong></div>
-        </div>
-        <div style="margin-top:12px">
-          <div id="priActionList" style="font-size:0.75rem;color:var(--slate-600)"></div>
-        </div>
-      </div>
-    </div>
-
-    <!-- Second row: Stacked bars + Treemap -->
-    <div class="viz-grid" style="grid-template-columns: 1fr 1fr;">
-      <!-- Status by Category (stacked bars) -->
-      <div class="viz-card full-width">
-        <h3>Status by Category</h3>
-        <div class="stacked-bars" id="stackedBars"></div>
-        <div class="bar-legend">
-          <div class="bar-legend-item"><div class="bar-legend-dot" style="background:var(--slate-300)"></div>Not Started</div>
-          <div class="bar-legend-item"><div class="bar-legend-dot" style="background:#60a5fa"></div>In Progress</div>
-          <div class="bar-legend-item"><div class="bar-legend-dot" style="background:var(--emerald)"></div>Complete</div>
-        </div>
-      </div>
-    </div>
-
-    <!-- Third row: Treemap + Progress comparison -->
-    <div class="viz-grid" style="grid-template-columns: 1fr 1fr;">
-      <div class="viz-card">
-        <h3>Action Density by Category</h3>
-        <div class="treemap" id="treemap"></div>
-      </div>
-      <div class="viz-card">
-        <h3>Completion by Category</h3>
-        <div class="compare-bars" id="compareBars"></div>
-      </div>
-    </div>
-  </div>
-
-  <!-- ═══ FILTERS ═══ -->
-  <div class="filter-row" id="filters"></div>
-
-  <!-- ═══ ACTIONS ═══ -->
-  <div id="actionsSection">
-    <!-- Tab bar -->
-    <div class="action-tabs">
-      <button class="action-tab active" data-tab="mitigation" onclick="switchTab('mitigation')">
-        <span class="tab-icon">🌿</span> Mitigation
-        <span class="tab-count" id="mitTabCount">0</span>
-      </button>
-      <button class="action-tab" data-tab="adaptation" onclick="switchTab('adaptation')">
-        <span class="tab-icon">🌊</span> Adaptation
-        <span class="tab-count" id="adpTabCount">0</span>
-      </button>
-      <button class="action-tab" data-tab="all" onclick="switchTab('all')">
-        <span class="tab-icon">📋</span> All Actions
-        <span class="tab-count" id="allTabCount">0</span>
-      </button>
-    </div>
-
-    <!-- Mitigation Panel -->
-    <div class="tab-panel" id="panel-mitigation">
-      <div id="mitigationActions"></div>
-    </div>
-
-    <!-- Adaptation Panel -->
-    <div class="tab-panel hidden" id="panel-adaptation">
-      <div id="adaptationActions"></div>
-    </div>
-
-    <!-- All Panel -->
-    <div class="tab-panel hidden" id="panel-all">
-      <div id="allActions"></div>
-    </div>
-  </div>
+<!-- ═══ ACTION LIST ═══ -->
+<div id="actionList"></div>
 
 </div>
 
@@ -900,526 +212,270 @@
 </div>
 
 <script>
-const GOOGLE_SHEET_CSV_URL = 'https://docs.google.com/spreadsheets/d/15AnyB7Llgm9dwgsqMLcGufGo-655oQuBBH0m2I5xtlY/export?format=csv';
-let allActions = [];
-let activeFilters = { type: 'all', status: 'all', category: 'all' };
+const SHEET_URL = 'https://docs.google.com/spreadsheets/d/15AnyB7Llgm9dwgsqMLcGufGo-655oQuBBH0m2I5xtlY/export?format=csv';
+let all = [];
+let filt = { type:'all', status:'all', category:'all', priority:'all', tag:'all' };
 
-// ─── DATA LOADING ───
-async function loadData() {
-  if (GOOGLE_SHEET_CSV_URL) {
-    try {
-      const resp = await fetch(GOOGLE_SHEET_CSV_URL);
-      const csv = await resp.text();
-      allActions = parseCSV(csv);
-      setSource('📡 Live from Google Sheets', true);
-      return;
-    } catch (e) {
-      console.warn('Sheets fetch failed, using embedded:', e);
-    }
-  }
-  try {
-    const resp = await fetch('shcap-data.json');
-    const data = await resp.json();
-    allActions = data.actions;
-    setSource('📄 Embedded Data', false);
-    document.getElementById('lastUpdated').textContent = `Plan last updated: ${data.lastUpdated}`;
-  } catch (e) {
-    allActions = [];
-    setSource('⚠️ No data', false);
-  }
+// ═══ LOAD ═══
+async function load(){
+  if(SHEET_URL){try{const r=await fetch(SHEET_URL);all=parseCSV(await r.text());setSrc('📡 Live',true);return}catch(e){}}
+  try{const r=await fetch('shcap-data.json');const d=await r.json();all=d.actions;setSrc('📄 Embedded',false)}catch(e){all=[];setSrc('⚠️ No data',false)}
 }
-
-function setSource(text, live) {
-  const el = document.getElementById('sourceBadge');
-  el.innerHTML = `<span class="source-dot" style="background:${live ? '#34d399' : '#94a3b8'}"></span><span>${text}</span>`;
+function setSrc(t,l){document.getElementById('sourceBadge').innerHTML=`<span class="source-dot" style="background:${l?'#34d399':'#94a3b8'}"></span><span>${t}</span>`}
+function parseCSV(csv){
+  const lines=csv.trim().split('\n');const h=lines[0].split(',').map(s=>s.trim().replace(/"/g,''));
+  return lines.slice(1).filter(l=>l.trim()).map(line=>{
+    const v=parseLine(line);const o={};h.forEach((k,i)=>{o[k]=(v[i]||'').trim().replace(/^"|"$/g,'')});
+    o.percentComplete=parseInt(o.percentComplete||o['% Complete']||'0')||0;
+    o.priority=o.priority||o.Priority||'Standard';o.type=o.type||o.Type||'Mitigation';
+    o.status=o.status||o.Status||'Not Started';return o})
 }
+function parseLine(line){const r=[];let c='',q=false;for(const ch of line){if(ch==='"')q=!q;else if(ch===','&&!q){r.push(c);c=''}else c+=ch}r.push(c);return r}
+function filtered(){return all.filter(a=>{
+  if(filt.type!=='all'&&a.type!==filt.type)return false;
+  if(filt.status!=='all'&&a.status!==filt.status)return false;
+  if(filt.category!=='all'&&a.category!==filt.category)return false;
+  if(filt.priority!=='all'&&a.priority!==filt.priority)return false;
+  if(filt.tag!=='all'){const tags=(a.tags||'').toLowerCase();if(!tags.includes(filt.tag.toLowerCase()))return false}
+  return true})}
 
-function parseCSV(csv) {
-  const lines = csv.trim().split('\n');
-  const headers = lines[0].split(',').map(h => h.trim().replace(/"/g, ''));
-  return lines.slice(1).filter(l => l.trim()).map(line => {
-    const vals = parseCSVLine(line);
-    const obj = {};
-    headers.forEach((h, i) => { obj[h] = (vals[i] || '').trim().replace(/^"|"$/g, ''); });
-    obj.percentComplete = parseInt(obj.percentComplete || obj['% Complete'] || '0') || 0;
-    obj.priority = obj.priority || obj.Priority || 'Standard';
-    obj.type = obj.type || obj.Type || 'Mitigation';
-    obj.status = obj.status || obj.Status || 'Not Started';
-    return obj;
+// ═══ RENDER ═══
+function render(){renderWheel();renderOverview();renderCatRings();renderFilters();renderTags();renderActions()}
+
+// ── WHEEL ──
+function renderWheel(){
+  const f=filtered();const total=f.length||1;
+  const cats={};f.forEach(a=>{if(!cats[a.category])cats[a.category]={count:0,type:a.type,pri:0};cats[a.category].count++;if(a.priority==='Priority')cats[a.category].pri++});
+  const svg=document.getElementById('wheelSvg');svg.innerHTML='';
+  const cx=170,cy=170,r1=70,r2=110,r3=150;
+  const circ1=2*Math.PI*r1,circ2=2*Math.PI*r2,circ3=2*Math.PI*r3;
+  const typeColors={'Mitigation':'#10b981','Adaptation':'#38bdf8'};
+  const catColors={'Net Zero Mobility':'#059669','Clean Energy & Water Systems':'#34d399','Climate Positive Communities':'#6ee7b7','Enabling Measures':'#a7f3d0','Coastal Flooding':'#0284c7','Inland Flooding':'#38bdf8','Rising Temperatures':'#7dd3fc'};
+  
+  // Outer ring: categories
+  let offset3=0;
+  Object.entries(cats).sort((a,b)=>a[0].localeCompare(b[0])).forEach(([name,c])=>{
+    const frac=c.count/total;const len=circ3*frac;
+    const color=catColors[name]||(c.type==='Mitigation'?'#10b981':'#38bdf8');
+    svg.innerHTML+=`<circle cx="${cx}" cy="${cy}" r="${r3}" fill="none" stroke="${color}" stroke-width="32" stroke-dasharray="${len} ${circ3-len}" stroke-dashoffset="${-offset3}" opacity=".85"/>`;
+    // Label
+    const angle=(offset3+len/2)/circ3*360-90;const rad=angle*Math.PI/180;
+    const lx=cx+(r3)*Math.cos(rad),ly=cy+(r3)*Math.sin(rad);
+    offset3+=len;
   });
+  
+  // Middle ring: Mitigation vs Adaptation
+  const mitCount=f.filter(a=>a.type==='Mitigation').length;
+  const adpCount=f.filter(a=>a.type==='Adaptation').length;
+  const mitLen=circ2*(mitCount/total);
+  svg.innerHTML+=`<circle cx="${cx}" cy="${cy}" r="${r2}" fill="none" stroke="#10b981" stroke-width="28" stroke-dasharray="${mitLen} ${circ2-mitLen}" opacity=".9"/>`;
+  svg.innerHTML+=`<circle cx="${cx}" cy="${cy}" r="${r2}" fill="none" stroke="#38bdf8" stroke-width="28" stroke-dasharray="${circ2-mitLen} ${mitLen}" stroke-dashoffset="${-mitLen}" opacity=".9"/>`;
+  
+  // Inner ring: Priority
+  const priCount=f.filter(a=>a.priority==='Priority').length;
+  const priLen=circ1*(priCount/total);
+  svg.innerHTML+=`<circle cx="${cx}" cy="${cy}" r="${r1}" fill="none" stroke="#f59e0b" stroke-width="20" stroke-dasharray="${priLen} ${circ1-priLen}" opacity=".9"/>`;
+  svg.innerHTML+=`<circle cx="${cx}" cy="${cy}" r="${r1}" fill="none" stroke="var(--s200)" stroke-width="20" stroke-dasharray="${circ1-priLen} ${priLen}" stroke-dashoffset="${-priLen}"/>`;
+  
+  // Donut arcs
+  document.getElementById('wheelTotal').textContent=f.length;
+  
+  // Legend
+  const legend=document.getElementById('wheelLegend');
+  legend.innerHTML=`
+    <div class="wl-item"><div class="wl-dot" style="background:#f59e0b"></div>Inner: Priority (${priCount})</div>
+    <div class="wl-item"><div class="wl-dot" style="background:#10b981"></div>Middle: Mitigation (${mitCount})</div>
+    <div class="wl-item"><div class="wl-dot" style="background:#38bdf8"></div>Middle: Adaptation (${adpCount})</div>
+    <div class="wl-item"><div class="wl-dot" style="background:#0284c7"></div>Outer: Categories</div>
+  `;
 }
 
-function parseCSVLine(line) {
-  const result = []; let current = ''; let inQuotes = false;
-  for (const ch of line) {
-    if (ch === '"') inQuotes = !inQuotes;
-    else if (ch === ',' && !inQuotes) { result.push(current); current = ''; }
-    else current += ch;
-  }
-  result.push(current);
-  return result;
+// ── OVERVIEW ──
+function renderOverview(){
+  const f=filtered();
+  const mit=f.filter(a=>a.type==='Mitigation').length;
+  const adp=f.filter(a=>a.type==='Adaptation').length;
+  const wip=f.filter(a=>a.status==='In Progress').length;
+  const done=f.filter(a=>a.status==='Complete').length;
+  const avg=f.length?Math.round(f.reduce((s,a)=>s+a.percentComplete,0)/f.length):0;
+  
+  document.getElementById('ovMit').textContent=mit;
+  document.getElementById('ovAdp').textContent=adp;
+  document.getElementById('ovWip').textContent=wip;
+  document.getElementById('ovDone').textContent=done;
+  document.getElementById('ovPct').textContent=avg+'%';
+  
+  setTimeout(()=>{
+    const ring=document.getElementById('ovRing');
+    ring.style.transition='stroke-dashoffset 1.2s ease';
+    ring.style.strokeDashoffset=314*(1-avg/100);
+  },200);
+  
+  // Top 5 by completion
+  const sorted=[...f].sort((a,b)=>b.percentComplete-a.percentComplete).slice(0,5);
+  const list=document.getElementById('top5List');
+  list.innerHTML=sorted.map(a=>{
+    const badgeCls=a.type==='Mitigation'?'mit':'adp';
+    const color=a.percentComplete>=70?'var(--emerald)':a.percentComplete>=30?'var(--amber)':'var(--s400)';
+    return `<div class="top5-item">
+      <span class="top5-id ${badgeCls}">${a.id}</span>
+      <span class="top5-name">${a.action}</span>
+      <span class="top5-pct" style="color:${color}">${a.percentComplete}%</span>
+    </div>`}).join('');
 }
 
-// ─── TAB SWITCHING ───
-let currentTab = 'mitigation';
-
-function switchTab(tab) {
-  currentTab = tab;
-  document.querySelectorAll('.action-tab').forEach(t => t.classList.toggle('active', t.dataset.tab === tab));
-  document.querySelectorAll('.tab-panel').forEach(p => p.classList.add('hidden'));
-  document.getElementById('panel-' + tab).classList.remove('hidden');
+// ── CATEGORY RINGS ──
+function renderCatRings(){
+  const f=filtered();const cats={};
+  f.forEach(a=>{if(!cats[a.category])cats[a.category]={sum:0,count:0,type:a.type};cats[a.category].sum+=a.percentComplete;cats[a.category].count++});
+  const container=document.getElementById('catRings');
+  container.innerHTML=Object.entries(cats).sort((a,b)=>(b[1].sum/b[1].count)-(a[1].sum/a[1].count)).map(([name,c])=>{
+    const pct=c.count?Math.round(c.sum/c.count):0;
+    const color=c.type==='Mitigation'?'#10b981':'#38bdf8';
+    const offset=201*(1-pct/100);
+    return `<div class="cr-item">
+      <svg width="60" height="60" viewBox="0 0 60 60" style="transform:rotate(-90deg)">
+        <circle cx="30" cy="30" r="24" fill="none" stroke="var(--s100)" stroke-width="6"/>
+        <circle cx="30" cy="30" r="24" fill="none" stroke="${color}" stroke-width="6" stroke-linecap="round" stroke-dasharray="151" stroke-dashoffset="${offset}"/>
+      </svg>
+      <div class="name">${name}</div>
+      <div class="sub">${pct}% · ${c.count} act</div>
+    </div>`}).join('');
 }
 
-// ─── RENDER ───
-function render() {
-  renderStats();
-  renderDonut();
-  renderCategoryBars();
-  renderVizDonuts();
-  renderStackedBars();
-  renderTreemap();
-  renderCompareBars();
-  renderFilters();
-  renderActionList('mitigationActions', 'Mitigation');
-  renderActionList('adaptationActions', 'Adaptation');
-  renderActionList('allActions', 'all');
-  updateTabCounts();
-}
-
-function updateTabCounts() {
-  const f = getFiltered();
-  document.getElementById('mitTabCount').textContent = f.filter(a => a.type === 'Mitigation').length;
-  document.getElementById('adpTabCount').textContent = f.filter(a => a.type === 'Adaptation').length;
-  document.getElementById('allTabCount').textContent = f.length;
-}
-
-function getFiltered() {
-  return allActions.filter(a => {
-    if (activeFilters.type !== 'all' && a.type !== activeFilters.type) return false;
-    if (activeFilters.status !== 'all' && a.status !== activeFilters.status) return false;
-    if (activeFilters.category !== 'all' && a.category !== activeFilters.category) return false;
-    return true;
-  });
-}
-
-function animateNumber(el, target) {
-  const start = parseInt(el.textContent) || 0;
-  const duration = 600;
-  const startTime = performance.now();
-  function tick(now) {
-    const elapsed = now - startTime;
-    const progress = Math.min(elapsed / duration, 1);
-    const eased = 1 - Math.pow(1 - progress, 3);
-    el.textContent = Math.round(start + (target - start) * eased);
-    if (progress < 1) requestAnimationFrame(tick);
-  }
-  requestAnimationFrame(tick);
-}
-
-function renderStats() {
-  const f = getFiltered();
-  const counts = {
-    total: f.length,
-    mitigation: f.filter(a => a.type === 'Mitigation').length,
-    adaptation: f.filter(a => a.type === 'Adaptation').length,
-    inprogress: f.filter(a => a.status === 'In Progress').length,
-    complete: f.filter(a => a.status === 'Complete').length,
-  };
-  document.querySelectorAll('[data-count]').forEach(el => {
-    animateNumber(el, counts[el.dataset.count]);
-  });
-  document.getElementById('mitCount').textContent = counts.mitigation;
-  document.getElementById('adpCount').textContent = counts.adaptation;
-}
-
-function renderDonut() {
-  const f = getFiltered();
-  if (!f.length) return;
-  const avg = Math.round(f.reduce((s, a) => s + a.percentComplete, 0) / f.length);
-  const circumference = 2 * Math.PI * 74;
-  const offset = circumference * (1 - avg / 100);
-
-  const arc = document.getElementById('donutArc');
-  setTimeout(() => { arc.style.transition = 'stroke-dashoffset 1.2s cubic-bezier(0.4,0,0.2,1)'; arc.style.strokeDashoffset = offset; }, 100);
-
-  document.getElementById('donutPct').textContent = avg + '%';
-  document.getElementById('legMit').textContent = f.filter(a => a.type === 'Mitigation').length;
-  document.getElementById('legAdp').textContent = f.filter(a => a.type === 'Adaptation').length;
-  document.getElementById('legPri').textContent = f.filter(a => a.priority === 'Priority').length;
-}
-
-function renderCategoryBars() {
-  const f = getFiltered();
-  const cats = {};
-  f.forEach(a => {
-    if (!cats[a.category]) cats[a.category] = { total: 0, sum: 0, type: a.type };
-    cats[a.category].total++;
-    cats[a.category].sum += a.percentComplete;
-  });
-
-  const container = document.getElementById('categoryBars');
-  container.innerHTML = '';
-  Object.entries(cats).sort((a, b) => a[0].localeCompare(b[0])).forEach(([name, c]) => {
-    const pct = c.total > 0 ? Math.round(c.sum / c.total) : 0;
-    const color = c.type === 'Mitigation' ? 'var(--emerald)' : 'var(--ocean-light)';
-    container.innerHTML += `
-      <div class="cat-progress">
-        <div class="cat-head">
-          <span class="cat-name">${name}</span>
-          <span class="cat-pct" style="color:${color}">${pct}%</span>
-        </div>
-        <div class="cat-bar-bg">
-          <div class="cat-bar-fill" style="width:${Math.max(pct, 2)}%;background:${color}"></div>
-        </div>
-      </div>`;
-  });
-}
-
-function renderVizDonuts() {
-  const f = getFiltered();
-  if (!f.length) return;
-  const total = f.length;
-  const mitCount = f.filter(a => a.type === 'Mitigation').length;
-  const adpCount = f.filter(a => a.type === 'Adaptation').length;
-  const nsCount = f.filter(a => a.status === 'Not Started').length;
-  const wipCount = f.filter(a => a.status === 'In Progress').length;
-  const doneCount = f.filter(a => a.status === 'Complete').length;
-  const priCount = f.filter(a => a.priority === 'Priority').length;
-  const stdCount = total - priCount;
-  const circ = 2 * Math.PI * 56; // 352
-  const circBig = 2 * Math.PI * 64; // 402
-
-  // Mitigation donut
-  const mitPct = mitCount / total;
-  document.getElementById('mitDonutNum').textContent = mitCount;
-  setTimeout(() => {
-    const arc = document.getElementById('mitDonut');
-    arc.style.transition = 'stroke-dashoffset 1s ease';
-    arc.style.strokeDashoffset = circ * (1 - mitPct);
-  }, 200);
-
-  // Adaptation donut
-  const adpPct = adpCount / total;
-  document.getElementById('adpDonutNum').textContent = adpCount;
-  setTimeout(() => {
-    const arc = document.getElementById('adpDonut');
-    arc.style.transition = 'stroke-dashoffset 1s ease';
-    arc.style.strokeDashoffset = circ * (1 - adpPct);
-  }, 200);
-
-  // Status donut (stacked ring)
-  document.getElementById('statusTotal').textContent = total;
-  document.getElementById('legNs').textContent = nsCount;
-  document.getElementById('legWip').textContent = wipCount;
-  document.getElementById('legDone').textContent = doneCount;
-
-  setTimeout(() => {
-    const doneFrac = doneCount / total;
-    const wipFrac = wipCount / total;
-    const nsFrac = nsCount / total;
-
-    // Done arc (starts at top)
-    const doneArc = document.getElementById('statusDoneArc');
-    doneArc.style.transition = 'stroke-dashoffset 1s ease';
-    doneArc.style.strokeDashoffset = circBig * (1 - doneFrac);
-
-    // WIP arc (offset by done fraction)
-    const wipArc = document.getElementById('statusWipArc');
-    wipArc.style.transition = 'stroke-dasharray 1s ease';
-    const wipLen = circBig * wipFrac;
-    wipArc.style.strokeDasharray = `${wipLen} ${circBig}`;
-    wipArc.style.strokeDashoffset = -circBig * doneFrac;
-
-    // NS arc
-    const nsArc = document.getElementById('statusNsArc');
-    nsArc.style.transition = 'stroke-dasharray 1s ease';
-    const nsLen = circBig * nsFrac;
-    nsArc.style.strokeDasharray = `${nsLen} ${circBig}`;
-    nsArc.style.strokeDashoffset = -circBig * (doneFrac + wipFrac);
-  }, 300);
-
-  // Priority donut
-  const priPct = priCount / total;
-  document.getElementById('priPct').textContent = Math.round(priPct * 100) + '%';
-  document.getElementById('legPriCount').textContent = priCount;
-  document.getElementById('legStdCount').textContent = stdCount;
-  setTimeout(() => {
-    const arc = document.getElementById('priArc');
-    arc.style.transition = 'stroke-dashoffset 1s ease';
-    arc.style.strokeDashoffset = circBig * (1 - priPct);
-  }, 400);
-
-  // Priority action list
-  const priActions = f.filter(a => a.priority === 'Priority');
-  document.getElementById('priActionList').innerHTML = priActions.length
-    ? priActions.map(a => `<div style="padding:3px 0;border-bottom:1px solid var(--slate-100)"><strong style="font-family:'JetBrains Mono',monospace;font-size:0.72rem;color:#92400e">${a.id}</strong> ${a.action.substring(0, 50)}${a.action.length > 50 ? '…' : ''}</div>`).join('')
-    : '<span style="color:var(--slate-400)">No priority actions</span>';
-}
-
-function renderStackedBars() {
-  const f = getFiltered();
-  const cats = {};
-  f.forEach(a => {
-    if (!cats[a.category]) cats[a.category] = { ns: 0, wip: 0, done: 0, total: 0, type: a.type };
-    cats[a.category].total++;
-    if (a.status === 'Complete') cats[a.category].done++;
-    else if (a.status === 'In Progress') cats[a.category].wip++;
-    else cats[a.category].ns++;
-  });
-
-  const maxTotal = Math.max(...Object.values(cats).map(c => c.total), 1);
-  const container = document.getElementById('stackedBars');
-  container.innerHTML = Object.entries(cats).sort((a, b) => b[1].total - a[1].total).map(([name, c]) => {
-    const nsW = (c.ns / c.total * 100).toFixed(1);
-    const wipW = (c.wip / c.total * 100).toFixed(1);
-    const doneW = (c.done / c.total * 100).toFixed(1);
-    const typeIcon = c.type === 'Mitigation' ? '🌿' : '🌊';
-    return `<div class="stacked-row">
-      <div class="stacked-label">${typeIcon} ${name}</div>
-      <div class="stacked-track">
-        ${c.ns > 0 ? `<div class="stacked-seg seg-not-started" style="width:${nsW}%">${c.ns}</div>` : ''}
-        ${c.wip > 0 ? `<div class="stacked-seg seg-in-progress" style="width:${wipW}%">${c.wip}</div>` : ''}
-        ${c.done > 0 ? `<div class="stacked-seg seg-complete" style="width:${doneW}%">${c.done}</div>` : ''}
-      </div>
-      <div class="stacked-count">${c.total}</div>
-    </div>`;
-  }).join('');
-}
-
-function renderTreemap() {
-  const f = getFiltered();
-  const cats = {};
-  f.forEach(a => {
-    if (!cats[a.category]) cats[a.category] = { count: 0, type: a.type, avgPct: 0 };
-    cats[a.category].count++;
-    cats[a.category].avgPct += a.percentComplete;
-  });
-  Object.values(cats).forEach(c => c.avgPct = Math.round(c.avgPct / c.count));
-
-  const total = f.length || 1;
-  const container = document.getElementById('treemap');
-  container.innerHTML = Object.entries(cats).sort((a, b) => b[1].count - a[1].count).map(([name, c]) => {
-    const pct = (c.count / total * 100);
-    const cellClass = c.type === 'Mitigation' ? 'mit-cell' : 'adp-cell';
-    // Size proportional to count
-    const flexBasis = Math.max(pct * 2.5, 80);
-    return `<div class="treemap-cell ${cellClass}" style="flex:1 1 ${flexBasis}px">
-      <div class="tm-name">${name}</div>
-      <div class="tm-count">${c.count}</div>
-      <div class="tm-pct">${c.avgPct}% avg complete</div>
-    </div>`;
-  }).join('');
-}
-
-function renderCompareBars() {
-  const f = getFiltered();
-  const cats = {};
-  f.forEach(a => {
-    if (!cats[a.category]) cats[a.category] = { ns: 0, wip: 0, done: 0, total: 0, type: a.type };
-    cats[a.category].total++;
-    if (a.status === 'Complete') cats[a.category].done++;
-    else if (a.status === 'In Progress') cats[a.category].wip++;
-    else cats[a.category].ns++;
-  });
-
-  const container = document.getElementById('compareBars');
-  container.innerHTML = Object.entries(cats).sort((a, b) => {
-    const pctA = a[1].total > 0 ? a[1].done / a[1].total : 0;
-    const pctB = b[1].total > 0 ? b[1].done / b[1].total : 0;
-    return pctB - pctA;
-  }).map(([name, c]) => {
-    const donePct = c.total > 0 ? (c.done / c.total * 100) : 0;
-    const wipPct = c.total > 0 ? (c.wip / c.total * 100) : 0;
-    const nsPct = c.total > 0 ? (c.ns / c.total * 100) : 0;
-    const typeIcon = c.type === 'Mitigation' ? '🌿' : '🌊';
-    return `<div class="compare-row">
-      <div class="compare-header">
-        <span class="compare-name">${typeIcon} ${name}</span>
-        <span class="compare-stats">${Math.round(donePct)}% done · ${c.done}/${c.total}</span>
-      </div>
-      <div class="compare-track">
-        <div class="compare-seg" style="width:${donePct}%;background:var(--emerald)"></div>
-        <div class="compare-seg" style="width:${wipPct}%;background:#60a5fa"></div>
-        <div class="compare-seg" style="width:${nsPct}%;background:var(--slate-200)"></div>
-      </div>
-    </div>`;
-  }).join('');
-}
-
-function renderFilters() {
-  const categories = [...new Set(allActions.map(a => a.category))].sort();
-  const statuses = ['Not Started', 'In Progress', 'Complete'];
-
-  let html = `<div class="filter-group">
-    <span class="filter-label">Type</span>
-    <button class="pill active" data-f="type" data-v="all">All</button>
-    <button class="pill" data-f="type" data-v="Mitigation">🌿 Mitigation</button>
-    <button class="pill" data-f="type" data-v="Adaptation">🌊 Adaptation</button>
-  </div>
-  <div class="divider"></div>
-  <div class="filter-group">
-    <span class="filter-label">Status</span>
-    <button class="pill active" data-f="status" data-v="all">All</button>
-    ${statuses.map(s => `<button class="pill" data-f="status" data-v="${s}">${s}</button>`).join('')}
-  </div>
-  <div class="divider"></div>
-  <div class="filter-group">
-    <span class="filter-label">Category</span>
-    <button class="pill active" data-f="category" data-v="all">All</button>
-    ${categories.map(c => `<button class="pill" data-f="category" data-v="${c}">${c}</button>`).join('')}
+// ── FILTERS ──
+function renderFilters(){
+  const cats=[...new Set(all.map(a=>a.category))].sort();
+  const statuses=['Not Started','In Progress','Complete'];
+  const priorities=['Priority','Standard'];
+  
+  let h=`<div class="fg"><span class="fg-label">Type</span>
+    <button class="fpill${filt.type==='all'?' active':''}" onclick="setF('type','all')">All</button>
+    <button class="fpill${filt.type==='Mitigation'?' active':''}" onclick="setF('type','Mitigation')">🌿 Mitigation</button>
+    <button class="fpill${filt.type==='Adaptation'?' active':''}" onclick="setF('type','Adaptation')">🌊 Adaptation</button>
+  </div><div class="fdiv"></div>
+  <div class="fg"><span class="fg-label">Status</span>
+    <button class="fpill${filt.status==='all'?' active':''}" onclick="setF('status','all')">All</button>
+    ${statuses.map(s=>`<button class="fpill${filt.status===s?' active':''}" onclick="setF('status','${s}')">${s}</button>`).join('')}
+  </div><div class="fdiv"></div>
+  <div class="fg"><span class="fg-label">Priority</span>
+    <button class="fpill${filt.priority==='all'?' active':''}" onclick="setF('priority','all')">All</button>
+    ${priorities.map(p=>`<button class="fpill${filt.priority===p?' active':''}" onclick="setF('priority','${p}')">${p==='Priority'?'★ Priority':'Standard'}</button>`).join('')}
+  </div><div class="fdiv"></div>
+  <div class="fg"><span class="fg-label">Category</span>
+    <button class="fpill${filt.category==='all'?' active':''}" onclick="setF('category','all')">All</button>
+    ${cats.map(c=>`<button class="fpill${filt.category===c?' active':''}" onclick="setF('category','${c}')">${c}</button>`).join('')}
   </div>`;
+  document.getElementById('filterBar').innerHTML=h;
+}
+function setF(key,val){filt[key]=val;render()}
 
-  document.getElementById('filters').innerHTML = html;
-  document.querySelectorAll('.pill').forEach(btn => {
-    btn.addEventListener('click', () => {
-      const f = btn.dataset.f, v = btn.dataset.v;
-      activeFilters[f] = v;
-      btn.closest('.filter-group').querySelectorAll('.pill').forEach(b => b.classList.remove('active'));
-      btn.classList.add('active');
-      render();
-    });
-  });
+// ── TAGS ──
+function renderTags(){
+  const tagSet=new Set();
+  all.forEach(a=>{(a.tags||'').split(',').map(t=>t.trim()).filter(Boolean).forEach(t=>tagSet.add(t))});
+  if(!tagSet.size){document.getElementById('tagBar').innerHTML='';return}
+  const colors=['#ecfdf5','#e0f2fe','#fef3c7','#fce7f3','#ede9fe','#f0fdf4','#fff7ed'];
+  const textColors=['#065f46','#075985','#92400e','#9d174d','#5b21b6','#166534','#9a3412'];
+  let i=0;
+  document.getElementById('tagBar').innerHTML=[...tagSet].map(t=>{
+    const ci=i%colors.length;i++;
+    return `<span class="tag-pill${filt.tag===t?' active':''}" style="background:${colors[ci]};color:${textColors[ci]}" onclick="setF('tag','${filt.tag===t?'all':t}')">${t}</span>`}).join('');
 }
 
-function renderActionList(containerId, type) {
-  let filtered;
-  if (type === 'all') {
-    filtered = getFiltered();
-  } else {
-    filtered = getFiltered().filter(a => a.type === type);
-  }
-
-  // Group by type → category → strategy
-  const typeGroups = {};
-  filtered.forEach(a => {
-    const t = a.type;
-    if (!typeGroups[t]) typeGroups[t] = {};
-    if (!typeGroups[t][a.category]) typeGroups[t][a.category] = {};
-    if (!typeGroups[t][a.category][a.strategy]) typeGroups[t][a.category][a.strategy] = [];
-    typeGroups[t][a.category][a.strategy].push(a);
+// ── ACTION LIST ──
+function renderActions(){
+  const f=filtered();
+  const typeGroups={};
+  f.forEach(a=>{
+    if(!typeGroups[a.type])typeGroups[a.type]={};
+    if(!typeGroups[a.type][a.category])typeGroups[a.type][a.category]={};
+    if(!typeGroups[a.type][a.category][a.strategy])typeGroups[a.type][a.category][a.strategy]=[];
+    typeGroups[a.type][a.category][a.strategy].push(a);
   });
-
-  let html = '';
-  if (!filtered.length) {
-    html = '<p style="color:var(--slate-400);padding:20px;text-align:center;font-size:0.88rem">No actions match current filters.</p>';
-  }
-
-  const typeOrder = type === 'all' ? ['Mitigation', 'Adaptation'] : [type];
-  const typeIcons = { Mitigation: '🌿', Adaptation: '🌊' };
-  const typeColors = { Mitigation: { bar: 'var(--emerald)', pct: '#065f46', bg: '#ecfdf5' }, Adaptation: { bar: 'var(--ocean-light)', pct: '#075985', bg: '#e0f2fe' } };
-
-  typeOrder.forEach(typeName => {
-    const categories = typeGroups[typeName];
-    if (!categories) return;
-
-    if (type === 'all') {
-      html += `<div class="section-title"><span class="icon">${typeIcons[typeName]}</span> ${typeName} <span class="count">${Object.values(categories).flat().flat().length || countActions(categories)}</span></div>`;
-    }
-
-    Object.keys(categories).sort().forEach(cat => {
-      const strategies = categories[cat];
-      const catActions = Object.values(strategies).flat();
-      const catAvg = Math.round(catActions.reduce((s, a) => s + a.percentComplete, 0) / catActions.length);
-      const ns = catActions.filter(a => a.status === 'Not Started').length;
-      const wip = catActions.filter(a => a.status === 'In Progress').length;
-      const done = catActions.filter(a => a.status === 'Complete').length;
-      const colors = typeColors[typeName] || typeColors.Mitigation;
-      const catId = cat.replace(/\s+/g, '-') + '-' + typeName;
-
-      html += `<div class="category-group">
-        <button class="cat-group-header open" onclick="this.classList.toggle('open');document.getElementById('${catId}').classList.toggle('collapsed')">
-          <span class="arrow">▶</span>
-          <span class="cat-icon">${typeIcons[typeName]}</span>
-          <span class="cat-title">${cat}</span>
-          <span class="cat-stats">
-            <span class="cat-stat-item"><span class="cat-stat-dot" style="background:var(--slate-300)"></span>${ns}</span>
-            <span class="cat-stat-item"><span class="cat-stat-dot" style="background:#60a5fa"></span>${wip}</span>
-            <span class="cat-stat-item"><span class="cat-stat-dot" style="background:var(--emerald)"></span>${done}</span>
+  
+  const icons={Mitigation:'🌿',Adaptation:'🌊'};
+  const borderColors={Mitigation:'var(--emerald)',Adaptation:'var(--ocean-light)'};
+  
+  let html='';
+  if(!f.length)html='<p style="color:var(--s400);padding:20px;text-align:center">No actions match filters.</p>';
+  
+  ['Mitigation','Adaptation'].forEach(typeName=>{
+    const cats=typeGroups[typeName];if(!cats)return;
+    html+=`<div class="sec-title">${icons[typeName]} ${typeName} <span style="font-size:.75rem;background:var(--s100);padding:2px 10px;border-radius:10px;color:var(--s500);font-weight:600">${Object.values(cats).reduce((s,strats)=>s+Object.values(strats).reduce((s2,arr)=>s2+arr.length,0),0)}</span></div>`;
+    
+    Object.keys(cats).sort().forEach(cat=>{
+      const strats=cats[cat];
+      const catActs=Object.values(strats).flat();
+      const avg=Math.round(catActs.reduce((s,a)=>s+a.percentComplete,0)/catActs.length);
+      const ns=catActs.filter(a=>a.status==='Not Started').length;
+      const wip=catActs.filter(a=>a.status==='In Progress').length;
+      const done=catActs.filter(a=>a.status==='Complete').length;
+      const bc=borderColors[typeName];
+      const gid=cat.replace(/\s+/g,'-')+typeName;
+      
+      html+=`<div style="margin-bottom:8px">
+        <button class="group-hdr open" onclick="this.classList.toggle('open');document.getElementById('${gid}').classList.toggle('collapsed')">
+          <span class="arrow">▶</span>${icons[typeName]} ${cat}
+          <span class="meta">
+            <span style="display:flex;align-items:center;gap:3px"><span style="width:6px;height:6px;border-radius:50%;background:var(--s300)"></span>${ns}</span>
+            <span style="display:flex;align-items:center;gap:3px"><span style="width:6px;height:6px;border-radius:50%;background:#60a5fa"></span>${wip}</span>
+            <span style="display:flex;align-items:center;gap:3px"><span style="width:6px;height:6px;border-radius:50%;background:var(--emerald)"></span>${done}</span>
+            <span style="font-family:'JetBrains Mono',monospace;font-weight:700;color:${typeName==='Mitigation'?'#065f46':'#075985'}">${avg}%</span>
           </span>
-          <span class="cat-pct" style="color:${colors.pct}">${catAvg}%</span>
-          <div class="cat-bar"><div class="fill" style="width:${Math.max(catAvg,2)}%;background:${colors.bar}"></div></div>
         </button>
-        <div class="cat-group-body" id="${catId}">`;
-
-      Object.keys(strategies).sort().forEach(strategy => {
-        html += `<div class="strategy-label">${strategy}</div><div class="action-grid">`;
-
-        strategies[strategy].forEach(a => {
-          const isPri = a.priority === 'Priority';
-          const isComplete = a.status === 'Complete';
-          const pctClass = a.percentComplete >= 70 ? 'high' : a.percentComplete >= 30 ? 'mid' : 'low';
-          const barColor2 = a.percentComplete >= 70 ? 'var(--emerald)' : a.percentComplete >= 30 ? 'var(--amber)' : 'var(--slate-300)';
-          const statusClass = a.status === 'Complete' ? 'chip-status-complete' : a.status === 'In Progress' ? 'chip-status-in-progress' : 'chip-status-not-started';
-          const badgeClass = a.type === 'Mitigation' ? 'mit' : 'adp';
-          const borderColor = isPri ? 'var(--amber)' : a.status === 'Complete' ? 'var(--emerald)' : 'var(--ocean-light)';
-
-          // Back side content
-          const desc = a.description || '';
-          const subActions = a.subActions || a.actions || [];
-          const funding = a.funding || '';
-          const impl = a.implementationProjects || [];
-          const csc = a.cscPoints || '';
-          const target = a.targetDate || '';
-
-          html += `<div class="flip-container">
-            <div class="flip-card" onclick="this.classList.toggle('flipped')" style="min-height:170px">
-              <div class="flip-inner">
-                <div class="flip-front" style="border-left:3px solid ${borderColor}">
-                  <div class="ff-top">
-                    <span class="ff-id ${badgeClass}">${a.id}${isPri ? ' ★' : ''}</span>
-                    <span class="ff-title">${a.action}</span>
-                  </div>
-                  <div class="ff-desc">${desc.substring(0, 120)}${desc.length > 120 ? '…' : ''}</div>
-                  <div class="ff-bottom">
-                    <div class="ff-tags">
-                      <span class="ff-tag ${statusClass}">${a.status}</span>
-                      ${isPri ? '<span class="ff-tag" style="background:#fef3c7;color:#92400e">★ Priority</span>' : ''}
-                    </div>
-                    <div style="text-align:right">
-                      <div class="ff-pct ${pctClass}">${a.percentComplete}%</div>
-                      <div class="ff-bar" style="width:50px"><div class="fill" style="width:${a.percentComplete}%;background:${barColor2}"></div></div>
-                    </div>
-                  </div>
-                  <div class="flip-hint">click for details →</div>
+        <div class="group-body" id="${gid}">`;
+      
+      Object.keys(strats).sort().forEach(strategy=>{
+        html+=`<div style="font-size:.72rem;font-weight:600;color:var(--s500);padding:8px 4px 4px;text-transform:uppercase;letter-spacing:.03em">${strategy}</div><div class="action-grid">`;
+        
+        strats[strategy].forEach(a=>{
+          const isPri=a.priority==='Priority';
+          const pctCls=a.percentComplete>=70?'high':a.percentComplete>=30?'mid':'low';
+          const barClr=a.percentComplete>=70?'var(--emerald)':a.percentComplete>=30?'var(--amber)':'var(--s300)';
+          const stCls=a.status==='Complete'?'chip-status-complete':a.status==='In Progress'?'chip-status-in-progress':'chip-status-not-started';
+          const bCls=a.type==='Mitigation'?'mit':'adp';
+          const bl=isPri?'var(--amber)':a.status==='Complete'?'var(--emerald)':bc;
+          const desc=a.description||'';
+          const impl=a.implementationProjects||[];
+          const funding=a.funding||'';
+          const csc=a.cscPoints||'';
+          
+          html+=`<div class="fc"><div class="flip" onclick="this.classList.toggle('flipped')"><div class="finner">
+            <div class="front" style="border-left:3px solid ${bl}">
+              <div class="ft"><span class="fid ${bCls}">${a.id}${isPri?' ★':''}</span><span class="fname">${a.action}</span></div>
+              <div class="fdesc">${desc.substring(0,100)}${desc.length>100?'…':''}</div>
+              <div class="fbottom">
+                <div class="ftags">
+                  <span class="ftag" style="background:${a.status==='Complete'?'#dcfce7':a.status==='In Progress'?'#dbeafe':'var(--s100)'};color:${a.status==='Complete'?'#166534':a.status==='In Progress'?'#1e40af':'var(--s500)'}">${a.status}</span>
+                  ${isPri?'<span class="ftag" style="background:#fef3c7;color:#92400e">★ Priority</span>':''}
                 </div>
-                <div class="flip-back" style="border-left:3px solid ${borderColor}">
-                  <h4>${a.id} — ${a.action}</h4>
-                  <p>${desc}</p>
-                  ${subActions.length ? `<div><h4>Sub-Actions</h4><ul>${subActions.map(s => `<li>${s}</li>`).join('')}</ul></div>` : ''}
-                  ${impl.length ? `<div><h4>Implementation Projects</h4><ul>${impl.map(s => `<li>${s}</li>`).join('')}</ul></div>` : ''}
-                  <div style="display:flex;flex-direction:column;gap:3px">
-                    ${a.responsibleParty ? `<div class="fb-kv"><span class="k">Responsible:</span><span class="v">${a.responsibleParty}</span></div>` : ''}
-                    ${funding ? `<div class="fb-kv"><span class="k">Funding:</span><span class="v">${funding}</span></div>` : ''}
-                    ${target ? `<div class="fb-kv"><span class="k">Target:</span><span class="v">${target}</span></div>` : ''}
-                    ${csc ? `<div class="fb-kv"><span class="k">CSC Points:</span><span class="v">${csc}</span></div>` : ''}
-                  </div>
-                  <div class="flip-hint" style="color:var(--slate-400)">← click to flip back</div>
-                </div>
+                <div style="text-align:right"><div class="fpct" style="color:${barClr}">${a.percentComplete}%</div><div class="fbar"><div class="fill" style="width:${a.percentComplete}%;background:${barClr}"></div></div></div>
               </div>
+              <div class="fhint">click →</div>
             </div>
-          </div>`;
+            <div class="back" style="border-left:3px solid ${bl}">
+              <h4>${a.id} — ${a.action}</h4>
+              <p>${desc}</p>
+              ${impl.length?'<h4>Implementation</h4><ul>'+impl.map(i=>'<li>'+i+'</li>').join('')+'</ul>':''}
+              ${a.responsibleParty?'<div class="bkv"><span class="k">Owner:</span><span class="v">'+a.responsibleParty+'</span></div>':''}
+              ${funding?'<div class="bkv"><span class="k">Funding:</span><span class="v">'+funding+'</span></div>':''}
+              ${csc?'<div class="bkv"><span class="k">CSC:</span><span class="v">'+csc+'</span></div>':''}
+              ${a.targetDate?'<div class="bkv"><span class="k">Target:</span><span class="v">'+a.targetDate+'</span></div>':''}
+              <div class="fhint">← back</div>
+            </div>
+          </div></div></div>`;
         });
-
-        html += `</div>`;
+        html+='</div>';
       });
-
-      html += `</div></div>`;
+      html+='</div></div>';
     });
   });
-
-  document.getElementById(containerId).innerHTML = html;
+  document.getElementById('actionList').innerHTML=html;
 }
 
-function countActions(groups) {
-  let n = 0;
-  Object.values(groups).forEach(strats => {
-    Object.values(strats).forEach(arr => { n += arr.length; });
-  });
-  return n;
-}
-
-// ─── INIT ───
-loadData().then(render);
+// ═══ INIT ═══
+load().then(render);
 </script>
 </body>
 </html>
