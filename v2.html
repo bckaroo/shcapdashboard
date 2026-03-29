@@ -109,6 +109,8 @@ a{color:var(--green);text-decoration:none}
 .fpill{padding:5px 12px;border:1px solid var(--border);border-radius:16px;background:transparent;cursor:pointer;font-size:.72rem;font-weight:500;color:var(--text2);transition:all .15s;font-family:inherit}
 .fpill:hover{border-color:var(--text3);color:var(--text)}
 .fpill.on{background:var(--green-dim);border-color:var(--green);color:var(--green)}
+.fpill.on-mit{background:var(--green-dim);border-color:var(--green);color:var(--green)}
+.fpill.on-adp{background:var(--blue-dim);border-color:var(--blue);color:var(--blue)}
 
 /* ═══ TAGS ═══ */
 .tags{display:flex;flex-wrap:wrap;gap:4px;margin-bottom:16px}
@@ -391,7 +393,7 @@ function renderFilters(){
   const cats=[...new Set(all.map(a=>a.category))].sort();
   const sts=['Not Started','In Progress','Complete'];
   document.getElementById('filterBar').innerHTML=
-    `<button class="fpill${fFilt.type==='all'?' on':''}" onclick="sF('type','all')">All</button><button class="fpill${fFilt.type==='Mitigation'?' on':''}" onclick="sF('type','Mitigation')">🌿 Mit</button><button class="fpill${fFilt.type==='Adaptation'?' on':''}" onclick="sF('type','Adaptation')">🌊 Adp</button>`+
+    `<button class="fpill${fFilt.type==='all'?' on':''}" onclick="sF('type','all')">All</button><button class="fpill${fFilt.type==='Mitigation'?' on-mit':''}" onclick="sF('type','Mitigation')">🌿 Mit</button><button class="fpill${fFilt.type==='Adaptation'?' on-adp':''}" onclick="sF('type','Adaptation')">🌊 Adp</button>`+
     `<span style="width:1px;height:20px;background:var(--border);display:inline-block"></span>`+
     sts.map(s=>`<button class="fpill${fFilt.status===s?' on':''}" onclick="sF('status','${s}')">${s}</button>`).join('')+
     `<span style="width:1px;height:20px;background:var(--border);display:inline-block"></span>`+
