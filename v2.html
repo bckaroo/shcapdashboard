@@ -272,55 +272,82 @@ function renderHero(){
   document.getElementById('hDone').textContent=f.filter(a=>a.status==='Complete').length;
 }
 
-// ── SUNBURST ──
+// ── SUNBURST (single ring) ──
 function renderSunburst(){
-  const f=filtered();const total=f.length||1;
+  const f=filtered();
   const svg=document.getElementById('sunburst');
   svg.innerHTML=''; // clear
-  const cx=160,cy=160;
-  
-  // Build hierarchy: type → category → strategy
-  const tree={Mitigation:{},Adaptation:{}};
-  f.forEach(a=>{
-    if(!tree[a.type])tree[a.type]={};
-    if(!tree[a.type][a.category])tree[a.type][a.category]={};
-    if(!tree[a.type][a.category][a.strategy])tree[a.type][a.category][a.strategy]=[];
-    tree[a.type][a.category][a.strategy].push(a)});
-  
-  const typeColors={Mitigation:['#059669','#10b981','#34d399','#6ee7b7'],Adaptation:['#0284c7','#38bdf8','#7dd3fc','#bae6fd']};
-  const radii=[{r:50,w:22},{r:78,w:26},{r:110,w:22}]; // inner=priority, middle=type, outer=category
-  
-  // Inner ring: priority split
-  const priFrac=f.filter(a=>a.priority==='Priority').length/total;
-  const circ0=2*Math.PI*radii[0].r;
-  svg.innerHTML+=`<circle cx="${cx}" cy="${cy}" r="${radii[0].r}" fill="none" stroke="#374151" stroke-width="${radii[0].w}" stroke-dasharray="${circ0*(1-priFrac)} ${circ0*priFrac}" transform="rotate(-90 ${cx} ${cy})"/>`;
-  svg.innerHTML+=`<circle cx="${cx}" cy="${cy}" r="${radii[0].r}" fill="none" stroke="#fbbf24" stroke-width="${radii[0].w}" stroke-dasharray="${circ0*priFrac} ${circ0*(1-priFrac)}" stroke-dashoffset="0" transform="rotate(-90 ${cx} ${cy})"/>`;
-  
-  // Middle ring: type split
-  const mitCount=f.filter(a=>a.type==='Mitigation').length;
-  const adpCount=f.filter(a=>a.type==='Adaptation').length;
-  const circ1=2*Math.PI*radii[1].r;
-  svg.innerHTML+=`<circle cx="${cx}" cy="${cy}" r="${radii[1].r}" fill="none" stroke="#10b981" stroke-width="${radii[1].w}" stroke-dasharray="${circ1*(mitCount/total)} ${circ1*(1-mitCount/total)}" transform="rotate(-90 ${cx} ${cy})"/>`;
-  svg.innerHTML+=`<circle cx="${cx}" cy="${cy}" r="${radii[1].r}" fill="none" stroke="#38bdf8" stroke-width="${radii[1].w}" stroke-dasharray="${circ1*(adpCount/total)} ${circ1*(1-adpCount/total)}" stroke-dashoffset="${-circ1*(mitCount/total)}" transform="rotate(-90 ${cx} ${cy})"/>`;
-  
-  // Outer ring: categories
-  const cats={};f.forEach(a=>{if(!cats[a.category])cats[a.category]={count:0,type:a.type};cats[a.category].count++});
-  const circ2=2*Math.PI*radii[2].r;
-  let offset=0;
-  const catEntries=Object.entries(cats).sort((a,b)=>a[0].localeCompare(b[0]));
-  catEntries.forEach(([name,c],i)=>{
-    const frac=c.count/total;const len=circ2*frac;
-    const colors=typeColors[c.type]||typeColors.Mitigation;
-    const color=colors[i%colors.length];
-    svg.innerHTML+=`<circle cx="${cx}" cy="${cy}" r="${radii[2].r}" fill="none" stroke="${color}" stroke-width="${radii[2].w}" stroke-dasharray="${len} ${circ2-len}" stroke-dashoffset="${-offset}" transform="rotate(-90 ${cx} ${cy})" style="cursor:pointer" data-cat="${name}" data-type="${c.type}" data-count="${c.count}" onmouseenter="showTip(event)" onmouseleave="hideTip()"/>`;
-    offset+=len});
-  
+  const cx=160,cy=160,R=110,W=36; // single ring at r=110, 36px wide
+  const gap=2; // px gap between segments
+
+  // Weight: Priority actions get 2× the slice, Standard gets 1×
+  f.forEach(a=>{a._w=a.priority==='Priority'?2:1});
+  const totalW=f.reduce((s,a)=>s+a._w,0);
+  if(!totalW){document.getElementById('sbTotal').textContent=0;return}
+
+  // Color palette: green shades for Mitigation, blue shades for Adaptation
+  const mitPalette=['#059669','#10b981','#34d399','#6ee7b7','#a7f3d0'];
+  const adpPalette=['#0284c7','#38bdf8','#7dd3fc','#bae6fd','#e0f2fe'];
+
+  // Draw background ring
+  svg.innerHTML+=`<circle cx="${cx}" cy="${cy}" r="${R}" fill="none" stroke="#1f2937" stroke-width="${W}"/>`;
+
+  // Build arc segments — one per action
+  let angle=0; // in radians
+
+  // Sort: Mitigation first, then by category, then by priority (Priority first within category)
+  const sorted=[...f].sort((a,b)=>{
+    if(a.type!==b.type)return a.type==='Mitigation'?-1:1;
+    if(a.category!==b.category)return a.category.localeCompare(b.category);
+    if(a.priority!==b.priority)return a.priority==='Priority'?-1:1;
+    return a.id.localeCompare(b.id);
+  });
+
+  // Track color indices per type
+  let mitIdx=0,adpIdx=0;
+
+  sorted.forEach(a=>{
+    const sweep=(a._w/totalW)*Math.PI*2;
+    const startAngle=angle;
+    const endAngle=angle+sweep;
+
+    // Pick color from palette, cycling through
+    const palette=a.type==='Mitigation'?mitPalette:adpPalette;
+    const colorIdx=a.type==='Mitigation'?mitIdx++:adpIdx++;
+    const color=palette[colorIdx%palette.length];
+
+    // Convert radians → SVG arc path
+    const startDeg=startAngle*180/Math.PI;
+    const endDeg=endAngle*180/Math.PI;
+
+    // Gap: shrink each segment by `gap` pixels on each side
+    const gapDeg=(gap/R)*180/Math.PI;
+    const sDeg=startDeg+gapDeg;
+    const eDeg=endDeg-gapDeg;
+    if(eDeg<=sDeg){angle=endAngle;return} // skip too-small segments
+
+    const sRad=sDeg*Math.PI/180;
+    const eRad=eDeg*Math.PI/180;
+
+    const x1=cx+R*Math.cos(sRad);
+    const y1=cy+R*Math.sin(sRad);
+    const x2=cx+R*Math.cos(eRad);
+    const y2=cy+R*Math.sin(eRad);
+    const large=eDeg-sDeg>180?1:0;
+
+    svg.innerHTML+=`<path d="M${x1} ${y1} A${R} ${R} 0 ${large} 1 ${x2} ${y2}" fill="none" stroke="${color}" stroke-width="${W}" stroke-linecap="butt" style="cursor:pointer" data-id="${a.id}" data-action="${a.action}" data-cat="${a.category}" data-type="${a.type}" data-priority="${a.priority}" onmouseenter="showTip(event)" onmouseleave="hideTip()"/>`;
+
+    angle=endAngle;
+  });
+
   document.getElementById('sbTotal').textContent=f.length;
 }
 
 function showTip(e){
+  const d=e.target.dataset;
   const tip=document.getElementById('sbTip');
-  tip.textContent=`${e.target.dataset.type} · ${e.target.dataset.cat}: ${e.target.dataset.count} actions`;
+  const priIcon=d.priority==='Priority'?' ⚡':'';
+  tip.textContent=`${d.type} · ${d.id}: ${d.action}${priIcon}`;
   tip.classList.add('show');
   tip.style.left=(e.clientX+12)+'px';tip.style.top=(e.clientY-30)+'px';
 }
