@@ -296,8 +296,7 @@ function renderSunburst(){
   const mitPalette=['#059669','#10b981','#34d399','#6ee7b7','#a7f3d0'];
   const adpPalette=['#0284c7','#38bdf8','#7dd3fc','#bae6fd','#e0f2fe'];
 
-  // Draw background ring
-  svg.innerHTML+=`<circle cx="${cx}" cy="${cy}" r="${R}" fill="none" stroke="#1f2937" stroke-width="${W}"/>`;
+  // No background ring — gaps show through to page background
 
   // Build arc segments — one per action
   let angle=0; // in radians
