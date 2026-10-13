@@ -55,6 +55,25 @@ body{font-family:'DM Sans',sans-serif;background:#fff;color:#1a1a1a;margin:0;ove
 .dimmed{opacity:.15!important}
 .clear-btn{margin-top:16px;font-size:11px;color:#ccc;cursor:pointer}
 .clear-btn:hover{color:#999}
+.d-who{display:flex;gap:6px;flex-wrap:wrap;margin:10px 0 4px}
+.d-who .who{font-size:10px;font-weight:700;letter-spacing:.03em;padding:3px 9px;border-radius:12px;text-transform:uppercase}
+.d-who .who-v{background:#eef2ff;color:#3730a3;border:1px solid #c7d2fe}
+.d-who .who-c{background:#fef3c7;color:#92400e;border:1px solid #fde68a}
+.d-who .who-p{background:#f0fdf4;color:#166534;border:1px solid #bbf7d0}
+.d-score{display:flex;align-items:center;gap:8px;margin:14px 0 10px;padding:10px 12px;background:#f8fafc;border-radius:8px}
+.d-score .num{font-family:'DM Mono',monospace;font-size:18px;font-weight:700;color:#34495e}
+.d-score .lbl{font-size:10px;font-weight:700;text-transform:uppercase;letter-spacing:.06em;color:#aaa;line-height:1.3}
+.score-bars{margin:8px 0 2px}
+.score-row{display:flex;align-items:center;gap:8px;margin-bottom:4px}
+.score-row .k{font-size:9px;font-weight:700;color:#bbb;width:86px;text-transform:uppercase;letter-spacing:.03em}
+.score-row .track{flex:1;height:5px;background:#f0f0f0;border-radius:3px;overflow:hidden}
+.score-row .track i{display:block;height:100%;border-radius:3px;background:#94a3b8}
+.d-tag.who-v{background:#eef2ff;color:#3730a3;border-color:#c7d2fe}
+.d-tag.who-c{background:#fef3c7;color:#92400e;border-color:#fde68a}
+.d-tag.who-p{background:#f0fdf4;color:#166534;border-color:#bbf7d0}
+.d-tag.csc{background:#eff6ff;color:#1d4ed8;border-color:#bfdbfe}
+.csc-link{display:inline-block;margin-top:4px;font-size:11px;color:#3b82f6;cursor:pointer}
+.csc-link:hover{text-decoration:underline}
 @media(max-width:700px){.dashboard{grid-template-columns:1fr;grid-template-rows:55vh auto}.detail-panel{border-left:none;border-top:1px solid #eee;max-height:45vh}}
 </style>
 </head>
@@ -78,6 +97,13 @@ body{font-family:'DM Sans',sans-serif;background:#fff;color:#1a1a1a;margin:0;ove
 <script>
 var all=[];
 var SHEET_URL='https://docs.google.com/spreadsheets/d/e/2PACX-1vTTwqCaKVEsnHqoV_OPSU0KbcNsliv_mjR0G4NfmP0hxER26GJggeW-28KJ2Apz9rn7Pfptos8g4Egd/pub?gid=0&single=true&output=csv';
+/* Optional second tab for strategy descriptions. Publish the "Strategies" tab
+   (File -> Share -> Publish to web, select that tab + CSV) and paste its
+   /pub?gid=N URL here. Expected columns: Strategy, Description. If empty or
+   unreachable the dashboard still works — strategy panels just lack text. */
+var STRAT_SHEET_URL='';
+var stratDescriptions={};
+var CSC_CATALOGUE_URL='https://climatesmartcommunities.ny.gov/';
 
 function parseCSV(text){
   var rows=[],row=[],inQ=false,field='';
@@ -123,6 +149,7 @@ function csvToActions(rows){
       funding:get('Funding'),
       implementationProjects:implProjects?implProjects.split(/[;|]/).map(function(s){return s.trim();}).filter(function(s){return s;}):[],
       notes:get('Notes'),
+      cscActions:get('CSC Actions')?get('CSC Actions').split(';').map(function(s){return s.trim();}).filter(function(s){return s;}):[],
       scoring:{
         champion:get('Champion'),
         village:get('Village'),
@@ -155,6 +182,7 @@ function loadData(){
     .then(function(text){
       var rows=parseCSV(text);
       all=csvToActions(rows);
+      loadStrategies();
       render();
     })
     .catch(function(err){
@@ -162,6 +190,23 @@ function loadData(){
       var cc=document.querySelector('.chart-center');
       if(cc){cc.innerHTML='<div style="color:#e74c3c;font-size:14px">Data unavailable</div>';}
     });
+}
+function loadStrategies(){
+  if(!STRAT_SHEET_URL)return;
+  fetch(STRAT_SHEET_URL+'&t='+Date.now())
+    .then(function(res){if(!res.ok)throw new Error('HTTP '+res.status);return res.text();})
+    .then(function(text){
+      var rows=parseCSV(text);
+      if(!rows.length)return;
+      var h=rows[0].map(function(x){return x.trim();});
+      var si=h.indexOf('Strategy'),di=h.indexOf('Description');
+      if(si<0)return;
+      for(var i=1;i<rows.length;i++){
+        var r=rows[i];if(!r||!r[si]||!r[si].trim())continue;
+        stratDescriptions[r[si].trim()]=(di>=0&&r[di])?r[di].trim():'';
+      }
+    })
+    .catch(function(err){console.warn('Strategy descriptions unavailable:',err)});
 }
 var allCircles=[];
 
@@ -355,6 +400,7 @@ function showStrategy(name,type,count){
   addEl(p,'div','d-badge '+(type==='Mitigation'?'mit':'adp'),type);
   addEl(p,'div','d-title',name);
   addEl(p,'div','d-strategy',count+' actions');
+  if(stratDescriptions[name]){var ssc=addEl(p,'div','d-section','');addEl(ssc,'div','d-label','About this Strategy');addEl(ssc,'div','d-text',stratDescriptions[name]);}
   var sec=addEl(p,'div','d-section','');addEl(sec,'div','d-label','Actions');
   all.filter(function(a){return a.strategy===name}).forEach(function(a){
     var link=addEl(sec,'div','impl-link',a.id+': '+a.action);
@@ -368,14 +414,37 @@ function showAction(a){
   var barClr=a.percentComplete>=70?'#4caf50':a.percentComplete>=30?'#f59e0b':'#e5e7eb';
   var stClr=a.status==='Complete'?'#4caf50':a.status==='In Progress'?'#3b82f6':'#9ca3af';
   var impl=a.implementationProjects||[];
+  var sc=a.scoring||{};
+  var who=[];
+  if(sc.village&&sc.village.toLowerCase()!=='no')who.push(['who-v','Village lead']);
+  if(sc.community&&sc.community.toLowerCase()!=='no')who.push(['who-c','Community action']);
+  if(sc.villageCommunity&&sc.villageCommunity.toLowerCase()!=='no')who.push(['who-p','Village–Community partnership']);
   addEl(p,'div','d-badge '+bCls,a.id+(a.priority==='Priority'?' ★':'')+' · '+(a.type==='Mitigation'?'Mit':'Adp'));
   addEl(p,'div','d-title',a.action);
   var strat=addEl(p,'div','d-strategy',a.strategy+' · '+a.category);strat.addEventListener('click',function(){highlight('strat',a.strategy)});
   var bar=addEl(p,'div','d-bar','');bar.innerHTML='<div class="fill" style="width:'+a.percentComplete+'%;background:'+barClr+'"></div>';
   var sr=addEl(p,'div','d-status-row','');sr.innerHTML='<span class="d-status" style="color:'+stClr+'">'+a.status+'</span><span class="d-pct" style="color:'+barClr+'">'+a.percentComplete+'%</span>';
   var sec=addEl(p,'div','d-section','');addEl(sec,'div','d-label','Description');addEl(sec,'div','d-text',a.description||'No description.');
+  if(who.length){var wd=addEl(p,'div','d-who','');who.forEach(function(w){addEl(wd,'div','who '+w[0],w[1])})}
+  var fs=parseInt(sc.finalScore)||0;
+  if(fs){
+    var sb=addEl(p,'div','d-score','');
+    sb.innerHTML='<span class="num">'+fs+'</span><span class="lbl">Final<br>Prioritization<br>Score</span>';
+    var rows=[['Criticality',sc.a01],['Cost',sc.a02],['Impact',sc.a03],['Alignment',sc.a04],['Implementation',sc.a05]];
+    var maxv=0;rows.forEach(function(r){maxv=Math.max(maxv,parseFloat(r[1])||0)});
+    if(maxv){
+      var bars=addEl(p,'div','score-bars','');
+      rows.forEach(function(r){
+        var v=parseFloat(r[1])||0;
+        var row=addEl(bars,'div','score-row','');
+        row.innerHTML='<span class="k">'+r[0]+'</span><span class="track"><i style="width:'+(v/maxv*100)+'%"></i></span>';
+        row.title=r[0]+': '+r[1];
+      });
+    }
+  }
   if(impl.length){var isec=addEl(p,'div','d-section','');addEl(isec,'div','d-label','Implementation Projects');impl.forEach(function(ip){var link=addEl(isec,'div','impl-link',ip);link.addEventListener('click',function(){all.filter(function(x){return(x.implementationProjects||[]).indexOf(ip)>=0}).forEach(function(x){highlight('action',x.id)})})})}
   if(a.responsibleParty)addKV(p,'Responsible',a.responsibleParty);
+  if(sc.champion)addKV(p,'Champion',sc.champion);
   if(a.funding)addKV(p,'Funding',a.funding);
   if(a.cscPoints)addKV(p,'CSC Points',a.cscPoints);
   if(a.targetDate)addKV(p,'Target',a.targetDate);
@@ -385,7 +454,16 @@ function showAction(a){
   addTag(tags,a.type,a.type==='Mitigation'?'type-mit':'type-adp',function(){highlight('cat',a.category)});
   if(a.priority==='Priority')addTag(tags,'★ Priority','pri',function(){all.filter(function(x){return x.priority==='Priority'}).forEach(function(x){highlight('action',x.id)})});
   impl.forEach(function(ip){var short=ip.length>22?ip.substring(0,22)+'…':ip;var t=addTag(tags,short,'impl',function(){all.filter(function(x){return(x.implementationProjects||[]).indexOf(ip)>=0}).forEach(function(x){highlight('action',x.id)})});t.title=ip});
+  (a.cscActions||[]).forEach(function(ca){var t=addTag(tags,cscChipText(ca),'csc',function(){highlightAllCsc(a)});t.title='Climate Smart Communities: '+ca+' — click to follow this CSC thread'});
+  if((a.cscActions||[]).length){var cl=addEl(p,'span','csc-link','Learn more about the NYS Climate Smart Communities program →');cl.addEventListener('click',function(){window.open(CSC_CATALOGUE_URL,'_blank')})}
   addEl(p,'div','clear-btn','✕ Clear highlights').addEventListener('click',clearHighlight);
+}
+function cscChipText(ca){var parts=ca.split(/\s*[-–—]\s*/,2);return parts.length>1&&parts[0].length<=6?parts[0]+' · '+parts[1]:ca}
+function chipCode(ca){var m=ca.match(/^[A-Z]{2,3}\d+/);return m?m[0]:ca}
+function highlightAllCsc(a){
+  var code=chipCode(a.cscActions[0]);
+  all.filter(function(x){return (x.cscActions||[]).some(function(c){return chipCode(c)===code})}).forEach(function(x){highlight('action',x.id)});
+  if(a.cscActions[0])window.open(CSC_CATALOGUE_URL+'','_blank');
 }
 function addEl(parent,tag,cls,html){var e=document.createElement(tag);e.className=cls;e.innerHTML=html;parent.appendChild(e);return e}
 function addKV(parent,k,v){var d=addEl(parent,'div','d-kv','');d.innerHTML='<span class="k">'+k+'</span><span class="v">'+v+'</span>'}
