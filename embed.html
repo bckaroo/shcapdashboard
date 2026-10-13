@@ -97,11 +97,13 @@ body{font-family:'DM Sans',sans-serif;background:#fff;color:#1a1a1a;margin:0;ove
 <script>
 var all=[];
 var SHEET_URL='https://docs.google.com/spreadsheets/d/e/2PACX-1vTTwqCaKVEsnHqoV_OPSU0KbcNsliv_mjR0G4NfmP0hxER26GJggeW-28KJ2Apz9rn7Pfptos8g4Egd/pub?gid=0&single=true&output=csv';
-/* Optional second tab for strategy descriptions. Publish the "Strategies" tab
-   (File -> Share -> Publish to web, select that tab + CSV) and paste its
-   /pub?gid=N URL here. Expected columns: Strategy, Description. If empty or
-   unreachable the dashboard still works — strategy panels just lack text. */
+/* Optional second tab for category & strategy descriptions. Publish the
+   "Descriptions" tab (File -> Share -> Publish to web, select that tab + CSV)
+   and paste its /pub?gid=N URL here. Expected columns: Level (Category or
+   Strategy), Name, Description. If empty or unreachable the dashboard still
+   works — panels just lack the text. */
 var STRAT_SHEET_URL='';
+var catDescriptions={};
 var stratDescriptions={};
 var CSC_CATALOGUE_URL='https://climatesmartcommunities.ny.gov/';
 
@@ -199,11 +201,14 @@ function loadStrategies(){
       var rows=parseCSV(text);
       if(!rows.length)return;
       var h=rows[0].map(function(x){return x.trim();});
-      var si=h.indexOf('Strategy'),di=h.indexOf('Description');
-      if(si<0)return;
+      var ni=h.indexOf('Name'),di=h.indexOf('Description'),li=h.indexOf('Level');
+      if(ni<0)return;
       for(var i=1;i<rows.length;i++){
-        var r=rows[i];if(!r||!r[si]||!r[si].trim())continue;
-        stratDescriptions[r[si].trim()]=(di>=0&&r[di])?r[di].trim():'';
+        var r=rows[i];if(!r||!r[ni]||!r[ni].trim())continue;
+        var lvl=(li>=0?r[li]||'':'Strategy').trim().toLowerCase();
+        var txt=(di>=0&&r[di])?r[di].trim():'';
+        if(lvl==='category')catDescriptions[r[ni].trim()]=txt;
+        else stratDescriptions[r[ni].trim()]=txt;
       }
     })
     .catch(function(err){console.warn('Strategy descriptions unavailable:',err)});
@@ -388,6 +393,7 @@ function showCategory(name,type,count){
   addEl(p,'div','d-badge '+(type==='Mitigation'?'mit':'adp'),type);
   addEl(p,'div','d-title',name);
   addEl(p,'div','d-strategy',count+' actions');
+  if(catDescriptions[name]){var csc=addEl(p,'div','d-section','');addEl(csc,'div','d-label','About this Category');addEl(csc,'div','d-text',catDescriptions[name]);}
   var sec=addEl(p,'div','d-section','');addEl(sec,'div','d-label','Actions');
   all.filter(function(a){return a.category===name}).forEach(function(a){
     var link=addEl(sec,'div','impl-link',a.id+': '+a.action);
