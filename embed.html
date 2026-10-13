@@ -126,6 +126,12 @@ function parseCSV(text){
   if(field||row.length){row.push(field);rows.push(row);}
   return rows;
 }
+/* Undo common spreadsheet paste mojibake (UTF-8 read as cp1252), e.g. "â€"" for "—".
+   Cheap no-op on clean text; applied defensively because sheet edits come from many hands. */
+function fixMojibake(s){
+  if(!s||s.indexOf('â')<0&&s.indexOf('Â')<0)return s;
+  return s.replace(/â€"/g,'\u2014').replace(/â€œ/g,'\u201C').replace(/â€\u201d/g,'\u201D').replace(/â€™/g,'\u2019').replace(/â€\u2018/g,'\u2018').replace(/Â /g,' ').replace(/Â/g,'');
+}
 
 function csvToActions(rows){
   var headers=rows[0].map(function(h){return h.trim();});
@@ -140,7 +146,7 @@ function csvToActions(rows){
       category:get('Category'),
       strategy:get('Strategy'),
       action:get('Action'),
-      description:get('Description'),
+      description:fixMojibake(get('Description')),
       type:get('Type'),
       priority:get('Priority'),
       status:get('Status'),
@@ -150,7 +156,7 @@ function csvToActions(rows){
       responsibleParty:get('Responsible Party'),
       funding:get('Funding'),
       implementationProjects:implProjects?implProjects.split(/[;|]/).map(function(s){return s.trim();}).filter(function(s){return s;}):[],
-      notes:get('Notes'),
+      notes:fixMojibake(get('Notes')),
       cscActions:get('CSC Actions')?get('CSC Actions').split(';').map(function(s){return s.trim();}).filter(function(s){return s;}):[],
       scoring:{
         champion:get('Champion'),
@@ -206,7 +212,7 @@ function loadStrategies(){
       for(var i=1;i<rows.length;i++){
         var r=rows[i];if(!r||!r[ni]||!r[ni].trim())continue;
         var lvl=(li>=0?r[li]||'':'Strategy').trim().toLowerCase();
-        var txt=(di>=0&&r[di])?r[di].trim():'';
+        var txt=(di>=0&&r[di])?fixMojibake(r[di].trim()):'';
         if(lvl==='category')catDescriptions[r[ni].trim()]=txt;
         else stratDescriptions[r[ni].trim()]=txt;
       }
